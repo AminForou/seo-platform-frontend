@@ -1,5 +1,3 @@
-// app/about/page.tsx
-
 import { Metadata } from 'next';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -33,7 +31,7 @@ export default function About() {
       <div className="bg-[#f9fafb] rounded-lg p-8 shadow-md mb-12">
         <h2 className="text-3xl font-bold text-gray-900 mb-4">Our Mission</h2>
         <p className="text-gray-600 mb-4">
-          SEO Tools Hub was born out of a passion to help fellow SEO professionals work more efficiently and effectively. As an SEO consultant with a decade of experience, I've encountered numerous challenges in our field. This platform is my way of addressing those challenges by creating tools that can truly make a difference in our day-to-day work.
+          SEO Tools Hub was born out of a passion to help fellow SEO professionals work more efficiently and effectively. As an SEO consultant with a decade of experience, I&apos;ve encountered numerous challenges in our field. This platform is my way of addressing those challenges by creating tools that can truly make a difference in our day-to-day work.
         </p>
         <p className="text-gray-600">
           My goal is to continually develop and refine tools that simplify complex SEO tasks, saving time and improving results for SEO professionals at all levels.
@@ -43,7 +41,7 @@ export default function About() {
       <div className="bg-white rounded-lg p-8 shadow-md mb-12">
         <h2 className="text-3xl font-bold text-gray-900 mb-4">About the Creator</h2>
         <p className="text-gray-600 mb-4">
-          I'm Amin Foroutan, an SEO consultant with over a decade of experience in the field. My passion for SEO and web development led me to create not just this platform, but also several Chrome extensions designed to enhance SEO workflows.
+          I&apos;m Amin Foroutan, an SEO consultant with over a decade of experience in the field. My passion for SEO and web development led me to create not just this platform, but also several Chrome extensions designed to enhance SEO workflows.
         </p>
         <div className="flex flex-wrap justify-center gap-4 mt-6">
           <a
@@ -68,7 +66,7 @@ export default function About() {
       <div className="bg-[#f9fafb] rounded-lg p-8 shadow-md">
         <h2 className="text-3xl font-bold text-gray-900 mb-4">Chrome Extensions</h2>
         <p className="text-gray-600 mb-6">
-          In addition to SEO Tools Hub, I've developed several Chrome extensions to further assist SEO professionals. These extensions are designed to streamline various aspects of SEO work, from analyzing Google AI Overview to enhancing popular SEO tools.
+          In addition to SEO Tools Hub, I&apos;ve developed several Chrome extensions to further assist SEO professionals. These extensions are designed to streamline various aspects of SEO work, from analyzing Google AI Overview to enhancing popular SEO tools.
         </p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <ExtensionCard

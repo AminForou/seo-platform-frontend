@@ -5,7 +5,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLink, faToolbox, faLightbulb } from '@fortawesome/free-solid-svg-icons';
 import '@fortawesome/fontawesome-svg-core/styles.css'; // Import the CSS
 import './fontawesome'; // Import FontAwesome configuration
-import Link from 'next/link';
 
 export const metadata: Metadata = {
   title: 'SEO Tools Hub | Powerful SEO Tools for Professionals',
