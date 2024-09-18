@@ -3,8 +3,8 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Home - SEO Platform',
-  description: 'Welcome to our SEO Platform. Optimize your website now!',
+  title: "Home - SEO Platform",
+  description: "Welcome to our SEO Platform. Optimize your website now!",
 };
 
 export default function Home() {

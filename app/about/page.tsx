@@ -3,8 +3,8 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'About Us - SEO Platform',
-  description: 'Learn more about our mission and team at SEO Platform.',
+  title: "About Us - SEO Platform",
+  description: "Learn more about our mission and team at SEO Platform.",
 };
 
 export default function About() {

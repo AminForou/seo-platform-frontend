@@ -23,7 +23,7 @@ export default function Tool() {
         { url: urlInput }
       );
       setStatusCode(response.data.status_code);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Error:', err);
       if (axios.isAxiosError(err)) {
         if (err.response) {

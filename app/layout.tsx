@@ -6,8 +6,8 @@ import Nav from './components/Nav';
 import Footer from './components/Footer';
 
 export const metadata: Metadata = {
-  title: 'SEO Platform',
-  description: 'Optimize your website SEO with our tools.',
+  title: "SEO Platform",
+  description: "Optimize your website SEO with our tools.",
 };
 
 export default function RootLayout({
