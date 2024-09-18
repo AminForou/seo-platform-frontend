@@ -1,10 +1,13 @@
 // app/layout.tsx
+
 import './globals.css';
 import type { Metadata } from 'next';
+import Nav from './components/Nav';
+import Footer from './components/Footer';
 
 export const metadata: Metadata = {
   title: 'SEO Platform',
-  description: 'Check URL Status Codes',
+  description: 'Optimize your website SEO with our tools.',
 };
 
 export default function RootLayout({
@@ -14,7 +17,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body className="flex flex-col min-h-screen">
+        <Nav />
+        <main className="flex-grow">{children}</main>
+        <Footer />
+      </body>
     </html>
   );
 }
