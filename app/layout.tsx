@@ -4,6 +4,7 @@ import './globals.css';
 import type { Metadata } from 'next';
 import Nav from './components/Nav';
 import Footer from './components/Footer';
+import './fontawesome'; // Import the FontAwesome configuration
 
 export const metadata: Metadata = {
   title: "SEO Platform",

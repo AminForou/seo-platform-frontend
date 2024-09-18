@@ -11,9 +11,10 @@ export default function Nav() {
       <div className="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
           <a href="/" className="flex items-center">
-            <FontAwesomeIcon
+          <FontAwesomeIcon
               icon={faTools}
-              className="text-3xl text-indigo-600 mr-3"
+              size="2x" // Use the size prop
+              className="text-indigo-600 mr-3"
             />
             <h1 className="text-2xl font-bold text-gray-900">SEO Tools Hub</h1>
           </a>
