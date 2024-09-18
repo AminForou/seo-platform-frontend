@@ -25,3 +25,115 @@ body {
     text-wrap: balance;
   }
 }
+
+
+
+
+.gradientText {
+  background: linear-gradient(90deg, #2dbdad 0%, #30a3c5 50%, #804cbd 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  display: inline-block;
+}
+
+.gradientButton {
+  color: white;
+  background: linear-gradient(90deg, rgb(45, 189, 173) 0%, rgb(48, 163, 197) 20%, rgb(128, 76, 189) 60%);
+  background-size: 200% 100%;
+  background-position: 0% 30%;
+  transition: all 0.5s ease 0s;
+}
+
+.gradientButton:hover {
+  background-position: 20% 50%;
+}
+
+.gradientButton:active {
+  transform: translateY(2px);
+  transition: all 0.1s ease 0s;
+}
+
+.gradientProgress {
+  background: linear-gradient(90deg, rgb(45, 189, 173) 0%, rgb(48, 163, 197) 50%, rgb(128, 76, 189) 100%);
+  background-size: 200% 100%;
+  animation: gradientAnimation 2s linear infinite;
+}
+
+@keyframes gradientAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
+.gradientHeart {
+  background: linear-gradient(90deg, #2dbdad 0%, #30a3c5 50%, #804cbd 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: inline-block;
+}
+
+/* Adjust footer styles if needed */
+footer a {
+  transition: color 0.3s ease;
+}
+
+footer a:hover {
+  color: #2dbdad;
+}
+
+footer ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+footer ul li {
+  margin-bottom: 0.75rem;
+}
+
+footer ul li a {
+  display: inline-block;
+  padding: 0.25rem 0;
+  transition: color 0.3s ease;
+}
+
+footer ul li a:hover {
+  color: #30a3c5;
+}
+
+@media (max-width: 640px) {
+  footer .grid-cols-2 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Custom checkbox styles */
+input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 1.25em;
+  height: 1.25em;
+  border: 2px solid #30a3c5;
+  border-radius: 4px;
+  outline: none;
+  cursor: pointer;
+  position: relative;
+}
+
+input[type="checkbox"]:checked {
+  background-color: #30a3c5;
+}
+
+input[type="checkbox"]:checked::before {
+  content: '\2714';
+  font-size: 1em;
+  color: white;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
