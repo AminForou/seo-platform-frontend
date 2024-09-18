@@ -14,13 +14,15 @@ export default function Home() {
     setStatusCode(null);
     setError(null);
 
+    
     try {
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/check-url/`,
+        
         { url: urlInput }
-      );
+      );      
       setStatusCode(response.data.status_code);
-    } catch (err: any) {
+    } catch (err: unknown) {
       if (axios.isAxiosError(err)) {
         if (err.response) {
           // Server responded with a status code outside the 2xx range
