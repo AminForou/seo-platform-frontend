@@ -40,7 +40,8 @@ export default function Tool() {
         setError('An unexpected error occurred.');
       }
     }
-  };
+  }; 
+  
 
   return (
     <div className="container mx-auto p-4">
