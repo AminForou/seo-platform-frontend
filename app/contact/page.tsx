@@ -26,7 +26,7 @@ export default function Contact() {
           Contact <span className="gradientText">Us</span>
         </h1>
         <p className="mt-3 max-w-md mx-auto text-base text-gray-500 sm:text-lg md:text-xl">
-          We'd love to hear from you. Get in touch with us!
+          We&apos;d love to hear from you. Get in touch with us!
         </p>
       </div>
 
@@ -70,7 +70,7 @@ export default function Contact() {
           </div>
           <div className="mt-8">
             <p className="text-gray-600">
-              Feel free to reach out through any of these channels. I'll do my best to respond as soon as possible.
+              Feel free to reach out through any of these channels. I&apos;ll do my best to respond as soon as possible.
             </p>
           </div>
         </div>

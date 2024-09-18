@@ -65,7 +65,7 @@ export default function Home() {
                   More Tools Coming Soon
                 </h3>
                 <p className="mt-5 text-base text-gray-500">
-                  We're working on exciting new SEO tools to help you optimize your website even further. Stay tuned!
+                  We&apos;re working on exciting new SEO tools to help you optimize your website even further. Stay tuned!
                 </p>
                 <div className="mt-6">
                   <span className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-[#2dbdad] bg-white">
@@ -84,7 +84,7 @@ export default function Home() {
           <h2 className="text-2xl font-bold text-gray-900">Have an Idea for a New Tool?</h2>
         </div>
         <p className="text-center text-gray-600 mb-6">
-          We're always looking for new ways to help our users. If you have an idea for a tool that would make your SEO work easier, we'd love to hear about it!
+          We&apos;re always looking for new ways to help our users. If you have an idea for a tool that would make your SEO work easier, we&apos;d love to hear about it!
         </p>
         <div className="text-center">
           <a

@@ -5,7 +5,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faGlobe,
-  faPuzzlePiece,
   faUsers,
 } from '@fortawesome/free-solid-svg-icons';
 import { faLinkedinIn, faYoutube } from '@fortawesome/free-brands-svg-icons';

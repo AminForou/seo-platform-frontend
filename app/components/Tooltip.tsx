@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, ReactNode } from 'react';
+import { useState, useRef, useEffect, ReactNode, useCallback } from 'react';
 
 interface TooltipProps {
   children: ReactNode;
@@ -15,13 +15,13 @@ function Tooltip({ children, content }: TooltipProps) {
     updatePosition(e as unknown as MouseEvent);
   };
 
-  const handleMouseMove = (e: MouseEvent) => {
+  const handleMouseMove = useCallback((e: MouseEvent) => {
     if (isVisible) {
       updatePosition(e);
     }
-  };
+  }, [isVisible]);
 
-  const updatePosition = (e: MouseEvent) => {
+  const updatePosition = useCallback((e: MouseEvent) => {
     if (tooltipRef.current) {
       const tooltipWidth = tooltipRef.current.offsetWidth;
       const tooltipHeight = tooltipRef.current.offsetHeight;
@@ -41,7 +41,7 @@ function Tooltip({ children, content }: TooltipProps) {
 
       setPosition({ x, y });
     }
-  };
+  }, []);
 
   useEffect(() => {
     if (isVisible) {
@@ -50,7 +50,7 @@ function Tooltip({ children, content }: TooltipProps) {
     return () => {
       document.removeEventListener('mousemove', handleMouseMove);
     };
-  }, [isVisible]);
+  }, [isVisible, handleMouseMove]);
 
   return (
     <div className="relative inline-block">
