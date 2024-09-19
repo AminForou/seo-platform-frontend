@@ -3,10 +3,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import Tooltip from '../components/Tooltip';
 
-function URLInput({ urls, setUrls, file, setFile }: {
+function URLInput({ urls, setUrls, setFile }: {
   urls: string;
   setUrls: (urls: string) => void;
-  file: File | null;
   setFile: (file: File | null) => void;
 }) {
   const handleUrlChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {

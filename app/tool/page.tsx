@@ -8,12 +8,12 @@ import ResultsTable from './ResultTable';
 import ProgressBar from './ProgressBar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLink } from '@fortawesome/free-solid-svg-icons';
-import { SelectedFields } from './types';
+import { SelectedFields, Result } from './types';
 
 export default function Tool() {
   const [urls, setUrls] = useState('');
   const [file, setFile] = useState<File | null>(null);
-  const [results, setResults] = useState<any[]>([]);
+  const [results, setResults] = useState<Result[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [selectedFields, setSelectedFields] = useState<SelectedFields>({
@@ -207,7 +207,6 @@ export default function Tool() {
               <URLInput
                 urls={urls}
                 setUrls={setUrls}
-                file={file}
                 setFile={setFile}
               />
 

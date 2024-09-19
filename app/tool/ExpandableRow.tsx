@@ -4,8 +4,25 @@ import { faCopy, faChevronDown, faChevronRight, faExternalLinkAlt, faArrowRight 
 import Tooltip from '../components/Tooltip';
 import { SelectedFields } from './types';
 
+interface RedirectStep {
+  url: string;
+  status_code: number;
+}
+
+interface Result {
+  url: string;
+  initial_status_code: number;
+  is_redirected: boolean;
+  response_time?: number;
+  content_type?: string;
+  meta_title?: string;
+  meta_description?: string;
+  h1_tags?: string[];
+  redirect_steps: RedirectStep[];
+}
+
 interface ExpandableRowProps {
-  result: any;
+  result: Result;
   index: number;
   selectedFields: SelectedFields;
   expanded: boolean;
@@ -61,7 +78,7 @@ const ExpandableRow: React.FC<ExpandableRowProps> = ({
           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
             <span
               className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusCodeColor(
-                result.initial_status_code // Use the initial status code
+                result.initial_status_code
               )}`}
             >
               {result.initial_status_code}
@@ -108,7 +125,7 @@ const ExpandableRow: React.FC<ExpandableRowProps> = ({
                   </span>
                 </Tooltip>
                 <button
-                  onClick={() => handleCopy(result.meta_title, `metaTitle-${index}`)}
+                  onClick={() => handleCopy(result.meta_title ?? '', `metaTitle-${index}`)}
                   className="ml-2 text-gray-500 hover:text-gray-700 focus:outline-none"
                 >
                   <FontAwesomeIcon
@@ -139,7 +156,7 @@ const ExpandableRow: React.FC<ExpandableRowProps> = ({
                   </span>
                 </Tooltip>
                 <button
-                  onClick={() => handleCopy(result.meta_description, `metaDescription-${index}`)}
+                  onClick={() => handleCopy(result.meta_description ?? '', `metaDescription-${index}`)}
                   className="ml-2 text-gray-500 hover:text-gray-700 focus:outline-none"
                 >
                   <FontAwesomeIcon
@@ -172,7 +189,7 @@ const ExpandableRow: React.FC<ExpandableRowProps> = ({
             <div className="ml-8 my-2 p-4 bg-gray-50 rounded-md shadow-inner overflow-x-auto">
               <div className="text-sm text-gray-600">
                 <div className="flex items-center">
-                  {result.redirect_steps.map((step: any, idx: number) => (
+                  {result.redirect_steps.map((step, idx) => (
                     <React.Fragment key={idx}>
                       {/* URL */}
                       <div className="flex flex-col items-center">
