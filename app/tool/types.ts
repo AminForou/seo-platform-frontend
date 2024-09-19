@@ -14,6 +14,7 @@ export interface Result {
     meta_description?: string;
     h1_tags?: string[];
     initial_status_code: number; // Ensure this is always a number
+    is_redirected: boolean; // Add this property
     // Add other fields as necessary
 }
 
