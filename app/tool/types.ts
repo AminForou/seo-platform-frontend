@@ -13,6 +13,7 @@ export interface Result {
     meta_title?: string;
     meta_description?: string;
     h1_tags?: string[];
+    initial_status_code: number; // Ensure this is always a number
     // Add other fields as necessary
 }
 
