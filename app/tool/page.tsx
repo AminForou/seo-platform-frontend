@@ -1,81 +1,263 @@
-// app/tool/page.tsx
 'use client';
 
-import { useState } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
-// Remove the metadata import and export
-// import type { Metadata } from 'next';
-// import { metadata } from './metadata';
+import URLInput from './URLInput';
+import DisplayOptionsSelector from './DisplayOptionsSelector';
+import ResultsTable from './ResultTable';
+import ProgressBar from './ProgressBar';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faLink } from '@fortawesome/free-solid-svg-icons';
+import { SelectedFields } from './types';
 
 export default function Tool() {
-  const [urlInput, setUrlInput] = useState('');
-  const [statusCode, setStatusCode] = useState<number | null>(null);
+  const [urls, setUrls] = useState('');
+  const [file, setFile] = useState<File | null>(null);
+  const [results, setResults] = useState<any[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [selectedFields, setSelectedFields] = useState<SelectedFields>({
+    status_code: true,         // Default selected
+    redirect_chain: true,      // Default selected
+    response_time: false,
+    content_type: false,
+    meta_title: true,          // Default selected
+    meta_description: true,    // Default selected
+    h1_tags: false,
+  });
+  const [expandedRows, setExpandedRows] = useState<{ [key: number]: boolean }>({});
+  const [copiedStates, setCopiedStates] = useState<{ [key: string]: boolean }>({});
+  const [progress, setProgress] = useState(0);
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    setStatusCode(null);
+    setResults([]);
     setError(null);
+    setLoading(true);
+
+    if (file) {
+      setError('File upload is not supported in this version.');
+      setLoading(false);
+      return;
+    }
+
+    if (!urls) {
+      setError('Please provide a list of URLs.');
+      setLoading(false);
+      return;
+    }
+
+    const urlArray = urls
+      .split('\n')
+      .map((url) => url.trim())
+      .filter(Boolean);
 
     try {
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/check-url/`,
-        { url: urlInput }
+      const responses = await Promise.all(
+        urlArray.map(async (url, index) => {
+          const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+          if (!backendUrl) {
+            throw new Error('Backend URL is not defined');
+          }
+          const response = await axios.post(
+            `${backendUrl}/api/check-url/`,
+            { url }
+          );
+          setProgress(((index + 1) / urlArray.length) * 100);
+          return response.data;  // Make sure you're returning the data
+        })
       );
-      setStatusCode(response.data.status_code);
+      setResults(responses);
+      console.log('Responses:', responses);  // Add this line for debugging
     } catch (err: unknown) {
       console.error('Error:', err);
       if (axios.isAxiosError(err)) {
         if (err.response) {
-          // Server responded with a status code outside the 2xx range
-          setError(`Error ${err.response.status}: ${err.response.data.error || err.response.statusText}`);
+          setError(
+            `Error ${err.response.status}: ${
+              err.response.data.error || err.response.statusText
+            }`
+          );
         } else if (err.request) {
-          // No response received
           setError('No response received from the server.');
         } else {
-          // Other errors
           setError(err.message);
         }
+      } else if (err instanceof Error) {
+        setError(err.message);
       } else {
         setError('An unexpected error occurred.');
       }
+    } finally {
+      setLoading(false);
+      setProgress(0); // Reset progress
     }
-  }; 
-  
+  };
+
+  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, checked } = e.target;
+    setSelectedFields((prev) => ({ ...prev, [name]: checked }));
+  };
+
+  const toggleRowExpansion = (index: number) => {
+    setExpandedRows((prev) => ({ ...prev, [index]: !prev[index] }));
+  };
+
+  const handleCopy = (content: string, key: string) => {
+    navigator.clipboard.writeText(content);
+    setCopiedStates((prev) => ({ ...prev, [key]: true }));
+    setTimeout(() => {
+      setCopiedStates((prev) => ({ ...prev, [key]: false }));
+    }, 2000);
+  };
+
+  const getStatusCodeColor = (statusCode: number): string => {
+    if (statusCode >= 200 && statusCode < 300) {
+      return 'bg-green-100 text-green-800';
+    } else if (statusCode >= 300 && statusCode < 400) {
+      return 'bg-yellow-100 text-yellow-800';
+    } else if (statusCode >= 400 && statusCode < 500) {
+      return 'bg-red-100 text-red-800';
+    } else if (statusCode >= 500 && statusCode < 600) {
+      return 'bg-red-200 text-red-800';
+    } else {
+      return 'bg-gray-100 text-gray-800';
+    }
+  };
+
+  const getErrorTypeColor = (errorType: string): string => {
+    if (errorType === 'DNS_ERROR') {
+      return 'bg-red-100 text-red-800';
+    } else if (errorType === 'CONNECTION_ERROR') {
+      return 'bg-yellow-100 text-yellow-800';
+    } else if (errorType === 'TIMEOUT_ERROR') {
+      return 'bg-orange-100 text-orange-800';
+    } else if (errorType === 'SSL_ERROR') {
+      return 'bg-purple-100 text-purple-800';
+    } else {
+      return 'bg-gray-100 text-gray-800';
+    }
+  };
+
+  const simplifyContentType = (contentType: string): string => {
+    if (!contentType) return 'Unknown';
+    if (contentType.includes('html')) return 'HTML';
+    if (contentType.includes('json')) return 'JSON';
+    if (contentType.includes('xml')) return 'XML';
+    if (contentType.includes('javascript')) return 'JavaScript';
+    if (contentType.includes('css')) return 'CSS';
+    if (contentType.includes('image')) return 'Image';
+    if (contentType.includes('audio')) return 'Audio';
+    if (contentType.includes('video')) return 'Video';
+    if (contentType.includes('pdf')) return 'PDF';
+    return 'Other';
+  };
+
+  const getMetaTitleTooltip = (length: number): string => {
+    if (length <= 15) return `Too short. Add ${41 - length} more characters for optimal length (41-55 characters).`;
+    if (length > 65) return `Too long. Remove ${length - 65} characters. Keep it between 41-55 characters for optimal length.`;
+    if (length >= 16 && length <= 40) return `A bit short. Add ${41 - length} more characters for optimal length (41-55 characters).`;
+    if (length >= 56 && length <= 64) return `A bit long. Remove ${length - 55} characters for optimal length (41-55 characters).`;
+    return 'Good length!';
+  };
+
+  const getMetaTitleLengthColor = (length: number): string => {
+    if (length <= 15 || length >= 65) return 'text-red-600';
+    if ((length >= 16 && length <= 40) || (length >= 56 && length <= 64)) return 'text-yellow-600';
+    return 'text-green-600';
+  };
+
+
+  const getMetaDescriptionTooltip = (length: number): string => {
+    if (length < 50) return `Too short. Add ${50 - length} more characters. Keep it between 130-155 characters for optimal length.`;
+    if (length > 165) return `Too long. Remove ${length - 165} characters. Keep it between 130-155 characters for optimal length.`;
+    if (length >= 50 && length < 130) return `A bit short. Add ${130 - length} more characters for optimal length (130-155 characters).`;
+    if (length > 155 && length <= 165) return `A bit long. Remove ${length - 155} characters for optimal length (130-155 characters).`;
+    return 'Good length!';
+  };
+
+  const getMetaDescriptionLengthColor = (length: number): string => {
+    if (length <= 50 || length > 165) return 'text-red-600';
+    if ((length > 50 && length < 130) || (length > 155 && length <= 165)) return 'text-yellow-600';
+    return 'text-green-600';
+  };
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-4xl font-bold mb-8">Check URL Status Code</h1>
-      <form onSubmit={handleSubmit} className="flex flex-col items-center">
-        <input
-          type="text"
-          value={urlInput}
-          onChange={(e) => setUrlInput(e.target.value)}
-          placeholder="Enter URL"
-          className="border border-gray-300 rounded-md p-2 w-80 mb-4"
-        />
-        <button
-          type="submit"
-          className="bg-blue-500 text-white rounded-md px-4 py-2"
-        >
-          Check Status
-        </button>
-      </form>
+    <div className="min-h-screen bg-white">
+      <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+        <div className="px-4 py-6 sm:px-0">
+          <div className="bg-gray-50 shadow rounded-lg p-6">
+            <div className="mb-6 pb-4 border-b border-gray-200">
+              <div className="flex items-center justify-center mb-2">
+                <FontAwesomeIcon icon={faLink} className="text-xl text-indigo-600 mr-2" />
+                <h2 className="text-2xl font-bold text-gray-900">
+                  Batch URL Status Checker
+                </h2>
+              </div>
+              <p className="text-center text-sm text-gray-500">
+                Check the status of multiple URLs quickly and efficiently
+              </p>
+            </div>
 
-      {statusCode && (
-        <div className="mt-8">
-          <h2 className="text-2xl font-semibold">
-            Status Code: {statusCode}
-          </h2>
-        </div>
-      )}
+            <form
+              onSubmit={handleSubmit}
+              className="flex-col items-center"
+              encType="multipart/form-data"
+            >
+              <URLInput
+                urls={urls}
+                setUrls={setUrls}
+                file={file}
+                setFile={setFile}
+              />
 
-      {error && (
-        <div className="mt-8 text-red-500">
-          <h2 className="text-2xl font-semibold">Error:</h2>
-          <p>{error}</p>
+              <DisplayOptionsSelector
+                selectedFields={selectedFields}
+                handleCheckboxChange={handleCheckboxChange}
+              />
+
+              <button
+                type="submit"
+                className="w-full py-2 rounded-md hover:bg-gradient-hover focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-300 ease-in-out gradientButton"
+                disabled={loading}
+              >
+                {loading ? 'Processing...' : 'Check Status'}
+              </button>
+            </form>
+
+            {loading && (
+              <div className="mt-4">
+                <ProgressBar progress={progress} />
+              </div>
+            )}
+
+            {error && (
+              <div className="mt-8 text-red-500">
+                <h2 className="text-2xl font-semibold">Error:</h2>
+                <p>{error}</p>
+              </div>
+            )}
+
+            {results.length > 0 && (
+              <ResultsTable
+                results={results}
+                selectedFields={selectedFields}
+                expandedRows={expandedRows}
+                toggleRowExpansion={toggleRowExpansion}
+                copiedStates={copiedStates}
+                handleCopy={handleCopy}
+                getStatusCodeColor={getStatusCodeColor}
+                getErrorTypeColor={getErrorTypeColor}
+                simplifyContentType={simplifyContentType}
+                getMetaTitleTooltip={getMetaTitleTooltip}
+                getMetaTitleLengthColor={getMetaTitleLengthColor}
+                getMetaDescriptionTooltip={getMetaDescriptionTooltip}
+                getMetaDescriptionLengthColor={getMetaDescriptionLengthColor}
+              />
+            )}
+          </div>
         </div>
-      )}
+      </main>
     </div>
   );
 }
