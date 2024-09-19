@@ -7,7 +7,7 @@ export interface RedirectStep {
 export interface Result {
     url: string;
     status_code?: number;
-    redirect_steps?: RedirectStep[];
+    redirect_steps: RedirectStep[]; // Ensure this is always an array
     response_time?: number;
     content_type?: string;
     meta_title?: string;
