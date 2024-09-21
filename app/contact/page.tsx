@@ -22,7 +22,7 @@ export const metadata: Metadata = {
         index: false, // Equivalent to "noindex"
       },
       alternates: {
-        canonical: `${domain}contact`,
+        canonical: `${domain}/contact`,
       },
 };
 
