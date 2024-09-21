@@ -9,7 +9,6 @@ import ProgressBar from './ProgressBar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLink } from '@fortawesome/free-solid-svg-icons';
 import { SelectedFields, Result } from './types';
-import { metadata } from './metadata'; // Import metadata
 
 export default function Tool() {
   const [urls, setUrls] = useState('');
