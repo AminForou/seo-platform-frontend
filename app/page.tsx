@@ -15,7 +15,7 @@ export const metadata: Metadata = {
       index: false, // Equivalent to "noindex"
     },
     alternates: {
-      canonical: domain,
+      canonical: `${domain}`,
     },
 };
 

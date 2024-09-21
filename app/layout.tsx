@@ -8,13 +8,17 @@ import Footer from './components/Footer';
 const domain = process.env.NEXT_PUBLIC_CANONICAL_URL;
 
 export const metadata: Metadata = {
-  title: "SEO Platform",
-  description: "Optimize your website SEO with our tools.",
+  title: 'URL Status Checker - SEO Platform',
+  description: 'Check the status code of any URL using our tool.',
   robots: {
-    index: false, // Equivalent to "noindex"
+    index: false,
   },
   alternates: {
-    canonical: domain,
+    canonical: `${domain}/tool`,
+  },
+  icons: {
+    icon: '/favicon.ico', // This adds the favicon
+    apple: '/apple-touch-icon.png', // Optional: Add Apple touch icon
   },
 };
 
@@ -25,6 +29,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+      </head>
       <body className="flex flex-col min-h-screen">
         <Nav />
         <main className="flex-grow">

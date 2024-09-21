@@ -16,7 +16,7 @@ export default function Nav() {
               size="2x" // Use the size prop
               className="text-indigo-600 mr-3"
             />
-            <h1 className="text-2xl font-bold text-gray-900">SEO Tools Hub</h1>
+            <p className="text-2xl font-bold text-gray-900">SEO Tools Hub</p>
           </a>
           <nav>
             <ul className="flex space-x-4">
