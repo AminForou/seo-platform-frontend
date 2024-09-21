@@ -9,6 +9,7 @@ import ProgressBar from './ProgressBar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLink } from '@fortawesome/free-solid-svg-icons';
 import { SelectedFields, Result } from './types';
+import { metadata } from './metadata'; // Import metadata
 
 export default function Tool() {
   const [urls, setUrls] = useState('');
@@ -167,7 +168,6 @@ export default function Tool() {
     return 'text-green-600';
   };
 
-
   const getMetaDescriptionTooltip = (length: number): string => {
     if (length < 50) return `Too short. Add ${50 - length} more characters. Keep it between 130-155 characters for optimal length.`;
     if (length > 165) return `Too long. Remove ${length - 165} characters. Keep it between 130-155 characters for optimal length.`;
@@ -183,6 +183,7 @@ export default function Tool() {
   };
 
   return (
+    
     <div className="min-h-screen bg-white">
       <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
         <div className="px-4 py-6 sm:px-0">

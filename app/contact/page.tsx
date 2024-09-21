@@ -12,10 +12,18 @@ import {
 import '@fortawesome/fontawesome-svg-core/styles.css';
 import ContactForm from '../components/ContactForm';
 
+const domain = process.env.NEXT_PUBLIC_CANONICAL_URL;
+
 export const metadata: Metadata = {
   title: 'Contact SEO Tools Hub',
   description:
     "Have questions or suggestions? Reach out to the SEO Tools Hub team. We're here to help you optimize your SEO workflow and improve your website's performance.",
+    robots: {
+        index: false, // Equivalent to "noindex"
+      },
+      alternates: {
+        canonical: `${domain}/contact`,
+      },
 };
 
 export default function Contact() {

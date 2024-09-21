@@ -10,10 +10,18 @@ import {
 } from '@fortawesome/free-brands-svg-icons';
 import '@fortawesome/fontawesome-svg-core/styles.css';
 
+const domain = process.env.NEXT_PUBLIC_CANONICAL_URL;
+
 export const metadata: Metadata = {
   title: 'About SEO Tools Hub',
   description:
     'Empowering SEO professionals with innovative tools. Learn more about our mission and the creator behind SEO Tools Hub.',
+  robots: {
+    index: false, // Equivalent to "noindex"
+  },
+  alternates: {
+    canonical: `${domain}/about`,
+  },
 };
 
 export default function About() {

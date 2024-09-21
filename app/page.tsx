@@ -6,10 +6,17 @@ import { faLink, faToolbox, faLightbulb } from '@fortawesome/free-solid-svg-icon
 import '@fortawesome/fontawesome-svg-core/styles.css'; // Import the CSS
 import './fontawesome'; // Import FontAwesome configuration
 
+const domain = process.env.NEXT_PUBLIC_CANONICAL_URL;
 export const metadata: Metadata = {
   title: 'SEO Tools Hub | Powerful SEO Tools for Professionals',
   description:
     "Boost your SEO efforts with our suite of powerful, easy-to-use tools. Streamline your workflow and improve your website's performance.",
+    robots: {
+      index: false, // Equivalent to "noindex"
+    },
+    alternates: {
+      canonical: domain,
+    },
 };
 
 export default function Home() {

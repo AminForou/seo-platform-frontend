@@ -27,4 +27,4 @@ export interface SelectedFields {
     meta_description: boolean;
     h1_tags: boolean;
     // Add other fields as necessary
-}
+} 
