@@ -4,9 +4,10 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import URLInput from './URLInput';
 import DisplayOptionsSelector from './DisplayOptionsSelector';
-import UserAgentSelector from './UserAgentSelector'; // Import the new component
+import UserAgentSelector from './UserAgentSelector';
 import ResultsTable from './ResultTable';
 import ProgressBar from './ProgressBar';
+import ErrorDisplay from '../components/ErrorDisplay';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLink } from '@fortawesome/free-solid-svg-icons';
 import { SelectedFields, Result } from './types';
@@ -30,7 +31,7 @@ export default function Tool() {
   const [expandedRows, setExpandedRows] = useState<{ [key: number]: boolean }>({});
   const [copiedStates, setCopiedStates] = useState<{ [key: string]: boolean }>({});
   const [progress, setProgress] = useState(0);
-  const [userAgent, setUserAgent] = useState(''); // Add userAgent state
+  const [userAgent, setUserAgent] = useState('');
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -64,36 +65,31 @@ export default function Tool() {
           }
           const response = await axios.post(
             `${backendUrl}/api/check-url/`,
-            { url, user_agent: userAgent } // Include user_agent in the request data
+            { url, user_agent: userAgent }
           );
           setProgress(((index + 1) / urlArray.length) * 100);
-          return response.data;  // Make sure you're returning the data
+          return response.data;
         })
       );
       setResults(responses);
-      console.log('Responses:', responses);  // Add this line for debugging
     } catch (err: unknown) {
       console.error('Error:', err);
       if (axios.isAxiosError(err)) {
         if (err.response) {
-          setError(
-            `Error ${err.response.status}: ${
-              err.response.data.error || err.response.statusText
-            }`
-          );
+          setError(`Error ${err.response.status}: ${err.response.data.error || err.response.statusText}`);
         } else if (err.request) {
-          setError('No response received from the server.');
+          setError('No response received from the server. Please check your internet connection and try again.');
         } else {
-          setError(err.message);
+          setError(`An unexpected error occurred: ${err.message}`);
         }
       } else if (err instanceof Error) {
-        setError(err.message);
+        setError(`An unexpected error occurred: ${err.message}`);
       } else {
-        setError('An unexpected error occurred.');
+        setError('An unknown error occurred. Please try again later.');
       }
     } finally {
       setLoading(false);
-      setProgress(0); // Reset progress
+      setProgress(0);
     }
   };
 
@@ -258,12 +254,7 @@ export default function Tool() {
               </div>
             )}
 
-            {error && (
-              <div className="mt-8 text-red-500">
-                <h2 className="text-2xl font-semibold">Error:</h2>
-                <p>{error}</p>
-              </div>
-            )}
+            {error && <ErrorDisplay error={error} />}
 
             {results.length > 0 && (
               <ResultsTable

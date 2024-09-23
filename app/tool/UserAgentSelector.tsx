@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInfoCircle, faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import Tooltip from '../components/Tooltip';
@@ -9,7 +9,7 @@ interface UserAgentSelectorProps {
 }
 
 const UserAgentSelector: React.FC<UserAgentSelectorProps> = ({ userAgent, setUserAgent }) => {
-  const predefinedUserAgents = [
+  const predefinedUserAgents = useMemo(() => [
     { label: 'Default (Browser User-Agent)', value: 'default' },
     { label: 'Windows Chrome', value: 'Windows' },
     { label: 'macOS Safari', value: 'Mac' },
@@ -17,16 +17,16 @@ const UserAgentSelector: React.FC<UserAgentSelectorProps> = ({ userAgent, setUse
     { label: 'Googlebot', value: 'Googlebot' },
     { label: 'Bingbot', value: 'Bingbot' },
     { label: 'Custom', value: 'custom' },
-  ];
+  ], []);
 
-  const userAgentStrings = {
+  const userAgentStrings = useMemo(() => ({
     default: navigator.userAgent || 'Mozilla/5.0',
     Windows: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
     Mac: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.1.1 Safari/605.1.15',
     iPhone: 'Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.1.1 Mobile/15E148 Safari/604.1',
     Googlebot: 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)',
     Bingbot: 'Mozilla/5.0 (compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm)',
-  };
+  }), []);
 
   type UserAgentOption = 'default' | 'Windows' | 'Mac' | 'iPhone' | 'Googlebot' | 'Bingbot' | 'custom';
 
@@ -36,14 +36,16 @@ const UserAgentSelector: React.FC<UserAgentSelectorProps> = ({ userAgent, setUse
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const option = Object.entries(userAgentStrings).find(([_, value]) => value === userAgent)?.[0] as UserAgentOption;
+    const option = Object.entries(userAgentStrings).find(([, value]) => value === userAgent)?.[0] as UserAgentOption;
     if (option) {
       setSelectedOption(option);
-    } else {
+    } else if (userAgent && userAgent !== userAgentStrings.default) {
       setSelectedOption('custom');
       setCustomUserAgent(userAgent);
+    } else {
+      setSelectedOption('default');
     }
-  }, [userAgent]);
+  }, [userAgent, userAgentStrings]);
 
   useEffect(() => {
     if (selectedOption === 'custom') {
