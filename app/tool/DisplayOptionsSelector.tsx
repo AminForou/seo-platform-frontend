@@ -15,9 +15,10 @@ const DisplayOptionsSelector: React.FC<DisplayOptionsSelectorProps> = ({
       <h3 className="text-lg font-semibold mb-3 text-gray-700">
         Select Information to Display
       </h3>
-      <div className="grid grid-cols-3 gap-4">
+      {/* Change grid to flex and adjust for mobile */}
+      <div className="flex flex-col space-y-4 sm:flex-row sm:space-y-0 sm:space-x-4">
         {/* HTTP Information */}
-        <div className="space-y-2">
+        <div className="space-y-2 flex-1">
           <h4 className="font-medium text-gray-600">HTTP Information</h4>
           {/* Status Code */}
           <label className="flex items-center space-x-2">
@@ -54,7 +55,7 @@ const DisplayOptionsSelector: React.FC<DisplayOptionsSelectorProps> = ({
           </label>
         </div>
         {/* Redirect Information */}
-        <div className="space-y-2">
+        <div className="space-y-2 flex-1">
           <h4 className="font-medium text-gray-600">Redirect Information</h4>
           {/* Redirect Chain */}
           <label className="flex items-center space-x-2">
@@ -69,7 +70,7 @@ const DisplayOptionsSelector: React.FC<DisplayOptionsSelectorProps> = ({
           </label>
         </div>
         {/* SEO Metadata */}
-        <div className="space-y-2">
+        <div className="space-y-2 flex-1">
           <h4 className="font-medium text-gray-600">SEO Metadata</h4>
           {/* Meta Title */}
           <label className="flex items-center space-x-2">
