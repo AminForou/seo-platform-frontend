@@ -36,12 +36,22 @@ const UserAgentSelector: React.FC<UserAgentSelectorProps> = ({ userAgent, setUse
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    const option = Object.entries(userAgentStrings).find(([_, value]) => value === userAgent)?.[0] as UserAgentOption;
+    if (option) {
+      setSelectedOption(option);
+    } else {
+      setSelectedOption('custom');
+      setCustomUserAgent(userAgent);
+    }
+  }, [userAgent]);
+
+  useEffect(() => {
     if (selectedOption === 'custom') {
       setUserAgent(customUserAgent);
     } else {
       setUserAgent(userAgentStrings[selectedOption]);
     }
-  }, [selectedOption, customUserAgent, setUserAgent]);
+  }, [selectedOption, customUserAgent, setUserAgent, userAgentStrings]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -122,7 +132,7 @@ const UserAgentSelector: React.FC<UserAgentSelectorProps> = ({ userAgent, setUse
             className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
           />
           <p className="mt-1 text-sm text-gray-500">
-            Enter your custom User-Agent string. Example: "MyCustomUserAgent/1.0"
+            Enter your custom User-Agent string. Example: &quot;MyCustomUserAgent/1.0&quot;
           </p>
         </>
       )}
