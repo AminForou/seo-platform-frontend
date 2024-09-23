@@ -20,7 +20,7 @@ const UserAgentSelector: React.FC<UserAgentSelectorProps> = ({ userAgent, setUse
   ], []);
 
   const userAgentStrings = useMemo(() => ({
-    default: navigator.userAgent || 'Mozilla/5.0',
+    default: typeof navigator !== 'undefined' ? navigator.userAgent : 'Mozilla/5.0',
     Windows: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
     Mac: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.1.1 Safari/605.1.15',
     iPhone: 'Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.1.1 Mobile/15E148 Safari/604.1',
@@ -36,14 +36,16 @@ const UserAgentSelector: React.FC<UserAgentSelectorProps> = ({ userAgent, setUse
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const option = Object.entries(userAgentStrings).find(([, value]) => value === userAgent)?.[0] as UserAgentOption;
-    if (option) {
-      setSelectedOption(option);
-    } else if (userAgent && userAgent !== userAgentStrings.default) {
-      setSelectedOption('custom');
-      setCustomUserAgent(userAgent);
-    } else {
-      setSelectedOption('default');
+    if (typeof navigator !== 'undefined') {
+      const option = Object.entries(userAgentStrings).find(([, value]) => value === userAgent)?.[0] as UserAgentOption;
+      if (option) {
+        setSelectedOption(option);
+      } else if (userAgent && userAgent !== userAgentStrings.default) {
+        setSelectedOption('custom');
+        setCustomUserAgent(userAgent);
+      } else {
+        setSelectedOption('default');
+      }
     }
   }, [userAgent, userAgentStrings]);
 
