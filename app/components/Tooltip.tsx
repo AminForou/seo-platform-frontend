@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, ReactNode, useCallback } from 'react';
+import { useState, useRef, useEffect, ReactNode } from 'react';
 
 interface TooltipProps {
   children: ReactNode;
@@ -11,7 +11,7 @@ function Tooltip({ children, content }: TooltipProps) {
   const tooltipRef = useRef<HTMLDivElement>(null);
   const childrenRef = useRef<HTMLDivElement>(null);
 
-  const updatePosition = useCallback((e: MouseEvent) => {
+  const updatePosition = () => {
     if (tooltipRef.current && childrenRef.current) {
       const tooltipWidth = tooltipRef.current.offsetWidth;
       const tooltipHeight = tooltipRef.current.offsetHeight;
@@ -32,21 +32,25 @@ function Tooltip({ children, content }: TooltipProps) {
 
       setPosition({ x, y });
     }
-  }, []);
+  };
 
-  const handleMouseEnter = useCallback(() => {
+  const handleMouseEnter = () => {
     setIsVisible(true);
-    updatePosition(new MouseEvent('mousemove'));
-  }, [updatePosition]);
+    updatePosition();
+  };
 
   useEffect(() => {
     if (isVisible) {
-      document.addEventListener('mousemove', updatePosition);
+      window.addEventListener('mousemove', updatePosition);
+      window.addEventListener('scroll', updatePosition);
+      window.addEventListener('resize', updatePosition);
     }
     return () => {
-      document.removeEventListener('mousemove', updatePosition);
+      window.removeEventListener('mousemove', updatePosition);
+      window.removeEventListener('scroll', updatePosition);
+      window.removeEventListener('resize', updatePosition);
     };
-  }, [isVisible, updatePosition]);
+  }, [isVisible]);
 
   return (
     <div className="relative inline-block">

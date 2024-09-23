@@ -31,8 +31,7 @@ function URLInput({ urls, setUrls, setFile }: {
           name="urls"
           rows={4}
           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 p-2"
-          placeholder="https://example.com
-https://another-example.com"
+          placeholder="https://example.com"
           value={urls}
           onChange={handleUrlChange}
           style={{ whiteSpace: 'pre-wrap', overflowWrap: 'break-word' }}
@@ -58,7 +57,7 @@ https://another-example.com"
             file:bg-violet-100 file:text-violet-700
             hover:file:bg-violet-200"
         />
-        <p className="mt-1 text-xs text-gray-500">Accepted formats: .txt, .csv</p>
+        <p className="mt-1 text-xs text-gray-500 mb-4 mt-2">Accepted formats: .txt, .csv</p>
       </div>
     </div>
   );

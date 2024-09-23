@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import URLInput from './URLInput';
 import DisplayOptionsSelector from './DisplayOptionsSelector';
+import UserAgentSelector from './UserAgentSelector'; // Import the new component
 import ResultsTable from './ResultTable';
 import ProgressBar from './ProgressBar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -29,6 +30,7 @@ export default function Tool() {
   const [expandedRows, setExpandedRows] = useState<{ [key: number]: boolean }>({});
   const [copiedStates, setCopiedStates] = useState<{ [key: string]: boolean }>({});
   const [progress, setProgress] = useState(0);
+  const [userAgent, setUserAgent] = useState(''); // Add userAgent state
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -62,7 +64,7 @@ export default function Tool() {
           }
           const response = await axios.post(
             `${backendUrl}/api/check-url/`,
-            { url }
+            { url, user_agent: userAgent } // Include user_agent in the request data
           );
           setProgress(((index + 1) / urlArray.length) * 100);
           return response.data;  // Make sure you're returning the data
@@ -237,7 +239,10 @@ export default function Tool() {
                 selectedFields={selectedFields}
                 handleCheckboxChange={handleCheckboxChange}
               />
-
+              <UserAgentSelector
+                userAgent={userAgent}
+                setUserAgent={setUserAgent}
+              />
               <button
                 type="submit"
                 className="w-full py-2 rounded-md hover:bg-gradient-hover focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-300 ease-in-out gradientButton"
