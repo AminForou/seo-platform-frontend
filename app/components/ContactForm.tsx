@@ -30,7 +30,7 @@ export default function ContactForm() {
         },
         body: JSON.stringify(formData),
       });
-
+  
       if (response.ok) {
         setStatus('Message sent successfully!');
         setFormData({
@@ -40,13 +40,15 @@ export default function ContactForm() {
           message: '',
         });
       } else {
-        setStatus('Failed to send message.');
+        const errorData = await response.json();
+        setStatus(`Failed to send message: ${errorData.message || 'Unknown error.'}`);
+        console.error('Error response:', errorData);
       }
     } catch (error) {
-      console.error('Error:', error);
+      console.error('Network or server error:', error);
       setStatus('An error occurred. Please try again later.');
     }
-  };
+  };  
 
   return (
     <form onSubmit={handleSubmit} className="bg-white rounded-lg p-8 shadow-md">
