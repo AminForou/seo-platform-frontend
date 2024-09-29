@@ -17,6 +17,7 @@ export default function ContactForm() {
       [e.target.name]: e.target.value,
     });
   };
+  
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -95,6 +96,7 @@ export default function ContactForm() {
         Send Message
       </button>
       {status && <p className="mt-4 text-center text-gray-600">{status}</p>}
-    </form>
+    </form> 
+    
   );
 }
