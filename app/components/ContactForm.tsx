@@ -18,13 +18,15 @@ export default function ContactForm() {
     });
   };
   
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  console.log('API URL:', apiUrl);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus('Sending...');
-    console.log('API URL:', process.env.NEXT_PUBLIC_API_URL);
+    console.log('API URL:', apiUrl);
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/contact/`, {
+      const response = await fetch(`${apiUrl}/api/contact/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
