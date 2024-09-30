@@ -163,3 +163,35 @@ input[type="checkbox"]:checked::before {
     background-position: 100% 50%;
   }
 }
+
+.text-custom-color {
+  color: #30a3c5;
+}
+
+.bg-blue-color {
+  background-color: #30a3c5;
+  transition: background-color 0.3s ease;
+}
+
+.bg-blue-color:hover {
+  background-color: #2b92b1;
+}
+
+.bg-green-color {
+  background-color: #2dbdad;  
+  transition: background-color 0.3s ease;
+}
+
+.bg-green-color:hover {
+  background-color: #28a89c;
+}
+
+.bg-purple-color {
+  background-color: #804cbd;
+  transition: background-color 0.3s ease;
+}
+
+.bg-purple-color:hover {
+  background-color: #7344a9;
+}
+

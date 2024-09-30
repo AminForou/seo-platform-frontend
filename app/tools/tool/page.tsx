@@ -7,11 +7,11 @@ import DisplayOptionsSelector from './DisplayOptionsSelector';
 import UserAgentSelector from './UserAgentSelector';
 import ResultsTable from './ResultTable';
 import ProgressBar from './ProgressBar';
-import ErrorDisplay from '../components/ErrorDisplay';
+import ErrorDisplay from '../../components/ErrorDisplay';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLink } from '@fortawesome/free-solid-svg-icons';
 import { SelectedFields, Result } from './types';
-import FAQ from '../components/FAQ';
+import FAQ from '../../components/FAQ';
 
 export default function Tool() {
   const [urls, setUrls] = useState('');

@@ -49,7 +49,7 @@ export default function Home() {
                 </p>
                 <div className="mt-6">
                   <a
-                    href="/tool"
+                    href="/tools/tool"
                     className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-[#2dbdad] hover:bg-[#25a193] transition-colors duration-300"
                   >
                     Get Started

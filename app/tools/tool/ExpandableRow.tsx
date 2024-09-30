@@ -1,7 +1,7 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCopy, faChevronDown, faChevronRight, faExternalLinkAlt, faArrowRight } from '@fortawesome/free-solid-svg-icons';
-import Tooltip from '../components/Tooltip';
+import Tooltip from '../../components/Tooltip';
 import { SelectedFields } from './types';
 
 interface RedirectStep {
@@ -104,7 +104,7 @@ const ExpandableRow: React.FC<ExpandableRowProps> = ({
         {/* Response Time */}
         {selectedFields.response_time && (
           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-            {result.response_time ? `${result.response_time}s` : 'N/A'}
+            {result.response_time ? `${result.response_time.toFixed(3)}s` : 'N/A'}
           </td>
         )}
         {/* Content Type */}

@@ -1,13 +1,31 @@
-// app/components/Nav.tsx
-
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTools, faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faTools, faBars, faTimes, faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 
 export default function Nav() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isDesktopDropdownOpen, setIsDesktopDropdownOpen] = useState(false);
+  const [isMobileDropdownOpen, setIsMobileDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLLIElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsDesktopDropdownOpen(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  const toggleMobileDropdown = () => {
+    setIsMobileDropdownOpen(!isMobileDropdownOpen);
+  };
 
   return (
     <header className="bg-gray-50 shadow-sm">
@@ -35,24 +53,45 @@ export default function Nav() {
 
           {/* Desktop menu */}
           <nav className="hidden md:block">
-            <ul className="flex space-x-4">
+            <ul className="flex space-x-4 items-center">
               <li>
-                <a href="/" className="text-gray-600 hover:text-indigo-600">
+                <a href="/" className="text-gray-600 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">
                   Home
                 </a>
               </li>
-              <li>
-                <a
-                  href="/tool"
-                  className="text-gray-600 hover:text-indigo-600"
+              <li className="relative" ref={dropdownRef}>
+                <button
+                  className="text-gray-600 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium flex items-center"
+                  onClick={() => setIsDesktopDropdownOpen(!isDesktopDropdownOpen)}
+                  onMouseEnter={() => setIsDesktopDropdownOpen(true)}
                 >
-                  Tool
-                </a>
+                  Tools
+                  <FontAwesomeIcon icon={faChevronDown} className="ml-1 text-xs" />
+                </button>
+                {isDesktopDropdownOpen && (
+                  <div 
+                    className="absolute left-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 py-1 z-10"
+                    onMouseLeave={() => setIsDesktopDropdownOpen(false)}
+                  >
+                    <a
+                      href="/tools/tool"
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 transition-colors duration-150"
+                    >
+                      Mini Crawler
+                    </a>
+                    <a
+                      href="/tools/bulk-url-opener"
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 transition-colors duration-150"
+                    >
+                      Bulk URL Opener
+                    </a>
+                  </div>
+                )}
               </li>
               <li>
                 <a
                   href="/about"
-                  className="text-gray-600 hover:text-indigo-600"
+                  className="text-gray-600 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium"
                 >
                   About
                 </a>
@@ -60,7 +99,7 @@ export default function Nav() {
               <li>
                 <a
                   href="/contact"
-                  className="text-gray-600 hover:text-indigo-600"
+                  className="text-gray-600 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium"
                 >
                   Contact
                 </a>
@@ -73,22 +112,39 @@ export default function Nav() {
         <nav className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${isMenuOpen ? 'max-h-60 opacity-100 mt-4' : 'max-h-0 opacity-0'}`}>
           <ul className="flex flex-col space-y-2">
             <li>
-              <a href="/" className="text-gray-600 hover:text-indigo-600">
+              <a href="/" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-100">
                 Home
               </a>
             </li>
             <li>
-              <a
-                href="/tool"
-                className="text-gray-600 hover:text-indigo-600"
+              <button
+                className="w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-100 flex items-center justify-between"
+                onClick={toggleMobileDropdown}
               >
-                Tool
-              </a>
+                Tools
+                <FontAwesomeIcon icon={isMobileDropdownOpen ? faChevronUp : faChevronDown} className="ml-1 text-xs" />
+              </button>
+              {isMobileDropdownOpen && (
+                <div className="pl-4 mt-2">
+                  <a
+                    href="/tools/tool"
+                    className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-100"
+                  >
+                    Mini Crawler
+                  </a>
+                  <a
+                    href="/tools/bulk-url-opener"
+                    className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-100"
+                  >
+                    Bulk URL Opener
+                  </a>
+                </div>
+              )}
             </li>
             <li>
               <a
                 href="/about"
-                className="text-gray-600 hover:text-indigo-600"
+                className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-100"
               >
                 About
               </a>
@@ -96,7 +152,7 @@ export default function Nav() {
             <li>
               <a
                 href="/contact"
-                className="text-gray-600 hover:text-indigo-600"
+                className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-100"
               >
                 Contact
               </a>
