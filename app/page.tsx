@@ -2,7 +2,7 @@
 
 import { Metadata } from 'next';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faLink, faToolbox, faLightbulb } from '@fortawesome/free-solid-svg-icons';
+import { faLink, faToolbox, faLightbulb, faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
 import '@fortawesome/fontawesome-svg-core/styles.css'; // Import the CSS
 import './fontawesome'; // Import FontAwesome configuration
 
@@ -33,6 +33,7 @@ export default function Home() {
 
       <div className="mt-10">
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          {/* Batch URL Status Checker */}
           <div className="pt-6">
             <div className="flow-root bg-[#f9fafb] rounded-lg px-6 pb-8 shadow-md hover:shadow-lg transition-shadow duration-300">
               <div className="-mt-6">
@@ -59,11 +60,39 @@ export default function Home() {
             </div>
           </div>
 
+          {/* Bulk URL Opener */}
           <div className="pt-6">
             <div className="flow-root bg-[#f9fafb] rounded-lg px-6 pb-8 shadow-md hover:shadow-lg transition-shadow duration-300">
               <div className="-mt-6">
                 <div>
-                  <span className="inline-flex items-center justify-center p-3 rounded-md shadow-lg bg-[#2dbdad]">
+                  <span className="inline-flex items-center justify-center p-3 rounded-md shadow-lg bg-[#30a3c5]">
+                    <FontAwesomeIcon icon={faExternalLinkAlt} className="h-6 w-6 text-white" />
+                  </span>
+                </div>
+                <h3 className="mt-8 text-lg font-medium text-gray-900 tracking-tight">
+                  Bulk URL Opener
+                </h3>
+                <p className="mt-5 text-base text-gray-500">
+                  Open multiple URLs with customizable settings. Perfect for efficient browsing and link checking.
+                </p>
+                <div className="mt-6">
+                  <a
+                    href="/tools/bulk-url-opener"
+                    className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-[#30a3c5] hover:bg-[#2b92b1] transition-colors duration-300"
+                  >
+                    Open URLs
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* More Tools Coming Soon */}
+          <div className="pt-6">
+            <div className="flow-root bg-[#f9fafb] rounded-lg px-6 pb-8 shadow-md hover:shadow-lg transition-shadow duration-300">
+              <div className="-mt-6">
+                <div>
+                  <span className="inline-flex items-center justify-center p-3 rounded-md shadow-lg bg-[#804cbd]">
                     <FontAwesomeIcon icon={faToolbox} className="h-6 w-6 text-white" />
                   </span>
                 </div>
@@ -74,7 +103,7 @@ export default function Home() {
                   We&apos;re working on exciting new SEO tools to help you optimize your website even further. Stay tuned!
                 </p>
                 <div className="mt-6">
-                  <span className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-[#2dbdad] bg-white">
+                  <span className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-[#804cbd] bg-white">
                     Coming Soon
                   </span>
                 </div>
