@@ -177,7 +177,7 @@ export default function UrlInput({
       </div>
 
       <div>
-        <label htmlFor="file" className="block text-sm font-medium text-gray-700 flex items-center mb-2">
+        <label htmlFor="file" className="block text-sm font-medium text-gray-700 flex items-center mb-2 mt-4">
           Upload a file with URLs
           <Tooltip content="Upload a .txt or .csv file with one URL per line. Maximum file size: 5MB">
             <FontAwesomeIcon icon={faInfoCircle} className="ml-2 text-gray-400 hover:text-gray-600" />

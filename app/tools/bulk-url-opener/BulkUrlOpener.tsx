@@ -261,6 +261,18 @@ export default function BulkUrlOpener() {
       setShouldStart(true);
     };
   
+    const continueOpening = () => {
+      const newStartRange = endRange + 1;
+      const newEndRange = Math.min(newStartRange + (endRange - startRange), totalUrls);
+      setStartRange(newStartRange);
+      setEndRange(newEndRange);
+      setCurrentPosition(0);
+      setProcessComplete(false);
+      setShouldStart(true);
+    };
+  
+    const rangeLength = endRange - startRange + 1;
+  
     return (
       <div className="bg-gray-50 shadow rounded-lg p-6">
         <div className="mb-6 pb-4 border-b border-gray-200">
@@ -369,10 +381,13 @@ export default function BulkUrlOpener() {
             urlsToOpen={urlsToOpen}
             startPosition={startPosition}
             endPosition={endPosition}
+            totalUrls={totalUrls}
+            rangeLength={rangeLength}
             openUrls={openUrls}
             pauseOpening={pauseOpening}
             resumeOpening={resumeOpening}
             redoOpening={redoOpening}
+            continueOpening={continueOpening}
           />
   
           {/* Popup Blocker Warning */}
