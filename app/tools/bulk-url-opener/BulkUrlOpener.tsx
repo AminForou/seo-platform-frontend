@@ -1,3 +1,7 @@
+// OpenUrlsButton.tsx
+// Renders the main action button (Open URLs, Redo Opening URLs)
+// Includes Pause and Resume buttons
+
 'use client';
 
 import React, { useState, useEffect, useRef, useMemo } from 'react';
@@ -8,13 +12,17 @@ import {
   faPause,
   faPlay,
   faDownload,
-  faTrash,
   faChevronDown,
   faChevronUp,
   faRedo,
 } from '@fortawesome/free-solid-svg-icons';
 import Tooltip from '../../components/Tooltip';
 import UrlInput from './components/UrlInput';
+import AdvancedSettings from './components/AdvancedSettings';
+import OpenUrlsButton from './components/OpenUrlsButton';
+import ProgressBar from './components/ProgressBar';
+import InformationalText from './components/InformationalText';
+import PopupBlockerWarning from './components/PopupBlockerWarning';
 
 export default function BulkUrlOpener() {
     // State variables
@@ -304,6 +312,13 @@ export default function BulkUrlOpener() {
         }
     }, [shouldStart, openUrls]); // Trigger when shouldStart changes
   
+    const redoOpening = () => {
+      setCurrentPosition(0);
+      setOpenedUrls(new Set());
+      setProcessComplete(false);
+      setShouldStart(true);
+    };
+  
     return (
       <div className="bg-gray-50 shadow rounded-lg p-6">
         <div className="mb-6 pb-4 border-b border-gray-200">
@@ -363,396 +378,72 @@ export default function BulkUrlOpener() {
             )}
           </div>
   
-          {/* Advanced Settings Accordion */}
-          <div className="mt-4">
-            <button
-              onClick={() => setShowAdvanced(!showAdvanced)}
-              className="w-full flex justify-between items-center py-2 px-4 bg-gray-200 rounded-md focus:outline-none"
-            >
-              <span className="text-sm font-medium text-gray-700">Advanced Settings</span>
-              <FontAwesomeIcon icon={showAdvanced ? faChevronUp : faChevronDown} />
-            </button>
-            {showAdvanced && (
-              <div className="mt-4 space-y-6">
-                {/* Parameters and Filters */}
-                <div>
-                  <h3 className="text-md font-semibold text-gray-700 mb-2">Parameters and Filters</h3>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <label htmlFor="filters" className="block text-sm font-medium text-gray-700 flex items-center mb-2">
-                        Filter URLs
-                        <Tooltip content="Filter URLs containing a word or domain. Example: 'example.com' will only include URLs that have 'example.com' in them.">
-                          <FontAwesomeIcon icon={faInfoCircle} className="ml-2 text-gray-400 hover:text-gray-600" />
-                        </Tooltip>
-                      </label>
-                      <input
-                        type="text"
-                        id="filters"
-                        name="filters"
-                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                        placeholder="e.g., example.com"
-                        value={filters}
-                        onChange={(e) => setFilters(e.target.value)}
-                      />
-                    </div>
-                    <div>
-                      <label
-                        htmlFor="appendParams"
-                        className="block text-sm font-medium text-gray-700 flex items-center mb-2"
-                      >
-                        Append Parameters
-                        <Tooltip content="Append UTM parameters or tracking codes to URLs automatically. Example: 'utm_source=bulkopener'">
-                          <FontAwesomeIcon icon={faInfoCircle} className="ml-2 text-gray-400 hover:text-gray-600" />
-                        </Tooltip>
-                      </label>
-                      <input
-                        type="text"
-                        id="appendParams"
-                        name="appendParams"
-                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                        placeholder="e.g., utm_source=bulkopener"
-                        value={appendParams}
-                        onChange={(e) => setAppendParams(e.target.value)}
-                      />
-                    </div>
-                  </div>
-                </div>
-  
-                {/* Range Settings */}
-                <div>
-                  <h3 className="text-md font-semibold text-gray-700 mb-2">Range Settings</h3>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <label htmlFor="startRange" className="block text-sm font-medium text-gray-700">
-                        Start from URL #
-                      </label>
-                      <input
-                        type="number"
-                        id="startRange"
-                        name="startRange"
-                        min="1"
-                        max={totalUrls}
-                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                        value={startRange}
-                        onChange={(e) => {
-                          let newValue = Number(e.target.value);
-                          if (newValue > endRange) newValue = endRange;
-                          if (newValue < 1) newValue = 1;
-                          setStartRange(newValue);
-                          setCurrentPosition(0); // Reset position when range changes
-                        }}
-                      />
-                    </div>
-                    <div>
-                      <label htmlFor="endRange" className="block text-sm font-medium text-gray-700">
-                        End at URL #
-                      </label>
-                      <input
-                        type="number"
-                        id="endRange"
-                        name="endRange"
-                        min={startRange}
-                        max={totalUrls}
-                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                        value={endRange}
-                        onChange={(e) => {
-                          let newValue = Number(e.target.value);
-                          if (newValue < startRange) newValue = startRange;
-                          if (newValue > totalUrls) newValue = totalUrls;
-                          setEndRange(newValue);
-                          setCurrentPosition(0); // Reset position when range changes
-                        }}
-                      />
-                    </div>
-                  </div>
-                </div>
-  
-                {/* Delay Settings */}
-                <div>
-                  <h3 className="text-md font-semibold text-gray-700 mb-2">Delay Settings</h3>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <label
-                        htmlFor="minDelay"
-                        className="block text-sm font-medium text-gray-700 flex items-center mb-2"
-                      >
-                        Min Delay (seconds)
-                        <Tooltip content="Minimum delay between opening URLs. Helps avoid pop-up blockers and mimic human behavior.">
-                          <FontAwesomeIcon icon={faInfoCircle} className="ml-2 text-gray-400 hover:text-gray-600" />
-                        </Tooltip>
-                      </label>
-                      <input
-                        type="number"
-                        id="minDelay"
-                        name="minDelay"
-                        min="0"
-                        max="10"
-                        step="0.01"
-                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                        value={minDelay}
-                        onChange={handleMinDelayChange}
-                      />
-                    </div>
-                    <div>
-                      <label
-                        htmlFor="maxDelay"
-                        className="block text-sm font-medium text-gray-700 flex items-center mb-2"
-                      >
-                        Max Delay (seconds)
-                        <Tooltip content="Maximum delay between opening URLs. The actual delay will be randomized between Min and Max delay.">
-                          <FontAwesomeIcon icon={faInfoCircle} className="ml-2 text-gray-400 hover:text-gray-600" />
-                        </Tooltip>
-                      </label>
-                      <input
-                        type="number"
-                        id="maxDelay"
-                        name="maxDelay"
-                        min="0"
-                        max="10"
-                        step="0.01"
-                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                        value={maxDelay}
-                        onChange={handleMaxDelayChange}
-                      />
-                    </div>
-                  </div>
-                </div>
-  
-                {/* Batching Settings */}
-                <div>
-                  <h3 className="text-md font-semibold text-gray-700 mb-2">Batching Settings</h3>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <label
-                        htmlFor="urlsPerBatch"
-                        className="block text-sm font-medium text-gray-700 flex items-center mb-2"
-                      >
-                        URLs per Batch
-                        <Tooltip content="Number of URLs to open in each batch. Helps manage large lists by opening a set number at a time and saving position for sequential opening. Set to 0 to open all URLs at once.">
-                          <FontAwesomeIcon icon={faInfoCircle} className="ml-2 text-gray-400 hover:text-gray-600" />
-                        </Tooltip>
-                      </label>
-                      <input
-                        type="number"
-                        id="urlsPerBatch"
-                        name="urlsPerBatch"
-                        min="0"
-                        max={filteredUrlList.length}
-                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                        value={urlsPerBatch}
-                        onChange={(e) => {
-                          setUrlsPerBatch(Number(e.target.value));
-                          setCurrentPosition(0); // Reset position when batch size changes
-                        }}
-                      />
-                    </div>
-                    <div>
-                      <label
-                        htmlFor="concurrentLimit"
-                        className="block text-sm font-medium text-gray-700 flex items-center mb-2"
-                      >
-                        Concurrent Openings
-                        <Tooltip content="Maximum number of URLs to open at the same time. Helps prevent browser overload and manage system performance.">
-                          <FontAwesomeIcon icon={faInfoCircle} className="ml-2 text-gray-400 hover:text-gray-600" />
-                        </Tooltip>
-                      </label>
-                      <input
-                        type="number"
-                        id="concurrentLimit"
-                        name="concurrentLimit"
-                        min="1"
-                        max="10"
-                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                        value={concurrentLimit}
-                        onChange={(e) => setConcurrentLimit(Number(e.target.value))}
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
+          <AdvancedSettings
+            showAdvanced={showAdvanced}
+            setShowAdvanced={setShowAdvanced}
+            filters={filters}
+            setFilters={setFilters}
+            appendParams={appendParams}
+            setAppendParams={setAppendParams}
+            startRange={startRange}
+            setStartRange={setStartRange}
+            endRange={endRange}
+            setEndRange={setEndRange}
+            totalUrls={totalUrls}
+            minDelay={minDelay}
+            setMinDelay={setMinDelay}
+            maxDelay={maxDelay}
+            setMaxDelay={setMaxDelay}
+            urlsPerBatch={urlsPerBatch}
+            setUrlsPerBatch={setUrlsPerBatch}
+            concurrentLimit={concurrentLimit}
+            setConcurrentLimit={setConcurrentLimit}
+            filteredUrlList={filteredUrlList}
+            urls={urls}
+            setCurrentPosition={setCurrentPosition}
+          />
   
           {/* Informational Text */}
           {filteredUrlList.length > 0 && (
-            <div className="mt-4">
-              <p className="text-sm text-gray-600 bg-blue-50 p-3 rounded-md">
-                You have <strong>{totalUrls}</strong> URLs in the list.
-                {filters || startRange > 1 || endRange < totalUrls ? (
-                  <>
-                    {' '}
-                    After applying{' '}
-                    {filters ? (
-                      <>
-                        filters (<strong>{filters}</strong>){' '}
-                        {startRange > 1 || endRange < totalUrls ? 'and ranges' : ''}
-                      </>
-                    ) : (
-                      ''
-                    )}
-                    {filters && (startRange > 1 || endRange < totalUrls) ? 'and ' : ''}
-                    {startRange > 1 || endRange < totalUrls ? (
-                      <>
-                        ranges (<strong>
-                          {startRange} - {endRange}
-                        </strong>)
-                      </>
-                    ) : (
-                      ''
-                    )}
-                    , there are <strong>{filteredUrlList.length}</strong> URLs to process.
-                  </>
-                ) : (
-                  <>
-                    {' '}There are <strong>{filteredUrlList.length}</strong> URLs to process.
-                  </>
-                )}{' '}
-                {urlsToOpen > 0 ? (
-                  <>
-                    When you click the button, <strong>{urlsToOpen}</strong>{' '}
-                    URL{urlsToOpen > 1 ? 's' : ''} from position <strong>{startPosition}</strong> to{' '}
-                    <strong>{endPosition}</strong> will open {delayText}.
-                  </>
-                ) : processComplete ? (
-                  <>
-                    All URLs have been processed. You can rerun the process or modify the settings to open URLs again.
-                  </>
-                ) : (
-                  ''
-                )}
-              </p>
-              {appendParams && (
-                <p className="text-sm text-gray-600 mt-1">
-                  Parameters to append: <strong>{appendParams}</strong>
-                </p>
-              )}
-            </div>
+            <InformationalText
+              totalUrls={totalUrls}
+              filteredUrlList={filteredUrlList}
+              filters={filters}
+              startRange={startRange}
+              endRange={endRange}
+              urlsToOpen={urlsToOpen}
+              startPosition={startPosition}
+              endPosition={endPosition}
+              delayText={delayText}
+              processComplete={processComplete}
+              appendParams={appendParams}
+            />
           )}
   
-          {/* Open URLs Button */}
-          <div className="flex space-x-4 mt-4">
-            {processComplete ? (
-              <button
-                onClick={() => {
-                    // Reset state variables
-                    setCurrentPosition(0);
-                    setOpenedUrls(new Set());
-                    setProcessComplete(false);
-                    // Set the flag to true
-                    setShouldStart(true);
-                }}
-                className="flex-1 py-2 rounded-md bg-purple-color text-white hover:bg-blue-color focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-300 ease-in-out"
-              >
-                <FontAwesomeIcon icon={faRedo} className="mr-2" />
-                Redo Opening URLs
-              </button>
-            ) : (
-              <button
-                onClick={openUrls}
-                disabled={urlsToOpen <= 0}
-                className={`flex-1 py-2 rounded-md ${
-                  urlsToOpen > 0
-                    ? 'hover:bg-gradient-hover focus:ring-2 focus:ring-blue-400 gradientButton'
-                    : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                } focus:outline-none transition-all duration-300 ease-in-out`}
-              >
-                {isOpening
-                  ? 'Opening URLs...'
-                  : `Open URLs ${startPosition} to ${endPosition > 0 ? endPosition : startPosition}`}
-              </button>
-            )}
-            {isOpening && !isPaused && (
-              <button
-                onClick={pauseOpening}
-                className="flex-1 py-2 rounded-md bg-blue-color text-white focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-300 ease-in-out"
-              >
-                <FontAwesomeIcon icon={faPause} className="mr-2 text-white" />
-                Pause
-              </button>
-            )}
-            {isPaused && (
-              <button
-                onClick={resumeOpening}
-                className="flex-1 py-2 rounded-md bg-green-color text-white focus:outline-none focus:ring-2 focus:ring-green-400 transition-all duration-300 ease-in-out"
-              >
-                <FontAwesomeIcon icon={faPlay} className="mr-2" />
-                Resume
-              </button>
-            )}
-          </div>
+          <OpenUrlsButton
+            processComplete={processComplete}
+            isOpening={isOpening}
+            isPaused={isPaused}
+            urlsToOpen={urlsToOpen}
+            startPosition={startPosition}
+            endPosition={endPosition}
+            openUrls={openUrls}
+            pauseOpening={pauseOpening}
+            resumeOpening={resumeOpening}
+            redoOpening={redoOpening}
+          />
   
           {/* Popup Blocker Warning */}
-          {popUpBlocked && !isOpening && (
-            <div className="mt-4 p-4 bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700">
-              <p className="font-bold">Pop-ups Blocked</p>
-              <p>
-                It seems that your browser is blocking some pop-ups. To ensure all URLs open correctly, please allow
-                pop-ups for this site in your browser settings.
-              </p>
-              <ul className="mt-2 list-disc list-inside">
-                <li>
-                  <strong>Chrome</strong>: Click the pop-up blocked icon in the address bar and select{' '}
-                  <em>&quot;Always allow pop-ups and redirects from this site&quot;</em>.
-                </li>
-                <li>
-                  <strong>Firefox</strong>: Click the options button in the address bar and choose{' '}
-                  <em>&quot;Allow pop-ups for this site&quot;</em>.
-                </li>
-                <li>
-                  <strong>Edge</strong>: Click the blocked pop-ups icon and select{' '}
-                  <em>&quot;Always allow pop-ups and redirects from this site&quot;</em>.
-                </li>
-                <li>
-                  <strong>Safari</strong>: Go to <em>Preferences &gt; Websites &gt; Pop-up Windows</em> and allow pop-ups
-                  for this site.
-                </li>
-              </ul>
-            </div>
-          )}
+          {popUpBlocked && !isOpening && <PopupBlockerWarning />}
         </div>
   
         {/* Progress and Instructions */}
         {showProgress && (
-          <>
-            <p className="mt-4 text-sm text-gray-600">
-              Total URLs: {filteredUrlList.length}. Current Position: {currentPosition}. Use Ctrl+Enter to start,
-              pause, or resume opening URLs.
-            </p>
-  
-            {/* Progress Bar */}
-            <div className="mt-4">
-              <div className="relative pt-1">
-                <div className="flex mb-2 items-center justify-between">
-                  <div>
-                    <span
-                      className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-white"
-                      style={{ background: 'linear-gradient(90deg, #2dbdad 0%, #30a3c5 50%, #804cbd 100%)' }}
-                    >
-                      Progress
-                    </span>
-                  </div>
-                  <div className="text-right">
-                    <span className="text-xs font-semibold inline-block text-gray-700">
-                      {currentPosition}/{filteredUrlList.length}
-                    </span>
-                  </div>
-                </div>
-                <div
-                  className="overflow-hidden h-2 mb-4 text-xs flex rounded"
-                  style={{ backgroundColor: '#e0e0e0' }}
-                >
-                  <div
-                    style={{
-                      width: `${(currentPosition / filteredUrlList.length) * 100}%`,
-                      background: 'linear-gradient(90deg, #2dbdad 0%, #30a3c5 50%, #804cbd 100%)',
-                    }}
-                    className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center"
-                  ></div>
-                </div>
-              </div>
-            </div>
-          </>
+          <ProgressBar
+            currentPosition={currentPosition}
+            totalUrls={filteredUrlList.length}
+          />
         )}
       </div>
-    );
-  }
+  );
+}
