@@ -6,7 +6,6 @@ import {
   faInfoCircle,
   faChevronDown,
   faChevronUp,
-  faDownload,
 } from '@fortawesome/free-solid-svg-icons';
 import Tooltip from '../../../components/Tooltip';
 
@@ -56,7 +55,6 @@ export default function AdvancedSettings({
   concurrentLimit,
   setConcurrentLimit,
   filteredUrlList,
-  urls,
   setCurrentPosition,
 }: AdvancedSettingsProps) {
   const [startRangeInput, setStartRangeInput] = useState(startRange.toString());
