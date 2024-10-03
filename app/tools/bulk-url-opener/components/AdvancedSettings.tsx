@@ -222,7 +222,7 @@ export default function AdvancedSettings({
                   step="0.01"
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                   value={minDelay}
-                  onChange={handleMinDelayChange}
+                  onChange={handleMinDelayChange} // Use the handleMinDelayChange function here
                 />
               </div>
               <div>

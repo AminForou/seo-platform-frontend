@@ -105,25 +105,7 @@ export default function BulkUrlOpener() {
     useEffect(() => {
       setCurrentPosition(0);
     }, [filteredUrlList]);
-  
-    const handleUrlChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-      setUrls(e.target.value);
-      setOpenedUrls(new Set()); // Reset opened URLs when the content changes
-    };
-  
-    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      const selectedFile = e.target.files?.[0] || null;
-      if (selectedFile) {
-        const reader = new FileReader();
-        reader.onload = (event) => {
-          const content = event.target?.result as string;
-          setUrls(content);
-          setOpenedUrls(new Set()); // Reset opened URLs when a new file is loaded
-        };
-        reader.readAsText(selectedFile);
-      }
-    };
-  
+    
     const detectDuplicates = (urlList: string[]) => {
       const urlCounts: { [url: string]: number[] } = {};
       urlList.forEach((url, index) => {
@@ -229,12 +211,6 @@ export default function BulkUrlOpener() {
       }
     };
   
-    const handleScroll = () => {
-      if (textareaRef.current && lineNumbersRef.current) {
-        lineNumbersRef.current.scrollTop = textareaRef.current.scrollTop;
-      }
-    };
-  
     // Hotkeys: Ctrl+Enter to start, pause, or resume opening URLs
     useEffect(() => {
       const handleKeyDown = (e: KeyboardEvent) => {
@@ -257,38 +233,11 @@ export default function BulkUrlOpener() {
       window.addEventListener('keydown', handleKeyDown);
       return () => window.removeEventListener('keydown', handleKeyDown);
     }, [isOpening, isPaused, processComplete, openUrls, pauseOpening, resumeOpening]);
-  
-    const clearUrls = () => {
-      setUrls('');
-      setOpenedUrls(new Set());
-      setCurrentPosition(0);
-      setDuplicates(new Set());
-      setShowProgress(false);
-      setProcessComplete(false);
-    };
-  
     // Delay text logic
     const delayText =
       minDelay === maxDelay
         ? `at a delay of ${minDelay} seconds`
         : `at a delay between ${minDelay} and ${maxDelay} seconds`;
-  
-    // Adjust maxDelay if minDelay is increased
-    const handleMinDelayChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      const newMinDelay = Number(parseFloat(e.target.value).toFixed(2));
-      setMinDelay(newMinDelay);
-      if (newMinDelay > maxDelay) {
-        setMaxDelay(newMinDelay);
-      }
-    };
-  
-    const handleMaxDelayChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      const newMaxDelay = Number(parseFloat(e.target.value).toFixed(2));
-      setMaxDelay(newMaxDelay);
-      if (newMaxDelay < minDelay) {
-        setMinDelay(newMaxDelay);
-      }
-    };
   
     // Calculate positions for informational text
     const totalRemaining = filteredUrlList.length - currentPosition;
