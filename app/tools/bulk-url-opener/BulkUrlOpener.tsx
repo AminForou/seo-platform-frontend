@@ -14,6 +14,7 @@ import {
   faRedo,
 } from '@fortawesome/free-solid-svg-icons';
 import Tooltip from '../../components/Tooltip';
+import UrlInput from './components/UrlInput';
 
 export default function BulkUrlOpener() {
     // State variables
@@ -314,112 +315,17 @@ export default function BulkUrlOpener() {
         </div>
   
         <div className="space-y-4">
-          <div>
-            <label htmlFor="urls" className="block text-sm font-medium text-gray-700 flex items-center mb-2">
-              Enter URLs (one per line)
-              <Tooltip content="Enter one URL per line. Duplicate URLs are highlighted in red.">
-                <FontAwesomeIcon icon={faInfoCircle} className="ml-2 text-gray-400 hover:text-gray-600" />
-              </Tooltip>
-            </label>
-            <div className="relative">
-              <textarea
-                ref={textareaRef}
-                id="urls"
-                name="urls"
-                rows={10}
-                className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 pl-8"
-                placeholder="e.g., https://example.com"
-                value={urls}
-                onChange={handleUrlChange}
-                onScroll={handleScroll}
-                style={{
-                  whiteSpace: 'pre',
-                  overflowWrap: 'normal',
-                  overflowX: 'auto',
-                  fontFamily: 'monospace',
-                  fontSize: '14px',
-                  lineHeight: '1.5',
-                  resize: 'vertical',
-                  paddingLeft: '3rem',
-                  paddingTop: '8px',
-                }}
-              ></textarea>
-              <div
-                ref={lineNumbersRef}
-                className="absolute top-0 left-0 text-gray-400 bg-gray-100 rounded-l-md p-2 select-none"
-                style={{
-                  fontFamily: 'monospace',
-                  fontSize: '14px',
-                  lineHeight: '1.5',
-                  width: '2.5rem',
-                  height: '100%',
-                  overflow: 'hidden',
-                  textAlign: 'right',
-                  userSelect: 'none',
-                  paddingTop: '8px',
-                }}
-              ></div>
-              <div
-                className="absolute top-0 left-0 w-full h-full pointer-events-none"
-                style={{
-                  paddingLeft: '3rem',
-                  paddingTop: '8px',
-                  fontFamily: 'monospace',
-                  fontSize: '14px',
-                  lineHeight: '1.5',
-                  whiteSpace: 'pre',
-                  overflowX: 'hidden',
-                }}
-              >
-                {urls.split('\n').map((url, index) => (
-                  <div
-                    key={index}
-                    style={{
-                      color: duplicates.has(index)
-                        ? 'red'
-                        : openedUrls.has(index + 1)
-                        ? '#999'
-                        : 'transparent',
-                    }}
-                  >
-                    {url}
-                  </div>
-                ))}
-              </div>
-            </div>
-            {urls.trim() !== '' && (
-              <button
-                onClick={clearUrls}
-                className="mt-2 py-1 px-3 rounded-md text-gray-600 hover:text-gray-800 focus:outline-none transition-all duration-300 ease-in-out"
-              >
-                <FontAwesomeIcon icon={faTrash} className="mr-2 text-gray-500" />
-                Clear URLs
-              </button>
-            )}
-          </div>
-  
-          <div>
-            <label htmlFor="file" className="block text-sm font-medium text-gray-700 flex items-center mb-2">
-              Upload a file with URLs
-              <Tooltip content="Upload a .txt or .csv file with one URL per line. Maximum file size: 5MB">
-                <FontAwesomeIcon icon={faInfoCircle} className="ml-2 text-gray-400 hover:text-gray-600" />
-              </Tooltip>
-            </label>
-            <input
-              type="file"
-              id="file"
-              name="file"
-              accept=".txt,.csv"
-              onChange={handleFileChange}
-              className="mt-1 block w-full text-sm text-gray-500
-                    file:mr-4 file:py-2 file:px-4
-                    file:rounded-full file:border-0
-                    file:text-sm file:font-semibold
-                    file:bg-violet-100 file:text-violet-700
-                    hover:file:bg-violet-200"
-            />
-            <p className="mt-1 text-xs text-gray-500 mb-4 mt-2">Accepted formats: .txt, .csv</p>
-          </div>
+          <UrlInput
+            urls={urls}
+            setUrls={setUrls}
+            openedUrls={openedUrls}
+            setOpenedUrls={setOpenedUrls}
+            duplicates={duplicates}
+            setDuplicates={setDuplicates}
+            setCurrentPosition={setCurrentPosition}
+            setShowProgress={setShowProgress}
+            setProcessComplete={setProcessComplete}
+          />
   
           {/* Open in New Tabs and Export URLs */}
           <div className="flex items-end space-x-4">
@@ -449,8 +355,7 @@ export default function BulkUrlOpener() {
                   link.click();
                   document.body.removeChild(link);
                 }}
-                className="mt-4 py-2 px-4 rounded-md bg-blue-color text-white hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-300 ease-in-out"
-                style={{ height: '42px' }}
+                className="py-2 px-4 rounded-md bg-blue-color text-white hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-300 ease-in-out"
               >
                 <FontAwesomeIcon icon={faDownload} className="mr-2 text-white" />
                 Export URLs
