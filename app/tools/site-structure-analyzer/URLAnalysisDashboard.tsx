@@ -9,8 +9,34 @@ import FolderDetails from './components/FolderDetails';
 import SecondLevelFolderAnalysis from './components/SecondLevelFolderAnalysis';
 import ParameterReport from './components/ParameterReport';
 
+interface FolderData {
+  count: number;
+  nonIndexableCount?: number;
+  sampleUrl: string;
+  subfolders?: { [key: string]: FolderData };
+}
+
+interface URLData {
+  folderStructure: { [key: string]: FolderData };
+  secondLevelFolders: {
+    [key: string]: {
+      count: number;
+      nonIndexableCount?: number;
+      subfolders: { [key: string]: number };
+      sampleUrl: string;
+    };
+  };
+  globalParams: {
+    [key: string]: {
+      count: number;
+      folders: { [key: string]: { count: number; sampleUrl: string } };
+    };
+  };
+  indexabilityDataProvided: boolean;
+}
+
 const URLAnalysisDashboard: React.FC = () => {
-  const [urlData, setUrlData] = useState<any>(null);
+  const [urlData, setUrlData] = useState<URLData | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -35,7 +61,7 @@ const URLAnalysisDashboard: React.FC = () => {
         }
         return response.json();
       })
-      .then((data) => {
+      .then((data: URLData) => {
         setUrlData(data);
         setLoading(false);
       })

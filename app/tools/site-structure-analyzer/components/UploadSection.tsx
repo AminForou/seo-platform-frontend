@@ -65,7 +65,7 @@ const UploadSection: React.FC<UploadSectionProps> = ({
           <p className="text-lg text-indigo-600">Drop the CSV file here ...</p>
         ) : (
           <p className="text-lg text-gray-600">
-            Drag 'n' drop a CSV file here, or click to select a file
+            Drag &apos;n&apos; drop a CSV file here, or click to select a file
           </p>
         )}
       </div>
