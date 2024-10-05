@@ -1,24 +1,29 @@
 import React from 'react';
 
+interface FolderData {
+  count: number;
+  nonIndexableCount?: number;
+}
+
 interface SummaryProps {
-  data: any;
+  data: { [key: string]: FolderData };
   hasIndexabilityData: boolean;
 }
 
 const Summary: React.FC<SummaryProps> = ({ data, hasIndexabilityData }) => {
   const totalUrls = Object.values(data).reduce(
-    (sum: number, folder: any) => sum + folder.count,
+    (sum: number, folder: FolderData) => sum + folder.count,
     0
   );
   const totalNonIndexable = hasIndexabilityData
     ? Object.values(data).reduce(
-        (sum: number, folder: any) => sum + (folder.nonIndexableCount || 0),
+        (sum: number, folder: FolderData) => sum + (folder.nonIndexableCount || 0),
         0
       )
     : 0;
 
   const topFolders = Object.entries(data)
-    .sort((a: any, b: any) => b[1].count - a[1].count)
+    .sort((a: [string, FolderData], b: [string, FolderData]) => b[1].count - a[1].count)
     .slice(0, 5);
 
   const formatNumber = (num: number) => num.toLocaleString();
@@ -60,7 +65,7 @@ const Summary: React.FC<SummaryProps> = ({ data, hasIndexabilityData }) => {
                 </tr>
               </thead>
               <tbody>
-                {topFolders.map(([name, folder]: any) => {
+                {topFolders.map(([name, folder]: [string, FolderData]) => {
                   const nonIndexablePercentage =
                     hasIndexabilityData && folder.nonIndexableCount
                       ? ((folder.nonIndexableCount / folder.count) * 100).toFixed(2)

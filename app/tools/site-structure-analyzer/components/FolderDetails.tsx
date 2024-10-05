@@ -3,8 +3,18 @@ import { ChevronDown, ChevronRight, Info, Search } from 'lucide-react';
 import Tooltip from '@/app/components/Tooltip';
 import FolderCard from './FolderCard';
 
+interface FolderData {
+  count: number;
+  nonIndexableCount?: number;
+  sampleUrl: string;
+}
+
+interface FolderStructure {
+  [key: string]: FolderData;
+}
+
 interface FolderDetailsProps {
-  folderStructure: any;
+  folderStructure: FolderStructure;
   hasIndexabilityData: boolean;
 }
 
@@ -22,13 +32,13 @@ const FolderDetails: React.FC<FolderDetailsProps> = ({
 
   const foldersArray = useMemo(() => {
     return Object.entries(folderStructure)
-      .sort((a: any, b: any) => {
+      .sort((a: [string, FolderData], b: [string, FolderData]) => {
         if (a[0] === 'root') return -1;
         if (b[0] === 'root') return 1;
         return b[1].count - a[1].count;
       })
       .filter(
-        ([name, folder]: any) =>
+        ([name, folder]: [string, FolderData]) =>
           name.toLowerCase().includes(searchTerm.toLowerCase()) &&
           folder.count > folderThreshold
       );
@@ -86,7 +96,7 @@ const FolderDetails: React.FC<FolderDetailsProps> = ({
             <p className="text-gray-600">No matching folders found. Try adjusting your search or lowering the URL count threshold.</p>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {foldersArray.map(([name, folder]: any) => (
+              {foldersArray.map(([name, folder]: [string, FolderData]) => (
                 <FolderCard
                   key={name}
                   name={name}

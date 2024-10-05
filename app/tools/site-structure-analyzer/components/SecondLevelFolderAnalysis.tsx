@@ -7,7 +7,7 @@ interface SecondLevelFolderAnalysisProps {
     [key: string]: {
       count: number;
       nonIndexableCount?: number;
-      subfolders: { [key: string]: any };
+      subfolders: { [key: string]: number };
       sampleUrl: string;
     };
   };
@@ -24,7 +24,9 @@ const SecondLevelFolderAnalysis: React.FC<SecondLevelFolderAnalysisProps> = ({
   const [folderThreshold, setFolderThreshold] = useState<number>(500);
 
   const formatNumber = (num: number) => num.toLocaleString();
-  const truncate = (str: string, n: number) => (str.length > n ? str.substr(0, n - 1) + '...' : str);
+
+  // Remove the unused truncate function
+  // const truncate = (str: string, n: number) => (str.length > n ? str.substr(0, n - 1) + '...' : str);
 
   const toggleFolder = (folderName: string) => {
     setExpandedFolders((prev) => ({ ...prev, [folderName]: !prev[folderName] }));
@@ -56,7 +58,7 @@ const SecondLevelFolderAnalysis: React.FC<SecondLevelFolderAnalysisProps> = ({
       {isOpen && (
         <div className="mt-4 space-y-6">
           <p className="text-sm text-gray-600">
-            In this section, you can see the structure of second-level folders, their names, URL counts, and how many unique subfolders are under them. The table only shows folders with more than 500 URLs by default. Adjust the "Minimum URL threshold" to see more or fewer folders in the table. Your website has {totalFolders.toLocaleString()} folders, and you currently see {sortedFolders.length.toLocaleString()} folders in the table.
+            In this section, you can see the structure of second-level folders, their names, URL counts, and how many unique subfolders are under them. The table only shows folders with more than 500 URLs by default. Adjust the &quot;Minimum URL threshold&quot; to see more or fewer folders in the table. Your website has {totalFolders.toLocaleString()} folders, and you currently see {sortedFolders.length.toLocaleString()} folders in the table.
           </p>
           <div className="space-y-4">
             <div className="flex items-end space-x-4">

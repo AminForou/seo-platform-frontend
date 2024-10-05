@@ -1,10 +1,22 @@
 import React, { useState } from 'react';
 import { ChevronDown, ChevronRight } from 'lucide-react';
 
+interface SubfolderData {
+  count: number;
+  nonIndexableCount?: number;
+  sampleUrl: string;
+}
+
+interface FolderData {
+  count: number;
+  nonIndexableCount?: number;
+  sampleUrl: string;
+  subfolders: { [key: string]: SubfolderData };
+}
+
 interface FolderCardProps {
   name: string;
-  folder: any;
-  parentFolderCount: number;
+  folder: FolderData;
   hasIndexabilityData: boolean;
   formatNumber: (num: number) => string;
   truncate: (str: string, n: number) => string;
@@ -13,7 +25,6 @@ interface FolderCardProps {
 const FolderCard: React.FC<FolderCardProps> = ({
   name,
   folder,
-  parentFolderCount,
   hasIndexabilityData,
   formatNumber,
   truncate,
@@ -28,7 +39,7 @@ const FolderCard: React.FC<FolderCardProps> = ({
       : null;
 
   const sortedSubfolders = Object.entries(folder.subfolders || {}).sort(
-    (a: any, b: any) => b[1].count - a[1].count
+    ([, a]: [string, SubfolderData], [, b]: [string, SubfolderData]) => b.count - a.count
   );
 
   const visibleSubfolders = showAllSubfolders ? sortedSubfolders : sortedSubfolders.slice(0, 5);
@@ -81,7 +92,7 @@ const FolderCard: React.FC<FolderCardProps> = ({
                   </tr>
                 </thead>
                 <tbody>
-                  {visibleSubfolders.map(([subName, subFolder]: any) => {
+                  {visibleSubfolders.map(([subName, subFolder]: [string, SubfolderData]) => {
                     const subFolderNonIndexablePercentage =
                       hasIndexabilityData &&
                       subFolder.nonIndexableCount !== undefined &&

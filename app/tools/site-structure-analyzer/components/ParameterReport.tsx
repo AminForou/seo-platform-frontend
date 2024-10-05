@@ -2,8 +2,22 @@ import React, { useState, useMemo } from 'react';
 import { ChevronDown, ChevronRight, ExternalLink, Info, Search } from 'lucide-react';
 import Tooltip from '@/app/components/Tooltip';
 
+interface FolderData {
+  count: number;
+  sampleUrl: string;
+}
+
+interface ParameterData {
+  count: number;
+  folders: {
+    [key: string]: FolderData;
+  };
+}
+
 interface ParameterReportProps {
-  globalParams: any;
+  globalParams: {
+    [key: string]: ParameterData;
+  };
 }
 
 const ParameterReport: React.FC<ParameterReportProps> = ({ globalParams }) => {
@@ -20,9 +34,9 @@ const ParameterReport: React.FC<ParameterReportProps> = ({ globalParams }) => {
 
   const sortedParams = useMemo(() => {
     return Object.entries(globalParams)
-      .sort((a: any, b: any) => b[1].count - a[1].count)
+      .sort((a: [string, ParameterData], b: [string, ParameterData]) => b[1].count - a[1].count)
       .filter(
-        ([param, data]: any) =>
+        ([param, data]: [string, ParameterData]) =>
           param.toLowerCase().includes(searchTerm.toLowerCase()) &&
           data.count > paramThreshold
       );
@@ -89,15 +103,15 @@ const ParameterReport: React.FC<ParameterReportProps> = ({ globalParams }) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {sortedParams.map(([param, data]: any) => (
+                  {sortedParams.map(([param, data]: [string, ParameterData]) => (
                     <tr key={param} className="border-t hover:bg-gray-50">
                       <td className="p-2">?{param}</td>
                       <td className="text-right p-2">{formatNumber(data.count)}</td>
                       <td className="p-2">
                         {Object.entries(data.folders)
-                          .sort((a: any, b: any) => b[1].count - a[1].count)
+                          .sort((a: [string, FolderData], b: [string, FolderData]) => b[1].count - a[1].count)
                           .slice(0, 3)
-                          .map(([folder, folderData]: any, index: number) => (
+                          .map(([folder, folderData]: [string, FolderData], index: number) => (
                             <div key={folder} className={index > 0 ? 'mt-1' : ''}>
                               {folder}: {formatNumber(folderData.count)}
                               <br />
