@@ -31,6 +31,39 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <link rel="icon" href="/favicon.ico" sizes="any" />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              document.addEventListener('DOMContentLoaded', function () {
+                const faqItems = document.querySelectorAll('.faq-item');
+
+                faqItems.forEach((item) => {
+                  const questionButton = item.querySelector('.faq-question');
+                  const answer = item.querySelector('.faq-answer');
+                  const icon = item.querySelector('.faq-icon');
+
+                  questionButton.addEventListener('click', () => {
+                    const isOpen = answer.style.maxHeight && answer.style.maxHeight !== '0px';
+                    
+                    // Close all other items
+                    faqItems.forEach((i) => {
+                      i.querySelector('.faq-answer').style.maxHeight = null;
+                      i.querySelector('.faq-icon').style.transform = 'rotate(0deg)';
+                      i.querySelector('.faq-question span').classList.remove('faq-gradient-text');
+                    });
+
+                    // Toggle the current item
+                    if (!isOpen) {
+                      answer.style.maxHeight = answer.scrollHeight + 'px';
+                      icon.style.transform = 'rotate(180deg)';
+                      questionButton.querySelector('span').classList.add('faq-gradient-text');
+                    }
+                  });
+                });
+              });
+            `,
+          }}
+        />
       </head>
       <body className="flex flex-col min-h-screen">
         <Nav />

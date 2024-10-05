@@ -1,5 +1,5 @@
 import React from 'react';
-import { SelectedFields } from './types';
+import { SelectedFields } from '../types';
 
 interface DisplayOptionsSelectorProps {
   selectedFields: SelectedFields;

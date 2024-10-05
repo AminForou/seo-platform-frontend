@@ -9,6 +9,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faExternalLinkAlt,
   faDownload,
+  faClock,
+  faCodeBranch,
 } from '@fortawesome/free-solid-svg-icons';
 import UrlInput from './components/UrlInput';
 import AdvancedSettings from './components/AdvancedSettings';
@@ -281,6 +283,39 @@ export default function BulkUrlOpener() {
             <h2 className="text-2xl font-bold text-gray-900">Bulk URL Opener</h2>
           </div>
           <p className="text-center text-sm text-gray-500">Open multiple URLs with customizable settings</p>
+        </div>
+  
+        {/* New feature cards */}
+        <div className="mb-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="bg-white p-4 rounded-lg shadow-sm">
+              <div className="flex items-center mb-2">
+                <FontAwesomeIcon icon={faExternalLinkAlt} className="text-indigo-600 mr-2" size="lg" />
+                <h4 className="font-semibold">Bulk URL Opening</h4>
+              </div>
+              <p className="text-sm text-gray-600">
+                Open multiple URLs simultaneously. Set custom ranges and batch sizes for efficient processing of large URL lists.
+              </p>
+            </div>
+            <div className="bg-white p-4 rounded-lg shadow-sm">
+              <div className="flex items-center mb-2">
+                <FontAwesomeIcon icon={faClock} className="text-indigo-600 mr-2" size="lg" />
+                <h4 className="font-semibold">Customizable Delays</h4>
+              </div>
+              <p className="text-sm text-gray-600">
+                Set min and max delay times between URL openings to mimic human behavior and avoid triggering security measures.
+              </p>
+            </div>
+            <div className="bg-white p-4 rounded-lg shadow-sm">
+              <div className="flex items-center mb-2">
+                <FontAwesomeIcon icon={faCodeBranch} className="text-indigo-600 mr-2" size="lg" />
+                <h4 className="font-semibold">Advanced Features</h4>
+              </div>
+              <p className="text-sm text-gray-600">
+                Append UTM parameters, filter URLs, manage duplicates, and control concurrent openings for enhanced functionality.
+              </p>
+            </div>
+          </div>
         </div>
   
         <div className="space-y-4">

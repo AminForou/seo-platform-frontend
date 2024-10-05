@@ -1,8 +1,8 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCopy, faChevronDown, faChevronRight, faExternalLinkAlt, faArrowRight } from '@fortawesome/free-solid-svg-icons';
-import Tooltip from '../../components/Tooltip';
-import { SelectedFields } from './types';
+import Tooltip from '../../../components/Tooltip';
+import { SelectedFields } from '../types';
 
 interface RedirectStep {
   url: string;

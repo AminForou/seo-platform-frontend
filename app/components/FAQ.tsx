@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 
@@ -13,12 +13,6 @@ interface FAQProps {
 }
 
 const FAQ: React.FC<FAQProps> = ({ items, topic }) => {
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
-
-  const toggleQuestion = (index: number) => {
-    setOpenIndex(openIndex === index ? null : index);
-  };
-
   const title = topic
     ? `Frequently Asked Questions about ${topic}`
     : "Frequently Asked Questions";
@@ -33,31 +27,23 @@ const FAQ: React.FC<FAQProps> = ({ items, topic }) => {
           {items.map((item, index) => (
             <div 
               key={index} 
-              className={`border border-gray-200 rounded-xl overflow-hidden transition-shadow duration-300 ${
-                openIndex === index ? 'shadow-lg' : 'shadow-sm hover:shadow-md'
-              }`}
+              className="faq-item border border-gray-200 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300"
             >
               <dt className="text-base sm:text-lg">
                 <button
-                  onClick={() => toggleQuestion(index)}
-                  className="w-full px-4 sm:px-6 py-4 sm:py-6 flex justify-between items-start focus:outline-none"
+                  className="faq-question w-full px-4 sm:px-6 py-4 sm:py-6 flex justify-between items-start focus:outline-none"
+                  data-index={index}
                 >
-                  <span className={`font-medium text-left ${openIndex === index ? 'gradientText' : 'text-gray-900'}`}>
+                  <span className="font-medium text-left">
                     {item.question}
                   </span>
                   <FontAwesomeIcon
                     icon={faChevronDown}
-                    className={`h-4 w-4 sm:h-5 sm:w-5 text-[#2dbdad] transform transition-transform duration-300 flex-shrink-0 mt-1 ${
-                      openIndex === index ? 'rotate-180' : ''
-                    }`}
+                    className="faq-icon h-4 w-4 sm:h-5 sm:w-5 text-[#2dbdad] transform transition-transform duration-300 flex-shrink-0 mt-1"
                   />
                 </button>
               </dt>
-              <dd
-                className={`overflow-hidden transition-all duration-300 ease-in-out ${
-                  openIndex === index ? 'max-h-[1000px] gradient-border' : 'max-h-0'
-                }`}
-              >
+              <dd className="faq-answer overflow-hidden max-h-0 transition-all duration-300 ease-in-out gradient-border">
                 <p className="px-4 sm:px-6 py-4 sm:py-6 text-sm sm:text-base text-gray-600 leading-relaxed">{item.answer}</p>
               </dd>
             </div>
@@ -65,6 +51,7 @@ const FAQ: React.FC<FAQProps> = ({ items, topic }) => {
         </dl>
       </div>
     </section>
+    
   );
 };
 

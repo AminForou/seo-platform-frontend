@@ -2,16 +2,16 @@
 
 import React, { useState } from 'react';
 import axios from 'axios';
-import URLInput from './URLInput';
-import DisplayOptionsSelector from './DisplayOptionsSelector';
-import UserAgentSelector from './UserAgentSelector';
-import ResultsTable from './ResultTable';
-import ProgressBar from './ProgressBar';
+import URLInput from './components/URLInput';
+import DisplayOptionsSelector from './components/DisplayOptionsSelector';
+import UserAgentSelector from './components/UserAgentSelector';
+import ResultsTable from './components/ResultTable';
+import ProgressBar from './components/ProgressBar';
 import ErrorDisplay from '../../components/ErrorDisplay';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLink } from '@fortawesome/free-solid-svg-icons';
 import { SelectedFields, Result } from './types';
-import FAQ from '../../components/FAQ';
+import MiniCrawlerFaq from './components/MiniCrawlerFaq';
 
 export default function Tool() {
   const [urls, setUrls] = useState('');
@@ -180,29 +180,6 @@ export default function Tool() {
     return 'text-green-600';
   };
 
-  const faqItems = [
-    {
-      question: "What is a Batch URL Status Checker?",
-      answer: "A Batch URL Status Checker is a tool that allows you to check the status of multiple URLs simultaneously. It provides information such as HTTP status codes, redirect chains, and metadata for each URL."
-    },
-    {
-      question: "How many URLs can I check at once?",
-      answer: "The number of URLs you can check at once depends on the server's capacity. Generally, you can check up to 100 URLs in a single batch, but for best performance, we recommend checking 50 or fewer URLs at a time."
-    },
-    {
-      question: "What information does the tool provide?",
-      answer: "The tool provides various pieces of information including status code, redirect chain, response time, content type, meta title, meta description, and H1 tags. You can customize which fields to display in the results."
-    },
-    {
-      question: "How accurate is the tool?",
-      answer: "The tool provides real-time results based on the current state of the URLs. However, website statuses can change rapidly, so results may vary if you check the same URL at different times."
-    },
-    {
-      question: "Is there a limit to how often I can use the tool?",
-      answer: "There are no strict limits, but we encourage responsible use. If you need to check a very large number of URLs frequently, please contact us about our API or enterprise solutions."
-    }
-  ];
-
   return (
     <div className="min-h-screen bg-white">
       <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
@@ -275,9 +252,8 @@ export default function Tool() {
             )}
           </div>
         </div>
-        
-        <FAQ items={faqItems} topic="Batch URL Status Checker" />
       </main>
+      <MiniCrawlerFaq />
     </div>
   );
 }

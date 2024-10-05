@@ -27,10 +27,15 @@ body {
   }
 }
 
-
-
-
 .gradientText {
+  background: linear-gradient(90deg, #2dbdad 0%, #30a3c5 50%, #804cbd 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  display: inline-block;
+}
+
+.faq-gradient-text {
   background: linear-gradient(90deg, #2dbdad 0%, #30a3c5 50%, #804cbd 100%);
   -webkit-background-clip: text;
   background-clip: text;
@@ -194,4 +199,3 @@ input[type="checkbox"]:checked::before {
 .bg-purple-color:hover {
   background-color: #7344a9;
 }
-

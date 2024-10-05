@@ -1,6 +1,6 @@
 import React from 'react';
 import ExpandableRow from './ExpandableRow';
-import { SelectedFields, Result } from './types';
+import { SelectedFields, Result } from '../types';
 
 interface ResultsTableProps {
   results: Result[];
