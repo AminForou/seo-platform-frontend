@@ -74,7 +74,7 @@ export default function Nav() {
                     onMouseLeave={() => setIsDesktopDropdownOpen(false)}
                   >
                     <a
-                      href="/tools/tool"
+                      href="/tools/mini-crawler"
                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 transition-colors duration-150"
                     >
                       Mini Crawler
@@ -84,6 +84,12 @@ export default function Nav() {
                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 transition-colors duration-150"
                     >
                       Bulk URL Opener
+                    </a>
+                    <a
+                      href="/tools/site-structure-analyzer"
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 transition-colors duration-150"
+                    >
+                      Site Structure Analyzer
                     </a>
                   </div>
                 )}
@@ -127,7 +133,7 @@ export default function Nav() {
               {isMobileDropdownOpen && (
                 <div className="pl-4 mt-2">
                   <a
-                    href="/tools/tool"
+                    href="/tools/mini-crawler"
                     className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-100"
                   >
                     Mini Crawler
@@ -137,6 +143,12 @@ export default function Nav() {
                     className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-100"
                   >
                     Bulk URL Opener
+                  </a>
+                  <a
+                    href="/tools/site-structure-analyzer"
+                    className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-100"
+                  >
+                    Site Structure Analyzer
                   </a>
                 </div>
               )}
