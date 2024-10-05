@@ -74,7 +74,7 @@ const URLAnalysisDashboard: React.FC = () => {
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
-  const hasIndexabilityData = urlData?.indexabilityDataProvided;
+  const hasIndexabilityData = urlData?.indexabilityDataProvided ?? false;
 
   return (
     <div className="bg-gray-50 shadow rounded-lg p-6">
