@@ -13,11 +13,15 @@ interface FolderData {
   count: number;
   nonIndexableCount?: number;
   sampleUrl: string;
-  subfolders?: { [key: string]: FolderData };
+  subfolders: { [key: string]: FolderData }; // Make subfolders required
+}
+
+interface FolderStructure {
+  [key: string]: FolderData;
 }
 
 interface URLData {
-  folderStructure: { [key: string]: FolderData };
+  folderStructure: FolderStructure;
   secondLevelFolders: {
     [key: string]: {
       count: number;

@@ -7,6 +7,7 @@ interface FolderData {
   count: number;
   nonIndexableCount?: number;
   sampleUrl: string;
+  subfolders: any; // Add this line to include the 'subfolders' property
 }
 
 interface FolderStructure {

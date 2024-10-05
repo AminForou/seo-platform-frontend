@@ -20,6 +20,7 @@ interface FolderCardProps {
   hasIndexabilityData: boolean;
   formatNumber: (num: number) => string;
   truncate: (str: string, n: number) => string;
+  parentFolderCount: number; // Add this line to include the 'parentFolderCount' property
 }
 
 const FolderCard: React.FC<FolderCardProps> = ({
