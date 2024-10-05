@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { ChevronDown, ChevronRight, ChevronUp, Info, Search } from 'lucide-react';
+import { ChevronDown, ChevronRight, Info, Search } from 'lucide-react';
 import Tooltip from '@/app/components/Tooltip';
 import FolderCard from './FolderCard';
 
@@ -45,7 +45,7 @@ const FolderDetails: React.FC<FolderDetailsProps> = ({
       {isOpen && (
         <div className="mt-4 space-y-6">
           <p className="text-sm text-gray-600">
-            This section displays the structure of your website's folders, including URL counts and indexability data (if available). By default, it shows folders with more than 100 URLs. Adjust the "Minimum URL threshold" to see more or fewer folders. Your website has {totalFolders.toLocaleString()} folders, and you currently see {foldersArray.length.toLocaleString()} folders in the view.
+            This section displays the structure of your website&apos;s folders, including URL counts and indexability data (if available). By default, it shows folders with more than 100 URLs. Adjust the &quot;Minimum URL threshold&quot; to see more or fewer folders. Your website has {totalFolders.toLocaleString()} folders, and you currently see {foldersArray.length.toLocaleString()} folders in the view.
           </p>
           <div className="flex items-end space-x-4">
             <div className="flex-grow">

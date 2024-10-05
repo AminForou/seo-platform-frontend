@@ -100,7 +100,7 @@ export default function Home() {
                   Site Structure Analyzer
                 </h3>
                 <p className="mt-5 text-base text-gray-500">
-                  Analyze your website's structure and gain insights into your URL patterns and folder hierarchy.
+                  Analyze your website&apos;s structure and gain insights into your URL patterns and folder hierarchy.
                 </p>
                 <div className="mt-6">
                   <a

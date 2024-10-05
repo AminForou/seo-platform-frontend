@@ -1,6 +1,4 @@
 import React from 'react';
-import { Info } from 'lucide-react';
-import Tooltip from '@/app/components/Tooltip';
 
 interface SummaryProps {
   data: any;

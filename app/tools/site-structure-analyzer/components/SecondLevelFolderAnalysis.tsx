@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { ChevronDown, ChevronRight, ChevronUp, Info, Search } from 'lucide-react';
+import { ChevronDown, ChevronRight, Info, Search } from 'lucide-react';
 import Tooltip from '@/app/components/Tooltip';
 
 interface SecondLevelFolderAnalysisProps {

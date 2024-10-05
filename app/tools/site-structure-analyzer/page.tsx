@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import URLAnalysisDashboard from './URLAnalysisDashboard';
 import FAQ from '../../components/FAQ';
 

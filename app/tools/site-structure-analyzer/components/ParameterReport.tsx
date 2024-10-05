@@ -39,7 +39,7 @@ const ParameterReport: React.FC<ParameterReportProps> = ({ globalParams }) => {
       {isOpen && (
         <div className="mt-4 space-y-6">
           <p className="text-sm text-gray-600">
-            This section displays URL parameters found across your website, their frequency, and the top folders where they appear. Adjust the "Minimum occurrence threshold" to see more or fewer parameters. Your website has {totalParams.toLocaleString()} unique parameters, and you currently see {sortedParams.length.toLocaleString()} parameters in the table.
+            This section displays URL parameters found across your website, their frequency, and the top folders where they appear. Adjust the &quot;Minimum occurrence threshold&quot; to see more or fewer parameters. Your website has {totalParams.toLocaleString()} unique parameters, and you currently see {sortedParams.length.toLocaleString()} parameters in the table.
           </p>
           <div className="flex items-end space-x-4">
             <div className="flex-grow">

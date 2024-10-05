@@ -58,7 +58,7 @@ const URLAnalysisDashboard: React.FC = () => {
           <h1 className="text-2xl font-bold text-gray-900">URL Analysis Dashboard</h1>
         </div>
         <p className="text-center text-sm text-gray-500">
-          Analyze and visualize your site's URL structure
+          Analyze and visualize your site&apos;s URL structure
         </p>
       </div>
 

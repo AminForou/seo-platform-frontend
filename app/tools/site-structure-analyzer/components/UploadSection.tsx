@@ -1,7 +1,6 @@
 import React from 'react';
 import { FileUp, Info, BarChart2, FileText, Layers } from 'lucide-react';
 import { DropzoneRootProps, DropzoneInputProps } from 'react-dropzone';
-import Tooltip from '@/app/components/Tooltip';
 
 interface UploadSectionProps {
   isDragActive: boolean;
