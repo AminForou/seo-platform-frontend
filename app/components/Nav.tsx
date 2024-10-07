@@ -91,6 +91,12 @@ export default function Nav() {
                     >
                       Site Structure Analyzer
                     </a>
+                    <a
+                      href="/tools/robots-txt-analyzer"
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 transition-colors duration-150"
+                    >
+                      Robots.txt Analyzer
+                    </a>
                   </div>
                 )}
               </li>
@@ -149,6 +155,12 @@ export default function Nav() {
                     className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-100"
                   >
                     Site Structure Analyzer
+                  </a>
+                  <a
+                    href="/tools/robots-txt-analyzer"
+                    className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-100"
+                  >
+                    Robots.txt Analyzer
                   </a>
                 </div>
               )}

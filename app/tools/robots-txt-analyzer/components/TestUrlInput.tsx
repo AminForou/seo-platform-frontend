@@ -2,7 +2,10 @@
 
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimes, faPlus, faFileAlt, faLink, faRobot, faInfoCircle, faSearch, faFilter } from '@fortawesome/free-solid-svg-icons';
+import Tooltip from '../../../components/Tooltip';
 
 interface TestUrlInputProps {
   availableUserAgents?: string[];
@@ -20,22 +23,22 @@ interface TestResult {
 
 const TestUrlInput: React.FC<TestUrlInputProps> = ({ availableUserAgents = [] }) => {
   const [urls, setUrls] = useState('');
-  const [userAgents, setUserAgents] = useState<string[]>(['Googlebot', 'Bingbot']);
-  const [customUserAgent, setCustomUserAgent] = useState('');
+  const [googlebot, setGooglebot] = useState(true);
+  const [bingbot, setBingbot] = useState(true);
+  const [customUserAgents, setCustomUserAgents] = useState<string[]>([]);
+  const [newUserAgent, setNewUserAgent] = useState('');
   const [robotsContents, setRobotsContents] = useState<string[]>(['']); // Start with one robots.txt
   const [results, setResults] = useState<TestResult[]>([]);
   const [filter, setFilter] = useState('all');
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const lineNumbersRef = useRef<HTMLDivElement>(null);
+  const [robotsUserAgents, setRobotsUserAgents] = useState<{ [key: string]: boolean }>({});
 
   const handleTest = async () => {
-    const agents = [...userAgents];
-    if (customUserAgent) {
-      agents.push(customUserAgent);
-    }
-
     const data = {
       robots_contents: robotsContents.filter(content => content.trim() !== ''),
       test_urls: urls.split('\n').map((url) => url.trim()).filter(Boolean),
-      user_agents: agents,
+      user_agents: allUserAgents,
     };
 
     try {
@@ -82,22 +85,27 @@ const TestUrlInput: React.FC<TestUrlInputProps> = ({ availableUserAgents = [] })
     return true;
   });
 
-  const handleUserAgentChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const options = e.target.options;
-    const selectedAgents: string[] = [];
-    for (let i = 0; i < options.length; i++) {
-      if (options[i].selected) {
-        selectedAgents.push(options[i].value);
-      }
-    }
-    setUserAgents(selectedAgents);
-  };
-
   const handleRobotsContentChange = (index: number, value: string) => {
     const newContents = [...robotsContents];
     newContents[index] = value;
     setRobotsContents(newContents);
   };
+
+  const updateRobotsLineNumbers = (index: number) => {
+    const textarea = document.getElementById(`robots-textarea-${index}`);
+    const lineNumbers = document.getElementById(`robots-line-numbers-${index}`);
+    if (textarea && lineNumbers) {
+      const lines = robotsContents[index].split('\n');
+      const numbers = lines.map((_, i) => i + 1);
+      lineNumbers.innerHTML = numbers
+        .map((num) => `<div>${num}</div>`)
+        .join('');
+    }
+  };
+
+  useEffect(() => {
+    robotsContents.forEach((_, index) => updateRobotsLineNumbers(index));
+  }, [robotsContents]);
 
   const addRobotsContent = () => {
     setRobotsContents([...robotsContents, '']);
@@ -109,118 +117,358 @@ const TestUrlInput: React.FC<TestUrlInputProps> = ({ availableUserAgents = [] })
     setRobotsContents(newContents);
   };
 
+  const handleScroll = () => {
+    if (textareaRef.current && lineNumbersRef.current) {
+      lineNumbersRef.current.scrollTop = textareaRef.current.scrollTop;
+    }
+  };
+
+  const updateLineNumbers = () => {
+    if (textareaRef.current && lineNumbersRef.current) {
+      const lines = urls.split('\n');
+      const lineNumbers = lines.map((_, index) => index + 1);
+      lineNumbersRef.current.innerHTML = lineNumbers
+        .map((lineNumber) => `<div>${lineNumber}</div>`)
+        .join('');
+    }
+  };
+
+  useEffect(() => {
+    updateLineNumbers();
+  }, [urls]);
+
+  const handleAddUserAgent = () => {
+    if (newUserAgent) {
+      const agents = newUserAgent.split(',').map(agent => agent.trim()).filter(Boolean);
+      const newAgents = agents.filter(agent => !customUserAgents.includes(agent));
+      setCustomUserAgents(prev => [...prev, ...newAgents]);
+      setNewUserAgent('');
+    }
+  };
+
+  const handleRemoveUserAgent = (agent: string) => {
+    setCustomUserAgents(prev => prev.filter(a => a !== agent));
+  };
+
+  const allUserAgents = [
+    ...(googlebot ? ['Googlebot'] : []),
+    ...(bingbot ? ['Bingbot'] : []),
+    ...customUserAgents,
+    ...Object.entries(robotsUserAgents)
+      .filter(([_, isActive]) => isActive)
+      .map(([agent]) => agent)
+  ];
+
+  useEffect(() => {
+    const extractUserAgents = () => {
+      const userAgentRegex = /User-agent:\s*(.+)/gi;
+      const extractedAgents: { [key: string]: boolean } = {};
+      
+      robotsContents.forEach(content => {
+        let match;
+        while ((match = userAgentRegex.exec(content)) !== null) {
+          const agent = match[1].trim();
+          if (!(agent in extractedAgents)) {
+            extractedAgents[agent] = true;
+          }
+        }
+      });
+
+      setRobotsUserAgents(extractedAgents);
+    };
+
+    extractUserAgents();
+  }, [robotsContents]);
+
+  const toggleRobotsUserAgent = (agent: string) => {
+    setRobotsUserAgents(prev => ({
+      ...prev,
+      [agent]: !prev[agent]
+    }));
+  };
+
   return (
-    <div className="mb-4">
-      <h2 className="text-xl font-semibold">Test URLs Against robots.txt Files</h2>
-      <div className="flex flex-col mb-2">
-        <label className="mb-1">Enter robots.txt content:</label>
+    <div className="mb-8">
+      <div className="mb-6">
+        <h2 className="text-2xl font-bold text-gray-800 mb-2 flex items-center">
+          <FontAwesomeIcon icon={faRobot} className="mr-3 text-indigo-600" />
+          URL Tester
+        </h2>
+        <p className="text-gray-600 mb-4">
+          Test URLs against robots.txt files to check crawling permissions.
+        </p>
+        <div className="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-md">
+          <h3 className="text-lg font-semibold text-blue-800 mb-2 flex items-center">
+            <FontAwesomeIcon icon={faInfoCircle} className="mr-2" />
+            How to use:
+          </h3>
+          <ol className="list-decimal list-inside text-blue-700 space-y-1">
+            <li>Enter or paste your robots.txt content</li>
+            <li>Input the URLs you want to test</li>
+            <li>Select the user agents to check against</li>
+            <li>Click "Test URLs" to see the results</li>
+          </ol>
+        </div>
+      </div>
+
+      <div className="mb-6">
+        <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center">
+          <FontAwesomeIcon icon={faFileAlt} className="mr-2" />
+          robots.txt Content
+        </label>
         {robotsContents.map((content, index) => (
-          <div key={index} className="mb-2">
-            <textarea
-              value={content}
-              onChange={(e) => handleRobotsContentChange(index, e.target.value)}
-              className="border p-2 h-32 w-full"
-              placeholder={`robots.txt content ${index + 1}`}
-            ></textarea>
-            {index > 0 && (
-              <button
-                onClick={() => removeRobotsContent(index)}
-                className="bg-red-500 text-white px-2 py-1 mt-1"
-              >
-                Remove
-              </button>
-            )}
+          <div key={index} className="mb-4">
+            <div className="flex justify-between items-center mb-1">
+              <div className="text-sm text-gray-500">
+                {index > 0 ? `robots.txt #${index + 1}` : 'robots.txt'}
+              </div>
+              {index > 0 && (
+                <button
+                  onClick={() => removeRobotsContent(index)}
+                  className="text-gray-600 hover:text-gray-800 transition-colors duration-300"
+                >
+                  <FontAwesomeIcon icon={faTimes} className="mr-1" /> Remove
+                </button>
+              )}
+            </div>
+            <div className="relative">
+              <textarea
+                id={`robots-textarea-${index}`}
+                value={content}
+                onChange={(e) => handleRobotsContentChange(index, e.target.value)}
+                onScroll={(e) => {
+                  const lineNumbers = document.getElementById(`robots-line-numbers-${index}`);
+                  if (lineNumbers) lineNumbers.scrollTop = e.currentTarget.scrollTop;
+                }}
+                className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 pl-8"
+                placeholder={`Enter robots.txt content ${index + 1}`}
+                rows={10}
+                style={{
+                  whiteSpace: 'pre',
+                  overflowWrap: 'normal',
+                  overflowX: 'auto',
+                  fontFamily: 'monospace',
+                  fontSize: '14px',
+                  lineHeight: '1.5',
+                  resize: 'vertical',
+                  paddingLeft: '3rem',
+                  paddingTop: '8px',
+                }}
+              ></textarea>
+              <div
+                id={`robots-line-numbers-${index}`}
+                className="absolute top-0 left-0 bg-gray-100 rounded-l-md p-2 select-none"
+                style={{
+                  fontFamily: 'monospace',
+                  fontSize: '14px',
+                  lineHeight: '1.5',
+                  width: '2.5rem',
+                  height: '100%',
+                  overflow: 'hidden',
+                  textAlign: 'right',
+                  userSelect: 'none',
+                  paddingTop: '8px',
+                }}
+              ></div>
+            </div>
           </div>
         ))}
         <button
           onClick={addRobotsContent}
-          className="bg-gray-500 text-white px-4 py-2 mb-4 mt-2"
+          className="text-indigo-600 hover:text-indigo-800 text-sm font-medium flex items-center transition-colors duration-200 mb-4"
         >
+          <FontAwesomeIcon icon={faPlus} className="mr-2" />
           Add another robots.txt
         </button>
       </div>
-      {/* Rest of the component remains the same */}
-      <div className="flex flex-col mb-2">
-        <label className="mb-1">URLs to Test (one per line):</label>
-        <textarea
-          value={urls}
-          onChange={(e) => setUrls(e.target.value)}
-          className="border p-2 h-32"
-          placeholder="https://www.example.com/page1"
-        ></textarea>
+
+      <div className="mb-6">
+        <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center">
+          <FontAwesomeIcon icon={faLink} className="mr-2" />
+          URLs to Test
+        </label>
+        <div className="relative">
+          <textarea
+            ref={textareaRef}
+            value={urls}
+            onChange={(e) => setUrls(e.target.value)}
+            onScroll={handleScroll}
+            className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 pl-8"
+            placeholder="Enter URLs to test, one per line"
+            rows={10}
+            style={{
+              whiteSpace: 'pre',
+              overflowWrap: 'normal',
+              overflowX: 'auto',
+              fontFamily: 'monospace',
+              fontSize: '14px',
+              lineHeight: '1.5',
+              resize: 'vertical',
+              paddingLeft: '3rem',
+              paddingTop: '8px',
+            }}
+          ></textarea>
+          <div
+            ref={lineNumbersRef}
+            className="absolute top-0 left-0 bg-gray-100 rounded-l-md p-2 select-none"
+            style={{
+              fontFamily: 'monospace',
+              fontSize: '14px',
+              lineHeight: '1.5',
+              width: '2.5rem',
+              height: '100%',
+              overflow: 'hidden',
+              textAlign: 'right',
+              userSelect: 'none',
+              paddingTop: '8px',
+            }}
+          ></div>
+        </div>
       </div>
-      <div className="flex flex-col mb-2">
-        <label className="mb-1">Select User Agents:</label>
-        <select
-          multiple
-          value={userAgents}
-          onChange={handleUserAgentChange}
-          className="border p-2 h-32"
-        >
-          <option value="Googlebot">Googlebot</option>
-          <option value="Bingbot">Bingbot</option>
-          {Array.from(new Set(availableUserAgents)).map((agent, index) => (
-            <option key={index} value={agent}>
+
+      <div className="mb-6">
+        <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center">
+          <FontAwesomeIcon icon={faRobot} className="mr-2" />
+          User Agents
+          <Tooltip content="Select user agents to test against the robots.txt files. Blue tags are extracted from the robots.txt content.">
+            <FontAwesomeIcon icon={faInfoCircle} className="ml-2 text-gray-400 hover:text-gray-600 cursor-pointer" />
+          </Tooltip>
+        </label>
+        <div className="flex flex-wrap gap-2 mb-2">
+          <button
+            onClick={() => setGooglebot(!googlebot)}
+            className={`px-3 py-1 rounded-full ${
+              googlebot ? 'bg-green-color text-white' : 'bg-gray-200 text-gray-700'
+            } transition-colors duration-300`}
+          >
+            Googlebot
+          </button>
+          <button
+            onClick={() => setBingbot(!bingbot)}
+            className={`px-3 py-1 rounded-full ${
+              bingbot ? 'bg-green-color text-white' : 'bg-gray-200 text-gray-700'
+            } transition-colors duration-300`}
+          >
+            Bingbot
+          </button>
+          {Object.entries(robotsUserAgents).map(([agent, isActive]) => (
+            <button
+              key={agent}
+              onClick={() => toggleRobotsUserAgent(agent)}
+              className={`px-3 py-1 rounded-full ${
+                isActive ? 'bg-[#30a3c5] text-white' : 'bg-gray-200 text-gray-700'
+              } transition-colors duration-300`}
+            >
               {agent}
-            </option>
+            </button>
           ))}
-        </select>
+          {customUserAgents.map((agent) => (
+            <div key={agent} className="bg-green-100 text-green-800 rounded-full px-3 py-1 flex items-center space-x-2">
+              <span>{agent}</span>
+              <button
+                onClick={() => handleRemoveUserAgent(agent)}
+                className="text-green-500 hover:text-green-700"
+              >
+                <FontAwesomeIcon icon={faTimes} />
+              </button>
+            </div>
+          ))}
+        </div>
+        <div className="mt-4">
+          <label htmlFor="newUserAgent" className="block text-sm font-medium text-gray-700 mb-2">
+            Add Custom User Agent(s)
+          </label>
+          <div className="flex items-center space-x-2">
+            <input
+              id="newUserAgent"
+              type="text"
+              value={newUserAgent}
+              onChange={(e) => setNewUserAgent(e.target.value)}
+              className="w-full border rounded-md p-2"
+              placeholder="e.g., Googlebot-Image, Googlebot-News, AdsBot-Google (comma-separated for multiple)"
+            />
+            <button
+              onClick={handleAddUserAgent}
+              className="bg-green-color text-white px-4 py-2 rounded-md hover:bg-green-color transition-colors duration-300"
+            >
+              Add
+            </button>
+          </div>
+        </div>
       </div>
-      <div className="flex flex-col mb-2">
-        <label className="mb-1">Enter Custom User Agent:</label>
-        <input
-          type="text"
-          value={customUserAgent}
-          onChange={(e) => setCustomUserAgent(e.target.value)}
-          className="border p-2"
-          placeholder="Enter custom user agent"
-        />
-      </div>
-      <div className="flex items-center mb-2">
-        <label className="mr-2">Filter Results:</label>
-        <select
-          value={filter}
-          onChange={(e) => setFilter(e.target.value)}
-          className="border p-2"
-        >
-          <option value="all">All</option>
-          <option value="allowed">Allowed URLs</option>
-          <option value="disallowed">Disallowed URLs</option>
-        </select>
-      </div>
+
       <button
         onClick={handleTest}
-        className="bg-blue-500 text-white px-4 py-2 mb-4"
+        className="w-full gradientButton px-6 py-3 rounded-lg font-semibold text-white flex items-center justify-center transition-all duration-300 ease-in-out mb-6"
       >
+        <FontAwesomeIcon icon={faSearch} className="mr-2" />
         Test URLs
       </button>
+
       {results.length > 0 && (
-        <table className="min-w-full bg-white">
-          <thead>
-            <tr>
-              <th className="py-2 px-4 border-b">URL</th>
-              {robotsContents.map((_, idx) => (
-                <th key={idx} className="py-2 px-4 border-b">robots.txt {idx + 1}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {filteredResults.map((result, index) => (
-              <tr key={index}>
-                <td className="py-2 px-4 border-b">{result.url}</td>
-                {result.robots_results.map((robotsResult, idx) => (
-                  <td key={idx} className="py-2 px-4 border-b">
-                    {userAgents.concat(customUserAgent ? [customUserAgent] : []).map((agent, agentIdx) => (
-                      <div key={agentIdx}>
-                        {agent}: {robotsResult.results[agent] ? 'Allowed' : 'Disallowed'}
-                      </div>
+        <div className="mt-12 bg-white p-6 rounded-lg shadow-md">
+          <h3 className="text-xl font-semibold text-gray-800 mb-4 flex items-center">
+            <FontAwesomeIcon icon={faLink} className="mr-3 text-green-600" />
+            URL Testing Results
+          </h3>
+          <div className="flex justify-between items-center mb-4">
+            <div className="relative inline-block text-left">
+              <label htmlFor="filter-select" className="block text-sm font-medium text-gray-700 mb-1">
+                Filter Results:
+              </label>
+              <div className="relative">
+                <select
+                  id="filter-select"
+                  value={filter}
+                  onChange={(e) => setFilter(e.target.value)}
+                  className="block appearance-none w-full bg-white border border-gray-300 hover:border-gray-400 px-4 py-2 pr-8 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                >
+                  <option value="all">All URLs</option>
+                  <option value="allowed">Allowed URLs</option>
+                  <option value="disallowed">Disallowed URLs</option>
+                </select>
+                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                  <FontAwesomeIcon icon={faFilter} />
+                </div>
+              </div>
+            </div>
+            <div className="text-sm text-gray-600">
+              Showing {filteredResults.length} out of {results.length} URLs
+              {filter !== 'all' && ` (filtered by ${filter} status)`}
+            </div>
+          </div>
+          <div className="overflow-x-auto shadow-md rounded-lg">
+            <table className="min-w-full bg-white">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">URL</th>
+                  {robotsContents.map((_, idx) => (
+                    <th key={idx} className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      robots.txt {idx + 1}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-200">
+                {filteredResults.map((result, index) => (
+                  <tr key={index} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
+                    <td className="py-4 px-4 text-sm text-gray-900 font-medium">{result.url}</td>
+                    {result.robots_results.map((robotsResult, idx) => (
+                      <td key={idx} className="py-4 px-4">
+                        {allUserAgents.map((agent, agentIdx) => (
+                          <div key={agentIdx} className="flex items-center mb-1 last:mb-0">
+                            <span className={`inline-block w-3 h-3 rounded-full mr-2 ${robotsResult.results[agent] ? 'bg-green-500' : 'bg-red-500'}`}></span>
+                            <span className="text-sm text-gray-700">{agent}: {robotsResult.results[agent] ? 'Allowed' : 'Disallowed'}</span>
+                          </div>
+                        ))}
+                      </td>
                     ))}
-                  </td>
+                  </tr>
                 ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
+              </tbody>
+            </table>
+          </div>
+        </div>
       )}
     </div>
   );

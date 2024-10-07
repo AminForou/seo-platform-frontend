@@ -2,7 +2,7 @@
 
 import { Metadata } from 'next';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faLink, faToolbox, faLightbulb, faExternalLinkAlt, faProjectDiagram } from '@fortawesome/free-solid-svg-icons';
+import { faLink, faToolbox, faLightbulb, faExternalLinkAlt, faProjectDiagram, faRobot } from '@fortawesome/free-solid-svg-icons';
 import '@fortawesome/fontawesome-svg-core/styles.css'; // Import the CSS
 import './fontawesome'; // Import FontAwesome configuration
 
@@ -108,6 +108,33 @@ export default function Home() {
                     className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-[#4a5568] hover:bg-[#2d3748] transition-colors duration-300"
                   >
                     Analyze Structure
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Robots.txt Analyzer */}
+          <div className="pt-6">
+            <div className="flow-root bg-[#f9fafb] rounded-lg px-6 pb-8 shadow-md hover:shadow-lg transition-shadow duration-300">
+              <div className="-mt-6">
+                <div>
+                  <span className="inline-flex items-center justify-center p-3 rounded-md shadow-lg bg-[#6366f1]">
+                    <FontAwesomeIcon icon={faRobot} className="h-6 w-6 text-white" />
+                  </span>
+                </div>
+                <h3 className="mt-8 text-lg font-medium text-gray-900 tracking-tight">
+                  Robots.txt Analyzer
+                </h3>
+                <p className="mt-5 text-base text-gray-500">
+                  Analyze and optimize your robots.txt file for better SEO and crawl efficiency.
+                </p>
+                <div className="mt-6">
+                  <a
+                    href="/tools/robots-txt-analyzer"
+                    className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-[#6366f1] hover:bg-[#4f46e5] transition-colors duration-300"
+                  >
+                    Analyze Robots.txt
                   </a>
                 </div>
               </div>
