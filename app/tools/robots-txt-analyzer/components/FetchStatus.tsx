@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { CheckCircle, AlertTriangle, Info, HelpCircle, LucideIcon } from 'lucide-react';
+import { CheckCircle, AlertTriangle, Info, LucideIcon } from 'lucide-react';
 
 interface FetchStatusProps {
   status: number | null;
