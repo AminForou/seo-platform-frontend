@@ -3,12 +3,15 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimes, faPlus, faFileAlt, faLink, faRobot, faInfoCircle, faSearch, faFilter } from '@fortawesome/free-solid-svg-icons';
+import { Bot, Link, Search, X, Plus, FileText, Info, Filter } from 'lucide-react';
 import Tooltip from '../../../components/Tooltip';
 
 interface TestUrlInputProps {
   availableUserAgents?: string[];
+  urls: string;
+  robotsContents: string[];
+  onUrlsChange: (urls: string) => void;
+  onRobotsContentsChange: (robotsContents: string[]) => void;
 }
 
 interface TestResult {
@@ -21,13 +24,17 @@ interface TestResult {
   }[];
 }
 
-const TestUrlInput: React.FC<TestUrlInputProps> = ({ availableUserAgents = [] }) => {
-  const [urls, setUrls] = useState('');
+const TestUrlInput: React.FC<TestUrlInputProps> = ({
+  availableUserAgents = [],
+  urls,
+  robotsContents,
+  onUrlsChange,
+  onRobotsContentsChange
+}) => {
   const [googlebot, setGooglebot] = useState(true);
   const [bingbot, setBingbot] = useState(true);
   const [customUserAgents, setCustomUserAgents] = useState<string[]>([]);
   const [newUserAgent, setNewUserAgent] = useState('');
-  const [robotsContents, setRobotsContents] = useState<string[]>(['']); // Start with one robots.txt
   const [results, setResults] = useState<TestResult[]>([]);
   const [filter, setFilter] = useState('all');
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -88,7 +95,7 @@ const TestUrlInput: React.FC<TestUrlInputProps> = ({ availableUserAgents = [] })
   const handleRobotsContentChange = (index: number, value: string) => {
     const newContents = [...robotsContents];
     newContents[index] = value;
-    setRobotsContents(newContents);
+    onRobotsContentsChange(newContents);
   };
 
   const updateRobotsLineNumbers = (index: number) => {
@@ -108,13 +115,13 @@ const TestUrlInput: React.FC<TestUrlInputProps> = ({ availableUserAgents = [] })
   }, [robotsContents]);
 
   const addRobotsContent = () => {
-    setRobotsContents([...robotsContents, '']);
+    onRobotsContentsChange([...robotsContents, '']);
   };
 
   const removeRobotsContent = (index: number) => {
     const newContents = [...robotsContents];
     newContents.splice(index, 1);
-    setRobotsContents(newContents);
+    onRobotsContentsChange(newContents);
   };
 
   const handleScroll = () => {
@@ -191,7 +198,6 @@ const TestUrlInput: React.FC<TestUrlInputProps> = ({ availableUserAgents = [] })
     <div className="mb-8">
       <div className="mb-6">
         <h2 className="text-2xl font-bold text-gray-800 mb-2 flex items-center">
-          <FontAwesomeIcon icon={faRobot} className="mr-3 text-indigo-600" />
           URL Tester
         </h2>
         <p className="text-gray-600 mb-4">
@@ -199,7 +205,7 @@ const TestUrlInput: React.FC<TestUrlInputProps> = ({ availableUserAgents = [] })
         </p>
         <div className="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-md">
           <h3 className="text-lg font-semibold text-blue-800 mb-2 flex items-center">
-            <FontAwesomeIcon icon={faInfoCircle} className="mr-2" />
+            <Info className="mr-2" size={20} />
             How to use:
           </h3>
           <ol className="list-decimal list-inside text-blue-700 space-y-1">
@@ -213,7 +219,7 @@ const TestUrlInput: React.FC<TestUrlInputProps> = ({ availableUserAgents = [] })
 
       <div className="mb-6">
         <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center">
-          <FontAwesomeIcon icon={faFileAlt} className="mr-2" />
+          <FileText className="mr-2" size={20} />
           robots.txt Content
         </label>
         {robotsContents.map((content, index) => (
@@ -227,7 +233,7 @@ const TestUrlInput: React.FC<TestUrlInputProps> = ({ availableUserAgents = [] })
                   onClick={() => removeRobotsContent(index)}
                   className="text-gray-600 hover:text-gray-800 transition-colors duration-300"
                 >
-                  <FontAwesomeIcon icon={faTimes} className="mr-1" /> Remove
+                  <X className="mr-1" size={16} /> Remove
                 </button>
               )}
             </div>
@@ -277,21 +283,21 @@ const TestUrlInput: React.FC<TestUrlInputProps> = ({ availableUserAgents = [] })
           onClick={addRobotsContent}
           className="text-indigo-600 hover:text-indigo-800 text-sm font-medium flex items-center transition-colors duration-200 mb-4"
         >
-          <FontAwesomeIcon icon={faPlus} className="mr-2" />
+          <Plus className="mr-2" size={16} />
           Add another robots.txt
         </button>
       </div>
 
       <div className="mb-6">
         <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center">
-          <FontAwesomeIcon icon={faLink} className="mr-2" />
+          <Link className="mr-2" size={20} />
           URLs to Test
         </label>
         <div className="relative">
           <textarea
             ref={textareaRef}
             value={urls}
-            onChange={(e) => setUrls(e.target.value)}
+            onChange={(e) => onUrlsChange(e.target.value)}
             onScroll={handleScroll}
             className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 pl-8"
             placeholder="Enter URLs to test, one per line"
@@ -328,10 +334,10 @@ const TestUrlInput: React.FC<TestUrlInputProps> = ({ availableUserAgents = [] })
 
       <div className="mb-6">
         <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center">
-          <FontAwesomeIcon icon={faRobot} className="mr-2" />
+          <Bot className="mr-2" size={20} />
           User Agents
           <Tooltip content="Select user agents to test against the robots.txt files. Blue tags are extracted from the robots.txt content.">
-            <FontAwesomeIcon icon={faInfoCircle} className="ml-2 text-gray-400 hover:text-gray-600 cursor-pointer" />
+            <Info className="ml-2 text-gray-400 hover:text-gray-600 cursor-pointer" size={16} />
           </Tooltip>
         </label>
         <div className="flex flex-wrap gap-2 mb-2">
@@ -369,7 +375,7 @@ const TestUrlInput: React.FC<TestUrlInputProps> = ({ availableUserAgents = [] })
                 onClick={() => handleRemoveUserAgent(agent)}
                 className="text-green-500 hover:text-green-700"
               >
-                <FontAwesomeIcon icon={faTimes} />
+                <X size={16} />
               </button>
             </div>
           ))}
@@ -401,16 +407,13 @@ const TestUrlInput: React.FC<TestUrlInputProps> = ({ availableUserAgents = [] })
         onClick={handleTest}
         className="w-full gradientButton px-6 py-3 rounded-lg font-semibold text-white flex items-center justify-center transition-all duration-300 ease-in-out mb-6"
       >
-        <FontAwesomeIcon icon={faSearch} className="mr-2" />
+        <Link className="mr-2" size={20} />
         Test URLs
       </button>
 
       {results.length > 0 && (
-        <div className="mt-12 bg-white p-6 rounded-lg shadow-md">
-          <h3 className="text-xl font-semibold text-gray-800 mb-4 flex items-center">
-            <FontAwesomeIcon icon={faLink} className="mr-3 text-green-600" />
-            URL Testing Results
-          </h3>
+        <div className="mt-8">
+          <h3 className="text-xl font-semibold mb-4">Test Results</h3>
           <div className="flex justify-between items-center mb-4">
             <div className="relative inline-block text-left">
               <label htmlFor="filter-select" className="block text-sm font-medium text-gray-700 mb-1">
@@ -428,7 +431,7 @@ const TestUrlInput: React.FC<TestUrlInputProps> = ({ availableUserAgents = [] })
                   <option value="disallowed">Disallowed URLs</option>
                 </select>
                 <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                  <FontAwesomeIcon icon={faFilter} />
+                  <Filter size={16} />
                 </div>
               </div>
             </div>

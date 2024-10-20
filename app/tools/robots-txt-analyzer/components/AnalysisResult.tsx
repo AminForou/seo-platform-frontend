@@ -3,8 +3,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronDown, faChevronUp, faRobot, faSitemap, faInfoCircle, faList } from '@fortawesome/free-solid-svg-icons';
+import { List, Network, ChevronDown, ChevronUp, Bot, FileText } from 'lucide-react';
 
 interface Rule {
   path: string;
@@ -56,8 +55,8 @@ const AnalysisResult: React.FC<AnalysisResultProps> = ({ data }) => {
       <h2 className="text-2xl font-bold mb-6">Robots.txt Analysis Report</h2>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        <StatCard title="User-agents" value={data.stats.total_user_agents} icon={faRobot} />
-        <StatCard title="Total Rules" value={data.stats.total_rules} icon={faInfoCircle} />
+        <StatCard title="User-agents" value={data.stats.total_user_agents} icon={Bot} />
+        <StatCard title="Total Rules" value={data.stats.total_rules} icon={FileText} />
         <StatCard 
           title="Disallow Rules" 
           value={data.stats.total_disallow_rules} 
@@ -72,7 +71,7 @@ const AnalysisResult: React.FC<AnalysisResultProps> = ({ data }) => {
 
       <div className="mb-8">
         <h3 className="text-xl font-semibold mb-4 flex items-center">
-          <FontAwesomeIcon icon={faList} className="mr-2" />
+          <List className="mr-2 text-[#804cbd]" size={24} />
           User-agent Rules
         </h3>
         {data.agents.map((entry, index) => (
@@ -81,12 +80,17 @@ const AnalysisResult: React.FC<AnalysisResultProps> = ({ data }) => {
               className="flex justify-between items-center p-4 bg-gray-100 cursor-pointer"
               onClick={() => toggleAccordion(index)}
             >
-              <h4 className="font-semibold">
+              <h4 className="font-semibold flex items-center">
+                <Bot className="mr-2 text-[#804cbd]" size={20} />
                 User-agent: {entry.user_agent.join(', ')}
               </h4>
               <div className="flex items-center">
                 <span className="mr-2">Rules: {entry.rule_count}</span>
-                <FontAwesomeIcon icon={openAccordions.includes(index) ? faChevronUp : faChevronDown} />
+                {openAccordions.includes(index) ? (
+                  <ChevronUp className="text-[#804cbd]" size={20} />
+                ) : (
+                  <ChevronDown className="text-[#804cbd]" size={20} />
+                )}
               </div>
             </div>
             {openAccordions.includes(index) && (
@@ -114,7 +118,7 @@ const AnalysisResult: React.FC<AnalysisResultProps> = ({ data }) => {
       {data.sitemaps.length > 0 && (
         <div className="mb-8">
           <h3 className="text-xl font-semibold mb-4 flex items-center">
-            <FontAwesomeIcon icon={faSitemap} className="mr-2" />
+            <Network className="mr-2 text-[#804cbd]" size={24} />
             Sitemaps
           </h3>
           <div className="bg-gray-100 rounded-lg p-4">
@@ -135,9 +139,9 @@ const AnalysisResult: React.FC<AnalysisResultProps> = ({ data }) => {
   );
 };
 
-const StatCard: React.FC<{ title: string; value: number; subvalue?: string; icon?: any }> = ({ title, value, subvalue, icon }) => (
+const StatCard: React.FC<{ title: string; value: number; subvalue?: string; icon?: React.ElementType }> = ({ title, value, subvalue, icon: Icon }) => (
   <div className="bg-gray-100 rounded-lg p-4 flex items-center">
-    {icon && <FontAwesomeIcon icon={icon} className="text-2xl text-blue-500 mr-4" />}
+    {Icon && <Icon className="text-[#804cbd] mr-4" size={24} />}
     <div>
       <h4 className="text-lg font-semibold">{title}</h4>
       <p className="text-2xl font-bold">{value}</p>

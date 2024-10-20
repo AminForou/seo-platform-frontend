@@ -1,12 +1,17 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faInfoCircle, faLink, faCode, faSearch, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
+import { Link, Code, SearchCode, Loader } from 'lucide-react';
 import Tooltip from '../../../components/Tooltip';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faInfoCircle,faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 interface RobotsTxtInputProps {
   onAnalyze: (inputData: { url?: string; content?: string }) => void;
+  url: string;
+  content: string;
+  onUrlChange: (url: string) => void;
+  onContentChange: (content: string) => void;
+  isLoading: boolean;
 }
 
 interface ErrorMessage {
@@ -23,9 +28,14 @@ const ErrorDisplay: React.FC<{ error: ErrorMessage }> = ({ error }) => (
   </div>
 );
 
-const RobotsTxtInput: React.FC<RobotsTxtInputProps> = ({ onAnalyze }) => {
-  const [url, setUrl] = useState('');
-  const [content, setContent] = useState('');
+const RobotsTxtInput: React.FC<RobotsTxtInputProps> = ({
+  onAnalyze,
+  url,
+  content,
+  onUrlChange,
+  onContentChange,
+  isLoading
+}) => {
   const [error, setError] = useState<ErrorMessage | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const lineNumbersRef = useRef<HTMLDivElement>(null);
@@ -58,16 +68,6 @@ const RobotsTxtInput: React.FC<RobotsTxtInputProps> = ({ onAnalyze }) => {
     }
   };
 
-  const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setContent(e.target.value);
-    setError(null);
-  };
-
-  const handleUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setUrl(e.target.value);
-    setError(null);
-  };
-
   const handleScroll = () => {
     if (textareaRef.current && lineNumbersRef.current) {
       lineNumbersRef.current.scrollTop = textareaRef.current.scrollTop;
@@ -96,13 +96,13 @@ const RobotsTxtInput: React.FC<RobotsTxtInputProps> = ({ onAnalyze }) => {
 
       <div className="mb-6">
         <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center">
-          <FontAwesomeIcon icon={faLink} className="mr-2" />
+          <Link className="mr-2" size={20} />
           Robots.txt URL:
         </label>
         <input
           type="text"
           value={url}
-          onChange={handleUrlChange}
+          onChange={(e) => onUrlChange(e.target.value)}
           className={`w-full border rounded-md p-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
             error?.type === 'url' ? 'border-red-500' : 'border-gray-300'
           }`}
@@ -112,7 +112,7 @@ const RobotsTxtInput: React.FC<RobotsTxtInputProps> = ({ onAnalyze }) => {
 
       <div className="mb-6">
         <label htmlFor="content" className="block text-sm font-medium text-gray-700 flex items-center mb-2">
-          <FontAwesomeIcon icon={faCode} className="mr-2" />
+          <Code className="mr-2" size={20} />
           Or paste robots.txt content:
           <Tooltip content="Enter the content of your robots.txt file here">
             <FontAwesomeIcon icon={faInfoCircle} className="ml-2 text-gray-400 hover:text-gray-600" />
@@ -123,7 +123,7 @@ const RobotsTxtInput: React.FC<RobotsTxtInputProps> = ({ onAnalyze }) => {
             ref={textareaRef}
             id="content"
             value={content}
-            onChange={handleContentChange}
+            onChange={(e) => onContentChange(e.target.value)}
             onScroll={handleScroll}
             className={`block w-full rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 pl-8 ${
               error?.type === 'content' ? 'border-red-500' : 'border-gray-300'
@@ -162,10 +162,23 @@ const RobotsTxtInput: React.FC<RobotsTxtInputProps> = ({ onAnalyze }) => {
 
       <button
         onClick={handleSubmit}
-        className="w-full gradientButton px-6 py-3 rounded-lg font-semibold text-white flex items-center justify-center transition-all duration-300 ease-in-out"
+        disabled={isLoading}
+        className={`w-full gradientButton px-6 py-3 rounded-lg font-semibold text-white flex items-center justify-center transition-all duration-300 ease-in-out ${
+          isLoading ? 'opacity-50 cursor-not-allowed' : ''
+        }`}
       >
-        <FontAwesomeIcon icon={faSearch} className="mr-2" />
-        Analyze robots.txt
+        {isLoading ? (
+          <>
+            {/* Use a loading spinner from Lucide React */}
+            <Loader className="animate-spin mr-2" size={20} />
+            Analyzing...
+          </>
+        ) : (
+          <>
+            <SearchCode className="mr-2" size={20} />
+            Analyze robots.txt
+          </>
+        )}
       </button>
     </div>
   );

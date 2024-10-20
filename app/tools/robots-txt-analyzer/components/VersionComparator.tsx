@@ -6,10 +6,22 @@ import React, { useState, useRef, useEffect } from 'react';
 import { createTwoFilesPatch } from 'diff';
 import * as Diff2Html from 'diff2html';
 import 'diff2html/bundles/css/diff2html.min.css';
+import { History } from 'lucide-react';
+import { GitCompareArrows } from 'lucide-react';
 
-const VersionComparator: React.FC = () => {
-  const [content1, setContent1] = useState('');
-  const [content2, setContent2] = useState('');
+interface VersionComparatorProps {
+  content1: string;
+  content2: string;
+  onContent1Change: (content: string) => void;
+  onContent2Change: (content: string) => void;
+}
+
+const VersionComparator: React.FC<VersionComparatorProps> = ({
+  content1,
+  content2,
+  onContent1Change,
+  onContent2Change
+}) => {
   const [htmlDiff, setHtmlDiff] = useState('');
   const textarea1Ref = useRef<HTMLTextAreaElement>(null);
   const textarea2Ref = useRef<HTMLTextAreaElement>(null);
@@ -61,7 +73,7 @@ const VersionComparator: React.FC = () => {
           <textarea
             ref={textarea1Ref}
             value={content1}
-            onChange={(e) => setContent1(e.target.value)}
+            onChange={(e) => onContent1Change(e.target.value)}
             onScroll={() => handleScroll(textarea1Ref, lineNumbers1Ref)}
             className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 pl-8"
             placeholder="User-agent: *..."
@@ -101,7 +113,7 @@ const VersionComparator: React.FC = () => {
           <textarea
             ref={textarea2Ref}
             value={content2}
-            onChange={(e) => setContent2(e.target.value)}
+            onChange={(e) => onContent2Change(e.target.value)}
             onScroll={() => handleScroll(textarea2Ref, lineNumbers2Ref)}
             className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 pl-8"
             placeholder="User-agent: *..."
@@ -137,8 +149,9 @@ const VersionComparator: React.FC = () => {
       </div>
       <button
         onClick={handleCompare}
-        className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded-md transition-colors duration-300 mb-4"
+        className="w-full gradientButton px-6 py-3 rounded-lg font-semibold text-white flex items-center justify-center transition-all duration-300 ease-in-out mb-4"
       >
+        <GitCompareArrows className="mr-2" size={20} />
         Compare Versions
       </button>
       {htmlDiff && (

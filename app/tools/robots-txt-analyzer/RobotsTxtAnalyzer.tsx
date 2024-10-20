@@ -9,7 +9,7 @@ import SyntaxValidator from './components/SyntaxValidator';
 import TestUrlInput from './components/TestUrlInput';
 import VersionComparator from './components/VersionComparator';
 import FetchStatus from './components/FetchStatus';
-import { BarChart2, Search, GitCompare, FileText, Globe, History } from 'lucide-react';
+import { BarChart2, Search, History, FileText, Globe, Loader, SearchCode, Link, GitCompareArrows, Bot } from 'lucide-react';
 
 interface AnalysisData {
   fetch_status: number | null;
@@ -52,7 +52,18 @@ const RobotsTxtAnalyzer: React.FC = () => {
   const [errors, setErrors] = useState<string[]>([]);
   const [activeTab, setActiveTab] = useState('analyzer');
 
+  // New state variables for maintaining content across tabs
+  const [analyzerContent, setAnalyzerContent] = useState({ url: '', content: '' });
+  const [urlTesterContent, setUrlTesterContent] = useState({ urls: '', robotsContents: [''] });
+  const [versionComparatorContent, setVersionComparatorContent] = useState({ content1: '', content2: '' });
+
+  const [isLoading, setIsLoading] = useState(false);
+
   const handleAnalysis = async (inputData: { url?: string; content?: string }) => {
+    setIsLoading(true);
+    setErrors([]);
+    setAnalysisData(null);
+
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/robots-analyze/`, {
         method: 'POST',
@@ -68,11 +79,18 @@ const RobotsTxtAnalyzer: React.FC = () => {
         setAnalysisData(data);
         setErrors(data.errors || []);
       } else {
-        setAnalysisData(null);
-        setErrors([data.error]);
+        setErrors([data.error || 'An unexpected error occurred']);
       }
     } catch (error) {
-      setErrors([(error as Error).message]);
+      if (error instanceof TypeError && error.message === 'Failed to fetch') {
+        setErrors(['Unable to connect to the server. Please check your internet connection and try again.']);
+      } else if (error instanceof Error) {
+        setErrors([error.message]);
+      } else {
+        setErrors(['An unexpected error occurred']);
+      }
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -81,7 +99,20 @@ const RobotsTxtAnalyzer: React.FC = () => {
       case 'analyzer':
         return (
           <>
-            <RobotsTxtInput onAnalyze={handleAnalysis} />
+            <RobotsTxtInput
+              onAnalyze={handleAnalysis}
+              url={analyzerContent.url}
+              content={analyzerContent.content}
+              onUrlChange={(url) => setAnalyzerContent(prev => ({ ...prev, url }))}
+              onContentChange={(content) => setAnalyzerContent(prev => ({ ...prev, content }))}
+              isLoading={isLoading}
+            />
+            {isLoading && (
+              <div className="flex items-center justify-center my-4">
+                <Loader className="animate-spin mr-2" />
+                <span>Analyzing robots.txt...</span>
+              </div>
+            )}
             {analysisData && analysisData.fetch_status !== null && (
               <FetchStatus status={analysisData.fetch_status} />
             )}
@@ -95,10 +126,21 @@ const RobotsTxtAnalyzer: React.FC = () => {
         return (
           <TestUrlInput
             availableUserAgents={analysisData?.parsed_data?.agents.map(agent => agent.user_agent).flat() || []}
+            urls={urlTesterContent.urls}
+            robotsContents={urlTesterContent.robotsContents}
+            onUrlsChange={(urls) => setUrlTesterContent(prev => ({ ...prev, urls }))}
+            onRobotsContentsChange={(robotsContents) => setUrlTesterContent(prev => ({ ...prev, robotsContents }))}
           />
         );
       case 'versionComparator':
-        return <VersionComparator />;
+        return (
+          <VersionComparator
+            content1={versionComparatorContent.content1}
+            content2={versionComparatorContent.content2}
+            onContent1Change={(content1) => setVersionComparatorContent(prev => ({ ...prev, content1 }))}
+            onContent2Change={(content2) => setVersionComparatorContent(prev => ({ ...prev, content2 }))}
+          />
+        );
       default:
         return null;
     }
@@ -117,72 +159,70 @@ const RobotsTxtAnalyzer: React.FC = () => {
       </div>
 
       {/* Feature cards */}
-      <div className="mb-6">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="bg-white p-4 rounded-lg shadow-sm">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+        <div className="flex flex-col">
+          <div className="bg-white p-4 rounded-lg shadow-sm mb-4 flex-grow">
             <div className="flex items-center mb-2">
-              <FileText className="text-indigo-600 mr-2" size={24} />
-              <h4 className="font-semibold">Robots.txt Analyzer</h4>
+              <SearchCode className="text-[#804cbd] mr-2" size={24} />
+              <h4 className="font-semibold">Analyzer</h4>
             </div>
             <p className="text-sm text-gray-600">
-              Analyze your robots.txt file for syntax errors, user agents, and rules. Get insights into your crawl directives and optimize for search engines.
+              Analyze your robots.txt file for syntax errors, user agents, and rules. Get insights into your website's crawl directives.
             </p>
           </div>
-          <div className="bg-white p-4 rounded-lg shadow-sm">
+          <button
+            className={`w-full py-3 px-4 font-medium transition-colors duration-200 rounded-lg ${
+              activeTab === 'analyzer'
+                ? 'bg-[#2dbdad] text-white'
+                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+            }`}
+            onClick={() => setActiveTab('analyzer')}
+          >
+            <SearchCode className="inline-block mr-2" size={20} />
+            Analyzer
+          </button>
+        </div>
+        <div className="flex flex-col">
+          <div className="bg-white p-4 rounded-lg shadow-sm mb-4 flex-grow">
             <div className="flex items-center mb-2">
-              <Globe className="text-indigo-600 mr-2" size={24} />
+              <Link className="text-[#804cbd] mr-2" size={24} />
               <h4 className="font-semibold">URL Tester</h4>
             </div>
             <p className="text-sm text-gray-600">
               Test specific URLs against your robots.txt rules. Check if search engine bots are allowed to crawl important pages on your website.
             </p>
           </div>
-          <div className="bg-white p-4 rounded-lg shadow-sm">
+          <button
+            className={`w-full py-3 px-4 font-medium transition-colors duration-200 rounded-lg ${
+              activeTab === 'urlTester'
+                ? 'bg-[#30a3c5] text-white'
+                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+            }`}
+            onClick={() => setActiveTab('urlTester')}
+          >
+            <Link className="inline-block mr-2" size={20} />
+            URL Tester
+          </button>
+        </div>
+        <div className="flex flex-col">
+          <div className="bg-white p-4 rounded-lg shadow-sm mb-4 flex-grow">
             <div className="flex items-center mb-2">
-              <History className="text-indigo-600 mr-2" size={24} />
+              <GitCompareArrows className="text-[#804cbd] mr-2" size={24} />
               <h4 className="font-semibold">Version Comparator</h4>
             </div>
             <p className="text-sm text-gray-600">
               Compare different versions of your robots.txt file. Identify changes and their potential impact on your site's crawlability and SEO.
             </p>
           </div>
-        </div>
-      </div>
-
-      {/* Tabs */}
-      <div className="mb-6">
-        <div className="flex border-b border-gray-200">
           <button
-            className={`py-2 px-4 font-medium transition-colors duration-200 ${
-              activeTab === 'analyzer'
-                ? 'text-indigo-600 border-b-2 border-indigo-600 font-bold'
-                : 'text-gray-500 hover:text-gray-700 hover:bg-gray-100'
-            }`}
-            onClick={() => setActiveTab('analyzer')}
-          >
-            <BarChart2 className="inline-block mr-2" />
-            Analyzer
-          </button>
-          <button
-            className={`py-2 px-4 font-medium transition-colors duration-200 ${
-              activeTab === 'urlTester'
-                ? 'text-indigo-600 border-b-2 border-indigo-600 font-bold'
-                : 'text-gray-500 hover:text-gray-700 hover:bg-gray-100'
-            }`}
-            onClick={() => setActiveTab('urlTester')}
-          >
-            <Search className="inline-block mr-2" />
-            URL Tester
-          </button>
-          <button
-            className={`py-2 px-4 font-medium transition-colors duration-200 ${
+            className={`w-full py-3 px-4 font-medium transition-colors duration-200 rounded-lg ${
               activeTab === 'versionComparator'
-                ? 'text-indigo-600 border-b-2 border-indigo-600 font-bold'
-                : 'text-gray-500 hover:text-gray-700 hover:bg-gray-100'
+                ? 'bg-[#804cbd] text-white'
+                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
             }`}
             onClick={() => setActiveTab('versionComparator')}
           >
-            <GitCompare className="inline-block mr-2" />
+            <GitCompareArrows className="inline-block mr-2" size={20} />
             Version Comparator
           </button>
         </div>
