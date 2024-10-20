@@ -9,7 +9,7 @@ import SyntaxValidator from './components/SyntaxValidator';
 import TestUrlInput from './components/TestUrlInput';
 import VersionComparator from './components/VersionComparator';
 import FetchStatus from './components/FetchStatus';
-import { BarChart2, Search, History, FileText, Globe, Loader, SearchCode, Link, GitCompareArrows, Bot } from 'lucide-react';
+import { BarChart2, Loader, SearchCode, Link, GitCompareArrows } from 'lucide-react';
 
 interface AnalysisData {
   fetch_status: number | null;
@@ -167,7 +167,7 @@ const RobotsTxtAnalyzer: React.FC = () => {
               <h4 className="font-semibold">Analyzer</h4>
             </div>
             <p className="text-sm text-gray-600">
-              Analyze your robots.txt file for syntax errors, user agents, and rules. Get insights into your website's crawl directives.
+              Analyze your robots.txt file for syntax errors, user agents, and rules. Get insights into your website&apos;s crawl directives.
             </p>
           </div>
           <button
@@ -211,7 +211,7 @@ const RobotsTxtAnalyzer: React.FC = () => {
               <h4 className="font-semibold">Version Comparator</h4>
             </div>
             <p className="text-sm text-gray-600">
-              Compare different versions of your robots.txt file. Identify changes and their potential impact on your site's crawlability and SEO.
+              Compare different versions of your robots.txt file. Identify changes and their potential impact on your site&apos;s crawlability and SEO.
             </p>
           </div>
           <button

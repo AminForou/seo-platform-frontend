@@ -3,7 +3,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { List, Network, ChevronDown, ChevronUp, Bot, FileText } from 'lucide-react';
+import { List, Network, ChevronDown, ChevronUp } from 'lucide-react';
 
 interface Rule {
   path: string;
@@ -55,8 +55,8 @@ const AnalysisResult: React.FC<AnalysisResultProps> = ({ data }) => {
       <h2 className="text-2xl font-bold mb-6">Robots.txt Analysis Report</h2>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        <StatCard title="User-agents" value={data.stats.total_user_agents} icon={Bot} />
-        <StatCard title="Total Rules" value={data.stats.total_rules} icon={FileText} />
+        <StatCard title="User-agents" value={data.stats.total_user_agents} />
+        <StatCard title="Total Rules" value={data.stats.total_rules} />
         <StatCard 
           title="Disallow Rules" 
           value={data.stats.total_disallow_rules} 
@@ -80,8 +80,7 @@ const AnalysisResult: React.FC<AnalysisResultProps> = ({ data }) => {
               className="flex justify-between items-center p-4 bg-gray-100 cursor-pointer"
               onClick={() => toggleAccordion(index)}
             >
-              <h4 className="font-semibold flex items-center">
-                <Bot className="mr-2 text-[#804cbd]" size={20} />
+              <h4 className="font-semibold">
                 User-agent: {entry.user_agent.join(', ')}
               </h4>
               <div className="flex items-center">
@@ -139,14 +138,11 @@ const AnalysisResult: React.FC<AnalysisResultProps> = ({ data }) => {
   );
 };
 
-const StatCard: React.FC<{ title: string; value: number; subvalue?: string; icon?: React.ElementType }> = ({ title, value, subvalue, icon: Icon }) => (
-  <div className="bg-gray-100 rounded-lg p-4 flex items-center">
-    {Icon && <Icon className="text-[#804cbd] mr-4" size={24} />}
-    <div>
-      <h4 className="text-lg font-semibold">{title}</h4>
-      <p className="text-2xl font-bold">{value}</p>
-      {subvalue && <p className="text-sm text-gray-600">{subvalue}</p>}
-    </div>
+const StatCard: React.FC<{ title: string; value: number; subvalue?: string }> = ({ title, value, subvalue }) => (
+  <div className="bg-gray-100 rounded-lg p-4">
+    <h4 className="text-lg font-semibold">{title}</h4>
+    <p className="text-2xl font-bold">{value}</p>
+    {subvalue && <p className="text-sm text-gray-600">{subvalue}</p>}
   </div>
 );
 

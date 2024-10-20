@@ -6,7 +6,6 @@ import React, { useState, useRef, useEffect } from 'react';
 import { createTwoFilesPatch } from 'diff';
 import * as Diff2Html from 'diff2html';
 import 'diff2html/bundles/css/diff2html.min.css';
-import { History } from 'lucide-react';
 import { GitCompareArrows } from 'lucide-react';
 
 interface VersionComparatorProps {

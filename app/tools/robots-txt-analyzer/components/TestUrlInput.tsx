@@ -3,11 +3,10 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
-import { Bot, Link, Search, X, Plus, FileText, Info, Filter } from 'lucide-react';
+import { Bot, Link, X, Plus, FileText, Info, Filter } from 'lucide-react';
 import Tooltip from '../../../components/Tooltip';
 
 interface TestUrlInputProps {
-  availableUserAgents?: string[];
   urls: string;
   robotsContents: string[];
   onUrlsChange: (urls: string) => void;
@@ -25,7 +24,6 @@ interface TestResult {
 }
 
 const TestUrlInput: React.FC<TestUrlInputProps> = ({
-  availableUserAgents = [],
   urls,
   robotsContents,
   onUrlsChange,
@@ -162,7 +160,7 @@ const TestUrlInput: React.FC<TestUrlInputProps> = ({
     ...(bingbot ? ['Bingbot'] : []),
     ...customUserAgents,
     ...Object.entries(robotsUserAgents)
-      .filter(([_, isActive]) => isActive)
+      .filter(([_agent, isActive]) => isActive)
       .map(([agent]) => agent)
   ];
 
@@ -212,7 +210,7 @@ const TestUrlInput: React.FC<TestUrlInputProps> = ({
             <li>Enter or paste your robots.txt content</li>
             <li>Input the URLs you want to test</li>
             <li>Select the user agents to check against</li>
-            <li>Click "Test URLs" to see the results</li>
+            <li>Click &quot;Test URLs&quot; to see the results</li>
           </ol>
         </div>
       </div>
