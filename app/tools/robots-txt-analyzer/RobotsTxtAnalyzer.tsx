@@ -125,7 +125,6 @@ const RobotsTxtAnalyzer: React.FC = () => {
       case 'urlTester':
         return (
           <TestUrlInput
-            availableUserAgents={analysisData?.parsed_data?.agents.map(agent => agent.user_agent).flat() || []}
             urls={urlTesterContent.urls}
             robotsContents={urlTesterContent.robotsContents}
             onUrlsChange={(urls) => setUrlTesterContent(prev => ({ ...prev, urls }))}

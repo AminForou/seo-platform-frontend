@@ -2,7 +2,7 @@
 
 'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { Bot, Link, X, Plus, FileText, Info, Filter } from 'lucide-react';
 import Tooltip from '../../../components/Tooltip';
 
@@ -11,6 +11,7 @@ interface TestUrlInputProps {
   robotsContents: string[];
   onUrlsChange: (urls: string) => void;
   onRobotsContentsChange: (robotsContents: string[]) => void;
+  availableUserAgents?: string[]; // Add this line if you need this prop
 }
 
 interface TestResult {
@@ -96,7 +97,7 @@ const TestUrlInput: React.FC<TestUrlInputProps> = ({
     onRobotsContentsChange(newContents);
   };
 
-  const updateRobotsLineNumbers = (index: number) => {
+  const updateRobotsLineNumbers = useCallback((index: number) => {
     const textarea = document.getElementById(`robots-textarea-${index}`);
     const lineNumbers = document.getElementById(`robots-line-numbers-${index}`);
     if (textarea && lineNumbers) {
@@ -106,11 +107,11 @@ const TestUrlInput: React.FC<TestUrlInputProps> = ({
         .map((num) => `<div>${num}</div>`)
         .join('');
     }
-  };
+  }, [robotsContents]);
 
   useEffect(() => {
     robotsContents.forEach((_, index) => updateRobotsLineNumbers(index));
-  }, [robotsContents]);
+  }, [robotsContents, updateRobotsLineNumbers]);
 
   const addRobotsContent = () => {
     onRobotsContentsChange([...robotsContents, '']);
@@ -128,7 +129,7 @@ const TestUrlInput: React.FC<TestUrlInputProps> = ({
     }
   };
 
-  const updateLineNumbers = () => {
+  const updateLineNumbers = useCallback(() => {
     if (textareaRef.current && lineNumbersRef.current) {
       const lines = urls.split('\n');
       const lineNumbers = lines.map((_, index) => index + 1);
@@ -136,11 +137,11 @@ const TestUrlInput: React.FC<TestUrlInputProps> = ({
         .map((lineNumber) => `<div>${lineNumber}</div>`)
         .join('');
     }
-  };
+  }, [urls]);
 
   useEffect(() => {
     updateLineNumbers();
-  }, [urls]);
+  }, [updateLineNumbers]);
 
   const handleAddUserAgent = () => {
     if (newUserAgent) {
