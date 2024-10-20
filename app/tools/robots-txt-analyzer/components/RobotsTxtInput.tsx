@@ -1,10 +1,10 @@
 'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { Link, Code, SearchCode, Loader } from 'lucide-react';
 import Tooltip from '../../../components/Tooltip';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faInfoCircle,faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
+import { faInfoCircle, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 interface RobotsTxtInputProps {
   onAnalyze: (inputData: { url?: string; content?: string }) => void;
   url: string;
@@ -74,7 +74,7 @@ const RobotsTxtInput: React.FC<RobotsTxtInputProps> = ({
     }
   };
 
-  const updateLineNumbers = () => {
+  const updateLineNumbers = useCallback(() => {
     if (textareaRef.current && lineNumbersRef.current) {
       const lines = content.split('\n');
       const lineNumbers = lines.map((_, index) => index + 1);
@@ -82,11 +82,11 @@ const RobotsTxtInput: React.FC<RobotsTxtInputProps> = ({
         .map((lineNumber) => `<div>${lineNumber}</div>`)
         .join('');
     }
-  };
+  }, [content]);
 
   useEffect(() => {
     updateLineNumbers();
-  }, [content]);
+  }, [updateLineNumbers]);
 
   return (
     <div className="mb-8">
