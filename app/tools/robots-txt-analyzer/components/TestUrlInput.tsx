@@ -160,9 +160,7 @@ const TestUrlInput: React.FC<TestUrlInputProps> = ({
     ...(googlebot ? ['Googlebot'] : []),
     ...(bingbot ? ['Bingbot'] : []),
     ...customUserAgents,
-    ...Object.entries(robotsUserAgents)
-      .filter(([_agent, isActive]) => isActive)
-      .map(([agent]) => agent)
+    ...Object.keys(robotsUserAgents).filter(agent => robotsUserAgents[agent])
   ];
 
   useEffect(() => {
