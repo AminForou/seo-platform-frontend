@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTools, faBars, faTimes, faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faTimes, faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 
 export default function Nav() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -32,12 +32,12 @@ export default function Nav() {
       <div className="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
           <a href="/" className="flex items-center">
-            <FontAwesomeIcon
-              icon={faTools}
-              size="2x"
-              className="text-indigo-600 mr-3"
+            <img
+              src="/prismiqo-logo.png"
+              alt="Prismiqo Logo"
+              className="h-8 w-8 mr-3"
             />
-            <p className="text-2xl font-bold text-gray-900">SEO Tools Hub</p>
+            <p className="text-2xl font-bold gradientText">Prismiqo</p>
           </a>
           
           {/* Hamburger menu button for mobile */}

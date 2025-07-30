@@ -8,7 +8,7 @@ import './fontawesome'; // Import FontAwesome configuration
 
 const domain = process.env.NEXT_PUBLIC_CANONICAL_URL;
 export const metadata: Metadata = {
-  title: 'SEO Tools Hub | Powerful SEO Tools for Professionals',
+  title: 'Prismiqo | Powerful SEO Tools for Professionals',
   description:
     "Boost your SEO efforts with our suite of powerful, easy-to-use tools. Streamline your workflow and improve your website's performance.",
     robots: {
@@ -24,7 +24,7 @@ export default function Home() {
     <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
       <div className="text-center">
         <h1 className="text-4xl font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
-          Welcome to <span className="gradientText">SEO Tools Hub</span>
+          Welcome to <span className="gradientText">Prismiqo</span>
         </h1>
         <p className="mt-3 max-w-md mx-auto text-base text-gray-500 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
           Boost your SEO efforts with our powerful and easy-to-use tools

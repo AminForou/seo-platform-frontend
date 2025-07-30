@@ -15,9 +15,9 @@ import ContactForm from '../components/ContactForm';
 const domain = process.env.NEXT_PUBLIC_CANONICAL_URL;
 
 export const metadata: Metadata = {
-  title: 'Contact SEO Tools Hub',
+  title: 'Contact Prismiqo',
   description:
-    "Have questions or suggestions? Reach out to the SEO Tools Hub team. We're here to help you optimize your SEO workflow and improve your website's performance.",
+    "Have questions or suggestions? Reach out to the Prismiqo team. We're here to help you optimize your SEO workflow and improve your website's performance.",
     robots: {
         index: false, // Equivalent to "noindex"
       },

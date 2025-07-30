@@ -13,9 +13,9 @@ import '@fortawesome/fontawesome-svg-core/styles.css';
 const domain = process.env.NEXT_PUBLIC_CANONICAL_URL;
 
 export const metadata: Metadata = {
-  title: 'About SEO Tools Hub',
+  title: 'About Prismiqo',
   description:
-    'Empowering SEO professionals with innovative tools. Learn more about our mission and the creator behind SEO Tools Hub.',
+    'Empowering SEO professionals with innovative tools. Learn more about our mission and the creator behind Prismiqo.',
   robots: {
     index: false, // Equivalent to "noindex"
   },
@@ -29,7 +29,7 @@ export default function About() {
     <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
       <div className="text-center mb-12">
         <h1 className="text-4xl font-extrabold text-gray-900 sm:text-5xl md:text-6xl mb-4">
-          About <span className="gradientText">SEO Tools Hub</span>
+          About <span className="gradientText">Prismiqo</span>
         </h1>
         <p className="mt-3 max-w-md mx-auto text-base text-gray-500 sm:text-lg md:text-xl">
           Empowering SEO professionals with innovative tools
@@ -39,7 +39,7 @@ export default function About() {
       <div className="bg-[#f9fafb] rounded-lg p-8 shadow-md mb-12">
         <h2 className="text-3xl font-bold text-gray-900 mb-4">Our Mission</h2>
         <p className="text-gray-600 mb-4">
-          SEO Tools Hub was born out of a passion to help fellow SEO professionals work more efficiently and effectively. As an SEO consultant with a decade of experience, I&apos;ve encountered numerous challenges in our field. This platform is my way of addressing those challenges by creating tools that can truly make a difference in our day-to-day work.
+          Prismiqo was born out of a passion to help fellow SEO professionals work more efficiently and effectively. As an SEO consultant with a decade of experience, I&apos;ve encountered numerous challenges in our field. This platform is my way of addressing those challenges by creating tools that can truly make a difference in our day-to-day work.
         </p>
         <p className="text-gray-600">
           My goal is to continually develop and refine tools that simplify complex SEO tasks, saving time and improving results for SEO professionals at all levels.
@@ -74,7 +74,7 @@ export default function About() {
       <div className="bg-[#f9fafb] rounded-lg p-8 shadow-md">
         <h2 className="text-3xl font-bold text-gray-900 mb-4">Chrome Extensions</h2>
         <p className="text-gray-600 mb-6">
-          In addition to SEO Tools Hub, I&apos;ve developed several Chrome extensions to further assist SEO professionals. These extensions are designed to streamline various aspects of SEO work, from analyzing Google AI Overview to enhancing popular SEO tools.
+          In addition to Prismiqo, I&apos;ve developed several Chrome extensions to further assist SEO professionals. These extensions are designed to streamline various aspects of SEO work, from analyzing Google AI Overview to enhancing popular SEO tools.
         </p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <ExtensionCard
