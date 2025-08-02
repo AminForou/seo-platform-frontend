@@ -38,7 +38,7 @@ export default function Home() {
               Welcome to <span className="gradientText">Prismiqo</span>
             </h1>
             <p className="max-w-4xl mx-auto text-lg text-gray-600 sm:text-xl md:text-2xl leading-relaxed">
-              Your place for finding and suggesting innovative and necessary tools for SEOs which you can't find anywhere else!
+              Your place for finding and suggesting innovative and necessary tools for SEOs which you can&apos;t find anywhere else!
             </p>
             <div className="pt-4">
               <a
