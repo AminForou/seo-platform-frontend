@@ -3,6 +3,13 @@
 import { useState, useRef, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faTimes, faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
+import { Oxanium } from 'next/font/google';
+
+const oxanium = Oxanium({ 
+  subsets: ['latin'],
+  weight: ['700'],
+  display: 'swap',
+});
 
 export default function Nav() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -28,74 +35,77 @@ export default function Nav() {
   };
 
   return (
-    <header className="bg-gray-50 shadow-sm">
-      <div className="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between">
-          <a href="/" className="flex items-center">
+    <header className="bg-white border-b border-gray-200 shadow-sm">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
+          <a href="/" className="flex items-center hover:opacity-80 transition-opacity duration-200">
             <img
               src="/prismiqo-logo.png"
               alt="Prismiqo Logo"
-              className="h-8 w-8 mr-3"
+              className="h-8 w-8 flex-shrink-0"
+              style={{ width: '33px', height: '33px' }}
             />
-            <p className="text-2xl font-bold gradientText">Prismiqo</p>
+            <span className={`font-bold gradientText ${oxanium.className} leading-none`} style={{ fontSize: '1.96rem', marginTop: '5px' }}>Prismiqo</span>
           </a>
           
           {/* Hamburger menu button for mobile */}
           <button
-            className="md:hidden text-gray-600 hover:text-indigo-600 transition-colors duration-200"
+            className="md:hidden p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-colors duration-200"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
             <FontAwesomeIcon
               icon={isMenuOpen ? faTimes : faBars}
-              className="text-2xl"
+              className="text-xl"
             />
           </button>
 
           {/* Desktop menu */}
           <nav className="hidden md:block">
-            <ul className="flex space-x-4 items-center">
-              <li>
-                <a href="/" className="text-gray-600 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">
-                  Home
-                </a>
-              </li>
+            <ul className="flex items-center space-x-1">
               <li className="relative" ref={dropdownRef}>
                 <button
-                  className="text-gray-600 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium flex items-center"
+                  className="flex items-center px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-all duration-200"
                   onClick={() => setIsDesktopDropdownOpen(!isDesktopDropdownOpen)}
                   onMouseEnter={() => setIsDesktopDropdownOpen(true)}
                 >
                   Tools
-                  <FontAwesomeIcon icon={faChevronDown} className="ml-1 text-xs" />
+                  <FontAwesomeIcon 
+                    icon={faChevronDown} 
+                    className={`ml-2 text-xs transition-transform duration-200 ${isDesktopDropdownOpen ? 'rotate-180' : ''}`} 
+                  />
                 </button>
                 {isDesktopDropdownOpen && (
                   <div 
-                    className="absolute left-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 py-1 z-10"
+                    className="absolute left-0 mt-1 w-64 rounded-xl shadow-lg bg-white ring-1 ring-gray-200 py-2 z-50"
                     onMouseLeave={() => setIsDesktopDropdownOpen(false)}
                   >
                     <a
                       href="/tools/mini-crawler"
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 transition-colors duration-150"
+                      className="flex flex-col px-4 py-3 text-gray-700 hover:bg-gray-50 transition-colors duration-150"
                     >
-                      Mini Crawler
+                      <span className="font-medium text-sm">Mini Crawler</span>
+                      <span className="text-xs text-gray-500 mt-1">Check multiple URL statuses</span>
                     </a>
                     <a
                       href="/tools/bulk-url-opener"
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 transition-colors duration-150"
+                      className="flex flex-col px-4 py-3 text-gray-700 hover:bg-gray-50 transition-colors duration-150"
                     >
-                      Bulk URL Opener
+                      <span className="font-medium text-sm">Bulk URL Opener</span>
+                      <span className="text-xs text-gray-500 mt-1">Open multiple URLs efficiently</span>
                     </a>
                     <a
                       href="/tools/site-structure-analyzer"
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 transition-colors duration-150"
+                      className="flex flex-col px-4 py-3 text-gray-700 hover:bg-gray-50 transition-colors duration-150"
                     >
-                      Site Structure Analyzer
+                      <span className="font-medium text-sm">Site Structure Analyzer</span>
+                      <span className="text-xs text-gray-500 mt-1">Analyze URL patterns & hierarchy</span>
                     </a>
                     <a
                       href="/tools/robots-txt-analyzer"
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 transition-colors duration-150"
+                      className="flex flex-col px-4 py-3 text-gray-700 hover:bg-gray-50 transition-colors duration-150"
                     >
-                      Robots.txt Analyzer
+                      <span className="font-medium text-sm">Robots.txt Analyzer</span>
+                      <span className="text-xs text-gray-500 mt-1">Optimize crawl directives</span>
                     </a>
                   </div>
                 )}
@@ -103,7 +113,7 @@ export default function Nav() {
               <li>
                 <a
                   href="/about"
-                  className="text-gray-600 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium"
+                  className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-all duration-200"
                 >
                   About
                 </a>
@@ -111,7 +121,7 @@ export default function Nav() {
               <li>
                 <a
                   href="/contact"
-                  className="text-gray-600 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium"
+                  className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-all duration-200"
                 >
                   Contact
                 </a>
@@ -121,68 +131,72 @@ export default function Nav() {
         </div>
 
         {/* Mobile menu */}
-        <nav className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${isMenuOpen ? 'max-h-60 opacity-100 mt-4' : 'max-h-0 opacity-0'}`}>
-          <ul className="flex flex-col space-y-2">
-            <li>
-              <a href="/" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-100">
-                Home
-              </a>
-            </li>
-            <li>
-              <button
-                className="w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-100 flex items-center justify-between"
-                onClick={toggleMobileDropdown}
-              >
-                Tools
-                <FontAwesomeIcon icon={isMobileDropdownOpen ? faChevronUp : faChevronDown} className="ml-1 text-xs" />
-              </button>
-              {isMobileDropdownOpen && (
-                <div className="pl-4 mt-2">
-                  <a
-                    href="/tools/mini-crawler"
-                    className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-100"
-                  >
-                    Mini Crawler
-                  </a>
-                  <a
-                    href="/tools/bulk-url-opener"
-                    className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-100"
-                  >
-                    Bulk URL Opener
-                  </a>
-                  <a
-                    href="/tools/site-structure-analyzer"
-                    className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-100"
-                  >
-                    Site Structure Analyzer
-                  </a>
-                  <a
-                    href="/tools/robots-txt-analyzer"
-                    className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-100"
-                  >
-                    Robots.txt Analyzer
-                  </a>
-                </div>
-              )}
-            </li>
-            <li>
-              <a
-                href="/about"
-                className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-100"
-              >
-                About
-              </a>
-            </li>
-            <li>
-              <a
-                href="/contact"
-                className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-100"
-              >
-                Contact
-              </a>
-            </li>
-          </ul>
-        </nav>
+        <div className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${isMenuOpen ? 'max-h-96 opacity-100 pb-4' : 'max-h-0 opacity-0'}`}>
+          <nav className="pt-4 border-t border-gray-200">
+            <ul className="space-y-1">
+              <li>
+                <button
+                  className="w-full flex items-center justify-between px-4 py-3 text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-all duration-200"
+                  onClick={toggleMobileDropdown}
+                >
+                  Tools
+                  <FontAwesomeIcon 
+                    icon={isMobileDropdownOpen ? faChevronUp : faChevronDown} 
+                    className="text-sm" 
+                  />
+                </button>
+                {isMobileDropdownOpen && (
+                  <div className="mt-2 ml-4 space-y-1">
+                    <a
+                      href="/tools/mini-crawler"
+                      className="flex flex-col px-4 py-3 rounded-lg text-gray-600 hover:text-gray-900 hover:bg-gray-50 transition-all duration-200"
+                    >
+                      <span className="font-medium text-sm">Mini Crawler</span>
+                      <span className="text-xs text-gray-500 mt-1">Check multiple URL statuses</span>
+                    </a>
+                    <a
+                      href="/tools/bulk-url-opener"
+                      className="flex flex-col px-4 py-3 rounded-lg text-gray-600 hover:text-gray-900 hover:bg-gray-50 transition-all duration-200"
+                    >
+                      <span className="font-medium text-sm">Bulk URL Opener</span>
+                      <span className="text-xs text-gray-500 mt-1">Open multiple URLs efficiently</span>
+                    </a>
+                    <a
+                      href="/tools/site-structure-analyzer"
+                      className="flex flex-col px-4 py-3 rounded-lg text-gray-600 hover:text-gray-900 hover:bg-gray-50 transition-all duration-200"
+                    >
+                      <span className="font-medium text-sm">Site Structure Analyzer</span>
+                      <span className="text-xs text-gray-500 mt-1">Analyze URL patterns & hierarchy</span>
+                    </a>
+                    <a
+                      href="/tools/robots-txt-analyzer"
+                      className="flex flex-col px-4 py-3 rounded-lg text-gray-600 hover:text-gray-900 hover:bg-gray-50 transition-all duration-200"
+                    >
+                      <span className="font-medium text-sm">Robots.txt Analyzer</span>
+                      <span className="text-xs text-gray-500 mt-1">Optimize crawl directives</span>
+                    </a>
+                  </div>
+                )}
+              </li>
+              <li>
+                <a
+                  href="/about"
+                  className="block px-4 py-3 text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-all duration-200"
+                >
+                  About
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/contact"
+                  className="block px-4 py-3 text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-all duration-200"
+                >
+                  Contact
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
       </div>
     </header>
   );

@@ -4,6 +4,20 @@ import './globals.css';
 import type { Metadata } from 'next';
 import Nav from './components/Nav';
 import Footer from './components/Footer';
+import { Nunito, Outfit } from 'next/font/google';
+
+const nunito = Nunito({ 
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  display: 'swap',
+});
+
+const outfit = Outfit({ 
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700', '800'],
+  display: 'swap',
+  variable: '--font-outfit',
+});
 
 const domain = process.env.NEXT_PUBLIC_CANONICAL_URL;
 
@@ -65,7 +79,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="flex flex-col min-h-screen">
+      <body className={`flex flex-col min-h-screen ${nunito.className} ${outfit.variable}`}>
         <Nav />
         <main className="flex-grow">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

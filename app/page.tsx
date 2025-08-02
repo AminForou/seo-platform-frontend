@@ -21,17 +21,46 @@ export const metadata: Metadata = {
 
 export default function Home() {
   return (
-    <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
-      <div className="text-center">
-        <h1 className="text-4xl font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
-          Welcome to <span className="gradientText">Prismiqo</span>
-        </h1>
-        <p className="mt-3 max-w-md mx-auto text-base text-gray-500 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
-          Boost your SEO efforts with our powerful and easy-to-use tools
-        </p>
+    <div>
+      {/* Hero Section */}
+      <div className="relative overflow-hidden bg-gradient-to-br from-teal-100/65 via-blue-100/55 to-purple-100/65 min-h-[70vh] flex items-center rounded-b-3xl animated-gradient">
+        {/* Background decorative elements */}
+        <div className="absolute inset-0">
+          <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-teal-300/35 via-blue-300/30 to-purple-300/35 rounded-full blur-3xl transform translate-x-1/3 -translate-y-1/3 float-slow"></div>
+          <div className="absolute bottom-0 left-0 w-80 h-80 bg-gradient-to-tr from-purple-300/35 via-blue-300/30 to-teal-300/35 rounded-full blur-3xl transform -translate-x-1/3 translate-y-1/3 float-medium"></div>
+          <div className="absolute top-1/2 left-1/2 w-64 h-64 bg-gradient-to-r from-blue-300/30 to-purple-300/30 rounded-full blur-2xl transform -translate-x-1/2 -translate-y-1/2 float-fast"></div>
+        </div>
+        
+        {/* Content */}
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <div className="space-y-8">
+            <h1 className="mobile-hero-text font-bold text-gray-900 sm:text-5xl md:text-6xl lg:text-7xl">
+              Welcome to <span className="gradientText">Prismiqo</span>
+            </h1>
+            <p className="max-w-4xl mx-auto text-lg text-gray-600 sm:text-xl md:text-2xl leading-relaxed">
+              Your place for finding and suggesting innovative and necessary tools for SEOs which you can't find anywhere else!
+            </p>
+            <div className="pt-4">
+              <a
+                href="/contact"
+                className="inline-flex items-center px-8 py-4 text-base sm:text-lg font-semibold text-white bg-black hover:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+              >
+                Suggest a New Tool
+                <svg className="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
       </div>
+      
+      {/* Tools Section */}
+      <div className="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:px-8">
 
-      <div className="mt-10">
+        <h2 className="text-3xl font-bold text-gray-900 text-center mb-12">
+          Our SEO Tools
+        </h2>
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {/* Batch URL Status Checker */}
           <div className="pt-6">
@@ -167,7 +196,9 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="mt-16 bg-[#f9fafb] rounded-lg p-8 shadow-md">
+      {/* Contact Section */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+        <div className="bg-[#f9fafb] rounded-lg p-8 shadow-md">
         <div className="flex items-center justify-center mb-6">
           <FontAwesomeIcon icon={faLightbulb} className="h-10 w-10 text-[#30a3c5] mr-4" />
           <h2 className="text-2xl font-bold text-gray-900">Have an Idea for a New Tool?</h2>
@@ -182,6 +213,7 @@ export default function Home() {
           >
             Share Your Idea
           </a>
+        </div>
         </div>
       </div>
     </div>
