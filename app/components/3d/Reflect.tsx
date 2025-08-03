@@ -65,11 +65,11 @@ const ReflectComponent = forwardRef(({ children, start: _start = [0, 0, 0], end:
           if (api.number < bounce && intersect && intersect.face) {
 
             intersects.push(intersect)
-            intersect.direction = vDir.clone()
+            ;(intersect as any).direction = vDir.clone()
             // Something was hit and we still haven't met bounce limit
             intersect.point.toArray(api.positions, api.number++ * 3)
-            vDir.reflect(intersect.object.localToWorld(intersect.face.normal).sub(intersect.object.getWorldPosition(vPos)).normalize())
-            intersect.reflect = vDir.clone()
+            vDir.reflect(intersect.object.localToWorld((intersect.face as any).normal).sub(intersect.object.getWorldPosition(vPos)).normalize())
+            ;(intersect as any).reflect = vDir.clone()
 
             vStart.copy(intersect.point)
           } else {
