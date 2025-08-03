@@ -38,7 +38,7 @@ export default function Footer() {
               <FontAwesomeIcon icon={faGlobe} size="lg" />
             </a>
             <a
-              href="https://youtube.com/@aminforout8560"
+              href="https://www.youtube.com/@aminforoutan"
               target="_blank"
               rel="noopener noreferrer"
               className="text-gray-400 hover:text-red-400 transition-colors duration-200"
@@ -55,11 +55,55 @@ export default function Footer() {
                 content={
                   <div>
                     <p>
+                      Advanced data visualization tool for Google Search Console that enables interactive charting and analysis
+                    </p>
+                    <p className="mt-2">
+                      <FontAwesomeIcon icon={faUsers} /> 12,423 users
+                    </p>
+                  </div>
+                }
+              >
+                <a
+                  href="https://chromewebstore.google.com/detail/advanced-gsc-visualizer/cdiccpnglfpnclonhpchpaaoigfpieel"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-400/80 hover:text-white block mb-2 transition-colors duration-200"
+                >
+                  Advanced GSC Visualizer
+                </a>
+              </Tooltip>
+              <Tooltip
+                content={
+                  <div>
+                    <p>
+                      Identifies server-side vs. client-side rendered elements
+                    </p>
+                    <p className="mt-2">
+                      <FontAwesomeIcon icon={faUsers} /> 4,994 users
+                    </p>
+                  </div>
+                }
+              >
+                <a
+                  href="https://chromewebstore.google.com/detail/seo-render-insight-tool/ignachbibbeengfepmkeogegpfkigljc"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-400/80 hover:text-white block transition-colors duration-200"
+                >
+                  SEO Render Insight Tool
+                </a>
+              </Tooltip>
+            </div>
+            <div>
+              <Tooltip
+                content={
+                  <div>
+                    <p>
                       Bulk keyword analysis for AI Overview status on Google
                       search results
                     </p>
                     <p className="mt-2">
-                      <FontAwesomeIcon icon={faUsers} /> 600+ users
+                      <FontAwesomeIcon icon={faUsers} /> 3,100 users
                     </p>
                   </div>
                 }
@@ -70,7 +114,7 @@ export default function Footer() {
                   rel="noopener noreferrer"
                   className="text-gray-400/80 hover:text-white block mb-2 transition-colors duration-200"
                 >
-                  Google AI Overview Impact Analysis
+                  AI Search Impact Analysis
                 </a>
               </Tooltip>
               <Tooltip
@@ -81,7 +125,7 @@ export default function Footer() {
                       SERP results
                     </p>
                     <p className="mt-2">
-                      <FontAwesomeIcon icon={faUsers} /> 500+ users
+                      <FontAwesomeIcon icon={faUsers} /> 2,095 users
                     </p>
                   </div>
                 }
@@ -92,53 +136,7 @@ export default function Footer() {
                   rel="noopener noreferrer"
                   className="text-gray-400/80 hover:text-white block transition-colors duration-200"
                 >
-                  Google AI Overview Citation Analysis
-                </a>
-              </Tooltip>
-            </div>
-            <div>
-              <Tooltip
-                content={
-                  <div>
-                    <p>
-                      Identifies server-side vs. client-side rendered elements
-                    </p>
-                    <p className="mt-2">
-                      <FontAwesomeIcon icon={faUsers} /> 2.6k+ users
-                    </p>
-                  </div>
-                }
-              >
-                <a
-                  href="https://chromewebstore.google.com/detail/seo-render-insight-tool/ignachbibbeengfepmkeogegpfkigljc"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-gray-400/80 hover:text-white block mb-2 transition-colors duration-200"
-                >
-                  SEO Render Insight Tool
-                </a>
-              </Tooltip>
-              <Tooltip
-                content={
-                  <div>
-                    <p>
-                      Enhances SEMrush Keyword Magic Tool by revealing all
-                      keywords in the sidebar and enabling easy data extraction
-                      to the clipboard
-                    </p>
-                    <p className="mt-2">
-                      <FontAwesomeIcon icon={faUsers} /> 150+ users
-                    </p>
-                  </div>
-                }
-              >
-                <a
-                  href="https://chromewebstore.google.com/detail/semrush-enhancer/kkkmbfjcaeipemegmikiplnfblaonfnl"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-gray-400/80 hover:text-white block transition-colors duration-200"
-                >
-                  SEMrush Enhancer
+                  Google AI Citation Analysis
                 </a>
               </Tooltip>
             </div>

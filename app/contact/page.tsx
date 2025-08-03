@@ -8,6 +8,7 @@ import {
 import {
   faLinkedinIn,
   faXTwitter,
+  faYoutube,
 } from '@fortawesome/free-brands-svg-icons';
 import '@fortawesome/fontawesome-svg-core/styles.css';
 import ContactForm from '../components/ContactForm';
@@ -49,10 +50,10 @@ export default function Contact() {
               <div className="flex items-center">
                 <FontAwesomeIcon icon={faEnvelope} className="text-gray-400 mr-3" />
                 <a
-                  href="mailto:tools@aminforoutan.com"
+                  href="mailto:hello@prismiqo.com"
                   className="text-gray-300 hover:text-white transition-colors duration-200"
                 >
-                  tools@aminforoutan.com
+                  hello@prismiqo.com
                 </a>
               </div>
               <div className="flex items-center">
@@ -64,6 +65,17 @@ export default function Contact() {
                   className="text-gray-300 hover:text-white transition-colors duration-200"
                 >
                   LinkedIn
+                </a>
+              </div>
+              <div className="flex items-center">
+                <FontAwesomeIcon icon={faYoutube} className="text-gray-400 mr-3" />
+                <a
+                  href="https://www.youtube.com/@aminforoutan"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-300 hover:text-white transition-colors duration-200"
+                >
+                  YouTube
                 </a>
               </div>
               <div className="flex items-center">

@@ -11,7 +11,6 @@ import ErrorDisplay from '../../components/ErrorDisplay';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLink } from '@fortawesome/free-solid-svg-icons';
 import { SelectedFields, Result } from './types';
-import MiniCrawlerFaq from './components/MiniCrawlerFaq';
 
 
 export default function Tool() {
@@ -182,7 +181,7 @@ export default function Tool() {
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="bg-white">
       <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
         <div className="px-4 py-6 sm:px-0">
           <div className="bg-gray-50 shadow rounded-lg p-6">
@@ -254,7 +253,6 @@ export default function Tool() {
           </div>
         </div>
       </main>
-      <MiniCrawlerFaq />
     </div>
   );
 }

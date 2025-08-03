@@ -193,6 +193,7 @@ export default function Home() {
               <span className="inline-flex items-center text-sm font-medium text-gray-400 cursor-default">
                 Coming Soon
                 <svg className="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="10" strokeWidth={1.5} />
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 6v6l4 2" />
                 </svg>
               </span>
@@ -214,7 +215,7 @@ export default function Home() {
             We&apos;re always looking for new ways to help our users. If you have an idea for a tool that would make your SEO work easier, we&apos;d love to hear about it!
           </p>
           <a
-            href="mailto:contact@seotoolshub.com"
+            href="mailto:hello@prismiqo.com"
             className="inline-flex items-center px-6 py-3 text-sm font-medium text-gray-300 bg-white/10 hover:bg-white/20 rounded-lg border border-white/20 hover:border-white/30 backdrop-blur-sm transition-all duration-300"
           >
             Share Your Idea

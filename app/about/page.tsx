@@ -41,7 +41,7 @@ export default function About() {
         <div className="bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl p-8 backdrop-blur-sm transition-all duration-300 mb-12">
           <h2 className="text-3xl font-bold text-white/90 mb-4">Our Mission</h2>
           <p className="text-gray-400/80 mb-4 leading-relaxed">
-            Prismiqo was born out of a passion to help fellow SEO professionals work more efficiently and effectively. As an SEO consultant with a decade of experience, I&apos;ve encountered numerous challenges in our field. This platform is my way of addressing those challenges by creating tools that can truly make a difference in our day-to-day work.
+            Prismiqo was born out of a passion to help fellow SEO professionals work more efficiently and effectively. As an SEO consultant with more than a decade of experience, I&apos;ve encountered numerous challenges in our field. This platform is my way of addressing those challenges by creating tools that can truly make a difference in our day-to-day work.
           </p>
           <p className="text-gray-400/80 leading-relaxed">
             My goal is to continually develop and refine tools that simplify complex SEO tasks, saving time and improving results for SEO professionals at all levels.
@@ -51,7 +51,7 @@ export default function About() {
         <div className="bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl p-8 backdrop-blur-sm transition-all duration-300 mb-12">
           <h2 className="text-3xl font-bold text-white/90 mb-4">About the Creator</h2>
           <p className="text-gray-400/80 mb-4 leading-relaxed">
-            I&apos;m Amin Foroutan, an SEO consultant with over a decade of experience in the field. My passion for SEO and web development led me to create not just this platform, but also several Chrome extensions designed to enhance SEO workflows.
+            I&apos;m Amin Foroutan, an SEO consultant with more than a decade of experience in the field. My passion for SEO and web development led me to create not just this platform, but also several Chrome extensions designed to enhance SEO workflows.
           </p>
           <div className="flex flex-wrap justify-center gap-4 mt-6">
             <a
@@ -80,28 +80,28 @@ export default function About() {
           </p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <ExtensionCard
-            title="Google AI Overview Impact Analysis"
-            description="Bulk keyword analysis for AI Overview status on Google search results"
-            users="600+"
-            link="https://chromewebstore.google.com/detail/google-ai-overview-impact/bfaijiabgmdblmhbnangkgiboefomdfj"
+            title="Advanced GSC Visualizer"
+            description="Advanced data visualization tool for Google Search Console that enables interactive charting and analysis"
+            users="12,423"
+            link="https://chromewebstore.google.com/detail/advanced-gsc-visualizer/cdiccpnglfpnclonhpchpaaoigfpieel"
           />
           <ExtensionCard
-            title="Google AI Overview Citation Analysis"
-            description="Compares cited websites in AI Overviews with traditional SERP results"
-            users="500+"
-            link="https://chromewebstore.google.com/detail/google-ai-overview-citati/doobkkcnlfiglhoafllloikhabjgblae"
+            title="AI Search Impact Analysis"
+            description="Bulk keyword analysis for AI Overview status on Google search results"
+            users="3,100"
+            link="https://chromewebstore.google.com/detail/google-ai-overview-impact/bfaijiabgmdblmhbnangkgiboefomdfj"
           />
           <ExtensionCard
             title="SEO Render Insight Tool"
             description="Identifies server-side vs. client-side rendered elements"
-            users="2.6k+"
+            users="4,994"
             link="https://chromewebstore.google.com/detail/seo-render-insight-tool/ignachbibbeengfepmkeogegpfkigljc"
           />
           <ExtensionCard
-            title="SEMrush Enhancer"
-            description="Enhances SEMrush Keyword Magic Tool by revealing all keywords in the sidebar and enabling easy data extraction"
-            users="150+"
-            link="https://chromewebstore.google.com/detail/semrush-enhancer/kkkmbfjcaeipemegmikiplnfblaonfnl"
+            title="Google AI Citation Analysis"
+            description="Compares cited websites in AI Overviews with traditional SERP results"
+            users="2,095"
+            link="https://chromewebstore.google.com/detail/google-ai-overview-citati/doobkkcnlfiglhoafllloikhabjgblae"
           />
           </div>
         </div>
