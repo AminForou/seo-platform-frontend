@@ -134,11 +134,13 @@ const ReflectComponent = forwardRef(({ children, start: _start = [0, 0, 0], end:
   useLayoutEffect(() => {
     // Collect all objects that fulfill the criteria.
     api.objects = []
-    scene.current.traverse((object) => {
-      if (isRayMesh(object)) api.objects.push(object)
-    })
-    // Calculate world matrices at least once before it starts to raycast.
-    scene.current.updateWorldMatrix(true, true)
+    if (scene.current) {
+      (scene.current as any).traverse((object: any) => {
+        if (isRayMesh(object)) (api.objects as any).push(object)
+      })
+      // Calculate world matrices at least once before it starts to raycast.
+      ;(scene.current as any).updateWorldMatrix(true, true)
+    }
   })
 
   return (
