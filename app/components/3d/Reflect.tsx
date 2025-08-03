@@ -44,7 +44,7 @@ const ReflectComponent = forwardRef(({ children, start: _start = [0, 0, 0], end:
       end: new THREE.Vector3(),
       raycaster: new THREE.Raycaster(),
       positions: new Float32Array(Array.from({ length: (bounce + 10) * 3 }, () => 0)),
-      setRay: (_start = [0, 0, 0], _end = [0, 0, 0]) => {
+      setRay: (_start: [number, number, number] = [0, 0, 0], _end: [number, number, number] = [0, 0, 0]) => {
         api.start.set(..._start)
         api.end.set(..._end)
       },
