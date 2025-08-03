@@ -24,7 +24,7 @@ const FlareComponent = forwardRef(({ streak = [8, 20, 1], visible, ...props }: a
 
   useFrame((state) => {
     if (ref.current) {
-      ref.current.children.forEach((instance: any) => {
+      (ref.current as any).children.forEach((instance: any) => {
         instance.position.x = (Math[instance.scale.x > 1 ? 'sin' : 'cos']((state.clock.elapsedTime * instance.scale.x) / 2) * instance.scale.x) / 8
         instance.position.y = (Math[instance.scale.x > 1 ? 'cos' : 'atan'](state.clock.elapsedTime * instance.scale.x) * instance.scale.x) / 5
       })
