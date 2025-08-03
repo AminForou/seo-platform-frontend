@@ -8,7 +8,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '',
     '/contact',
     '/about',
-    '/tool',
+    '/tools/mini-crawler',
+    '/tools/bulk-url-opener',
+    '/tools/site-structure-analyzer',
+    '/tools/robots-txt-analyzer',
     // Add more routes as needed
   ]
 

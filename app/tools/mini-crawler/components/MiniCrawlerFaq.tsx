@@ -4,8 +4,8 @@ import FAQ from '../../../components/FAQ';
 const MiniCrawlerFaq: React.FC = () => {
   const faqItems = [
     {
-      question: "What is a Batch URL Status Checker?",
-      answer: "A Batch URL Status Checker is a tool that allows you to check the status of multiple URLs simultaneously. It provides information such as HTTP status codes, redirect chains, and metadata for each URL."
+      question: "What is Mini Crawler?",
+      answer: "Mini Crawler is a tool that allows you to check the status of multiple URLs simultaneously. It provides information such as HTTP status codes, redirect chains, and metadata for each URL."
     },
     {
       question: "How many URLs can I check at once?",
@@ -25,7 +25,7 @@ const MiniCrawlerFaq: React.FC = () => {
     }
   ];
 
-  return <FAQ items={faqItems} topic="Batch URL Status Checker" />;
+  return <FAQ items={faqItems} topic="Mini Crawler" />;
 };
 
 export default MiniCrawlerFaq;

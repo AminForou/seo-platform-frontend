@@ -189,7 +189,7 @@ export default function Tool() {
               <div className="flex items-center justify-center mb-2">
                 <FontAwesomeIcon icon={faLink} className="text-xl text-indigo-600 mr-2" />
                 <h2 className="text-2xl font-bold text-gray-900">
-                  Batch URL Status Checker
+                  Mini Crawler
                 </h2>
               </div>
               <p className="text-center text-sm text-gray-500">
