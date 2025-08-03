@@ -33,7 +33,7 @@ const ReflectComponent = forwardRef(({ children, start: _start = [0, 0, 0], end:
   const vPos = new THREE.Vector3()
 
   let intersect = null
-  let intersects = []
+  let intersects: any[] = []
 
   const api = useMemo(
     () => ({
