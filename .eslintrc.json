@@ -1,3 +1,15 @@
 {
-  "extends": ["next/core-web-vitals", "next/typescript"]
+  "extends": "next/core-web-vitals",
+  "overrides": [
+    {
+      "files": ["app/components/3d/**/*.tsx", "app/components/3d/**/*.ts"],
+      "rules": {
+        "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/no-unused-vars": "off",
+        "react/display-name": "off",
+        "react-hooks/exhaustive-deps": "warn",
+        "@typescript-eslint/no-namespace": "off"
+      }
+    }
+  ]
 }

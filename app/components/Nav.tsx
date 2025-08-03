@@ -35,7 +35,7 @@ export default function Nav() {
   };
 
   return (
-    <header className="bg-white border-b border-gray-200 shadow-sm">
+    <header className="bg-black/95 backdrop-blur-sm border-b border-white/10 relative z-[999]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <a href="/" className="flex items-center hover:opacity-80 transition-opacity duration-200">
@@ -45,12 +45,12 @@ export default function Nav() {
               className="h-8 w-8 flex-shrink-0"
               style={{ width: '33px', height: '33px' }}
             />
-            <span className={`font-bold gradientText ${oxanium.className} leading-none`} style={{ fontSize: '1.96rem', marginTop: '5px' }}>Prismiqo</span>
+            <span className={`font-bold text-white/90 ${oxanium.className} leading-none`} style={{ fontSize: '1.96rem', marginTop: '5px' }}>Prismiqo</span>
           </a>
           
           {/* Hamburger menu button for mobile */}
           <button
-            className="md:hidden p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-colors duration-200"
+            className="md:hidden p-2 rounded-md text-gray-400 hover:text-white hover:bg-white/10 transition-colors duration-200"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
             <FontAwesomeIcon
@@ -64,7 +64,7 @@ export default function Nav() {
             <ul className="flex items-center space-x-1">
               <li className="relative" ref={dropdownRef}>
                 <button
-                  className="flex items-center px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-all duration-200"
+                  className="flex items-center px-4 py-2 text-sm font-medium text-gray-300 hover:text-white hover:bg-white/10 rounded-lg transition-all duration-200"
                   onClick={() => setIsDesktopDropdownOpen(!isDesktopDropdownOpen)}
                   onMouseEnter={() => setIsDesktopDropdownOpen(true)}
                 >
@@ -76,36 +76,36 @@ export default function Nav() {
                 </button>
                 {isDesktopDropdownOpen && (
                   <div 
-                    className="absolute left-0 mt-1 w-64 rounded-xl shadow-lg bg-white ring-1 ring-gray-200 py-2 z-50"
+                    className="absolute left-0 mt-1 w-64 rounded-xl bg-black/95 backdrop-blur-sm border border-white/20 py-2 z-[999]"
                     onMouseLeave={() => setIsDesktopDropdownOpen(false)}
                   >
                     <a
                       href="/tools/mini-crawler"
-                      className="flex flex-col px-4 py-3 text-gray-700 hover:bg-gray-50 transition-colors duration-150"
+                      className="flex flex-col px-4 py-3 text-gray-300 hover:text-white hover:bg-white/10 transition-colors duration-150"
                     >
                       <span className="font-medium text-sm">Mini Crawler</span>
-                      <span className="text-xs text-gray-500 mt-1">Check multiple URL statuses</span>
+                      <span className="text-xs text-gray-400 mt-1">Check multiple URL statuses</span>
                     </a>
                     <a
                       href="/tools/bulk-url-opener"
-                      className="flex flex-col px-4 py-3 text-gray-700 hover:bg-gray-50 transition-colors duration-150"
+                      className="flex flex-col px-4 py-3 text-gray-300 hover:text-white hover:bg-white/10 transition-colors duration-150"
                     >
                       <span className="font-medium text-sm">Bulk URL Opener</span>
-                      <span className="text-xs text-gray-500 mt-1">Open multiple URLs efficiently</span>
+                      <span className="text-xs text-gray-400 mt-1">Open multiple URLs efficiently</span>
                     </a>
                     <a
                       href="/tools/site-structure-analyzer"
-                      className="flex flex-col px-4 py-3 text-gray-700 hover:bg-gray-50 transition-colors duration-150"
+                      className="flex flex-col px-4 py-3 text-gray-300 hover:text-white hover:bg-white/10 transition-colors duration-150"
                     >
                       <span className="font-medium text-sm">Site Structure Analyzer</span>
-                      <span className="text-xs text-gray-500 mt-1">Analyze URL patterns & hierarchy</span>
+                      <span className="text-xs text-gray-400 mt-1">Analyze URL patterns & hierarchy</span>
                     </a>
                     <a
                       href="/tools/robots-txt-analyzer"
-                      className="flex flex-col px-4 py-3 text-gray-700 hover:bg-gray-50 transition-colors duration-150"
+                      className="flex flex-col px-4 py-3 text-gray-300 hover:text-white hover:bg-white/10 transition-colors duration-150"
                     >
                       <span className="font-medium text-sm">Robots.txt Analyzer</span>
-                      <span className="text-xs text-gray-500 mt-1">Optimize crawl directives</span>
+                      <span className="text-xs text-gray-400 mt-1">Optimize crawl directives</span>
                     </a>
                   </div>
                 )}
@@ -113,7 +113,7 @@ export default function Nav() {
               <li>
                 <a
                   href="/about"
-                  className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-all duration-200"
+                  className="px-4 py-2 text-sm font-medium text-gray-300 hover:text-white hover:bg-white/10 rounded-lg transition-all duration-200"
                 >
                   About
                 </a>
@@ -121,7 +121,7 @@ export default function Nav() {
               <li>
                 <a
                   href="/contact"
-                  className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-all duration-200"
+                  className="px-4 py-2 text-sm font-medium text-gray-300 hover:text-white hover:bg-white/10 rounded-lg transition-all duration-200"
                 >
                   Contact
                 </a>
@@ -132,70 +132,70 @@ export default function Nav() {
 
         {/* Mobile menu */}
         <div className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${isMenuOpen ? 'max-h-96 opacity-100 pb-4' : 'max-h-0 opacity-0'}`}>
-          <nav className="pt-4 border-t border-gray-200">
+          <nav className="pt-4 border-t border-white/10">
             <ul className="space-y-1">
-              <li>
-                <button
-                  className="w-full flex items-center justify-between px-4 py-3 text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-all duration-200"
-                  onClick={toggleMobileDropdown}
-                >
-                  Tools
+            <li>
+              <button
+                  className="w-full flex items-center justify-between px-4 py-3 text-base font-medium text-gray-300 hover:text-white hover:bg-white/10 rounded-lg transition-all duration-200"
+                onClick={toggleMobileDropdown}
+              >
+                Tools
                   <FontAwesomeIcon 
                     icon={isMobileDropdownOpen ? faChevronUp : faChevronDown} 
                     className="text-sm" 
                   />
-                </button>
-                {isMobileDropdownOpen && (
+              </button>
+              {isMobileDropdownOpen && (
                   <div className="mt-2 ml-4 space-y-1">
-                    <a
-                      href="/tools/mini-crawler"
-                      className="flex flex-col px-4 py-3 rounded-lg text-gray-600 hover:text-gray-900 hover:bg-gray-50 transition-all duration-200"
-                    >
+                  <a
+                    href="/tools/mini-crawler"
+                      className="flex flex-col px-4 py-3 rounded-lg text-gray-400 hover:text-white hover:bg-white/10 transition-all duration-200"
+                  >
                       <span className="font-medium text-sm">Mini Crawler</span>
                       <span className="text-xs text-gray-500 mt-1">Check multiple URL statuses</span>
-                    </a>
-                    <a
-                      href="/tools/bulk-url-opener"
-                      className="flex flex-col px-4 py-3 rounded-lg text-gray-600 hover:text-gray-900 hover:bg-gray-50 transition-all duration-200"
-                    >
+                  </a>
+                  <a
+                    href="/tools/bulk-url-opener"
+                      className="flex flex-col px-4 py-3 rounded-lg text-gray-400 hover:text-white hover:bg-white/10 transition-all duration-200"
+                  >
                       <span className="font-medium text-sm">Bulk URL Opener</span>
                       <span className="text-xs text-gray-500 mt-1">Open multiple URLs efficiently</span>
-                    </a>
-                    <a
-                      href="/tools/site-structure-analyzer"
-                      className="flex flex-col px-4 py-3 rounded-lg text-gray-600 hover:text-gray-900 hover:bg-gray-50 transition-all duration-200"
-                    >
+                  </a>
+                  <a
+                    href="/tools/site-structure-analyzer"
+                      className="flex flex-col px-4 py-3 rounded-lg text-gray-400 hover:text-white hover:bg-white/10 transition-all duration-200"
+                  >
                       <span className="font-medium text-sm">Site Structure Analyzer</span>
                       <span className="text-xs text-gray-500 mt-1">Analyze URL patterns & hierarchy</span>
-                    </a>
-                    <a
-                      href="/tools/robots-txt-analyzer"
-                      className="flex flex-col px-4 py-3 rounded-lg text-gray-600 hover:text-gray-900 hover:bg-gray-50 transition-all duration-200"
-                    >
+                  </a>
+                  <a
+                    href="/tools/robots-txt-analyzer"
+                      className="flex flex-col px-4 py-3 rounded-lg text-gray-400 hover:text-white hover:bg-white/10 transition-all duration-200"
+                  >
                       <span className="font-medium text-sm">Robots.txt Analyzer</span>
                       <span className="text-xs text-gray-500 mt-1">Optimize crawl directives</span>
-                    </a>
-                  </div>
-                )}
-              </li>
-              <li>
-                <a
-                  href="/about"
-                  className="block px-4 py-3 text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-all duration-200"
-                >
-                  About
-                </a>
-              </li>
-              <li>
-                <a
-                  href="/contact"
-                  className="block px-4 py-3 text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-all duration-200"
-                >
-                  Contact
-                </a>
-              </li>
-            </ul>
-          </nav>
+                  </a>
+                </div>
+              )}
+            </li>
+            <li>
+              <a
+                href="/about"
+                  className="block px-4 py-3 text-base font-medium text-gray-300 hover:text-white hover:bg-white/10 rounded-lg transition-all duration-200"
+              >
+                About
+              </a>
+            </li>
+            <li>
+              <a
+                href="/contact"
+                  className="block px-4 py-3 text-base font-medium text-gray-300 hover:text-white hover:bg-white/10 rounded-lg transition-all duration-200"
+              >
+                Contact
+              </a>
+            </li>
+          </ul>
+        </nav>
         </div>
       </div>
     </header>

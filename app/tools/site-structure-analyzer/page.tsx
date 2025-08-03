@@ -5,16 +5,17 @@ import { Metadata } from 'next';
 const domain = process.env.NEXT_PUBLIC_CANONICAL_URL;
     
 export const metadata: Metadata = {
-    title: 'Site Structure Analyzer - SEO Platform',
+    title: 'Site Structure Analyzer - Analyze URL Patterns & Hierarchy | Prismiqo',
     description:
-      "Have questions or suggestions? Reach out to the Prismiqo team. We're here to help you optimize your SEO workflow and improve your website's performance.",
-      robots: {
-          index: false, // Equivalent to "noindex"
-        },
-        alternates: {
-          canonical: `${domain}/tools/site-structure-analyzer`,
-        },
-  };
+      "Analyze your website's structure and gain insights into your URL patterns and folder hierarchy with our comprehensive site structure analyzer.",
+    robots: {
+      index: true,
+      follow: true,
+    },
+    alternates: {
+      canonical: `${domain}/tools/site-structure-analyzer`,
+    },
+};
 
 export default function BulkUrlOpenerPage() {
   return (

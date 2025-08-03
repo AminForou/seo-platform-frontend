@@ -5,16 +5,17 @@ import { Metadata } from 'next';
 const domain = process.env.NEXT_PUBLIC_CANONICAL_URL;
     
 export const metadata: Metadata = {
-    title: 'Bulk URL Opener - SEO Platform',
+    title: 'Mini Crawler - Bulk URL Status Checker | Prismiqo',
     description:
-      "Have questions or suggestions? Reach out to the Prismiqo team. We're here to help you optimize your SEO workflow and improve your website's performance.",
-      robots: {
-          index: false, // Equivalent to "noindex"
-        },
-        alternates: {
-          canonical: `${domain}/tools/mini-crawler`,
-        },
-  };
+      "Check multiple URL statuses at once with our Mini Crawler tool. Quickly identify issues and save time with bulk URL analysis.",
+    robots: {
+      index: true,
+      follow: true,
+    },
+    alternates: {
+      canonical: `${domain}/tools/mini-crawler`,
+    },
+};
 export default function BulkUrlOpenerPage() {
   return (
     <div className="container mx-auto px-4 py-8">

@@ -6,11 +6,12 @@ import { Metadata } from 'next';
 const domain = process.env.NEXT_PUBLIC_CANONICAL_URL;
 
 export const metadata: Metadata = {
-  title: 'Robots.txt Analyzer - SEO Platform',
+  title: 'Robots.txt Analyzer - Test & Optimize Crawl Directives | Prismiqo',
   description:
     "Analyze your robots.txt files for syntax errors, test URLs against your robots.txt rules, and compare different versions. Improve your site's SEO with our Robots.txt Analyzer tool.",
   robots: {
     index: true,
+    follow: true,
   },
   alternates: {
     canonical: `${domain}/tools/robots-txt-analyzer`,

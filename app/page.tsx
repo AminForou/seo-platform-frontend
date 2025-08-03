@@ -5,49 +5,55 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLink, faToolbox, faLightbulb, faExternalLinkAlt, faProjectDiagram, faRobot } from '@fortawesome/free-solid-svg-icons';
 import '@fortawesome/fontawesome-svg-core/styles.css'; // Import the CSS
 import './fontawesome'; // Import FontAwesome configuration
+import dynamic from 'next/dynamic';
+
+// Dynamically import the PrismScene to avoid SSR issues
+const PrismScene = dynamic(() => import('./components/3d/PrismScene'), { 
+  ssr: false,
+  loading: () => <div className="w-full h-full bg-black" />
+});
 
 const domain = process.env.NEXT_PUBLIC_CANONICAL_URL;
 export const metadata: Metadata = {
   title: 'Prismiqo | Powerful SEO Tools for Professionals',
   description:
     "Boost your SEO efforts with our suite of powerful, easy-to-use tools. Streamline your workflow and improve your website's performance.",
-    robots: {
-      index: false, // Equivalent to "noindex"
-    },
-    alternates: {
-      canonical: `${domain}`,
-    },
+  robots: {
+    index: true,
+    follow: true,
+  },
+  alternates: {
+    canonical: `${domain}`,
+  },
 };
 
 export default function Home() {
   return (
-    <div>
+    <div className="bg-black min-h-screen">
       {/* Hero Section */}
-      <div className="relative overflow-hidden bg-gradient-to-br from-teal-100/65 via-blue-100/55 to-purple-100/65 min-h-[70vh] flex items-center rounded-b-3xl animated-gradient">
-        {/* Background decorative elements */}
+      <div className="relative overflow-hidden min-h-[70vh] flex items-center">
+        {/* Interactive 3D Prism Background */}
         <div className="absolute inset-0">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-teal-300/35 via-blue-300/30 to-purple-300/35 rounded-full blur-3xl transform translate-x-1/3 -translate-y-1/3 float-slow"></div>
-          <div className="absolute bottom-0 left-0 w-80 h-80 bg-gradient-to-tr from-purple-300/35 via-blue-300/30 to-teal-300/35 rounded-full blur-3xl transform -translate-x-1/3 translate-y-1/3 float-medium"></div>
-          <div className="absolute top-1/2 left-1/2 w-64 h-64 bg-gradient-to-r from-blue-300/30 to-purple-300/30 rounded-full blur-2xl transform -translate-x-1/2 -translate-y-1/2 float-fast"></div>
+          <PrismScene />
         </div>
         
         {/* Content */}
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="space-y-8">
-            <h1 className="mobile-hero-text font-bold text-gray-900 sm:text-5xl md:text-6xl lg:text-7xl">
-              Welcome to <span className="gradientText">Prismiqo</span>
+            <h1 className="mobile-hero-text font-bold text-white/80 sm:text-5xl md:text-6xl lg:text-7xl animate-fade-in-up">
+              Welcome to Prismiqo
             </h1>
-            <p className="max-w-4xl mx-auto text-lg text-gray-600 sm:text-xl md:text-2xl leading-relaxed">
+            <p className="max-w-4xl mx-auto text-lg text-gray-300/70 sm:text-xl md:text-2xl leading-relaxed animate-fade-in-up-delay-1">
               Your place for finding and suggesting innovative and necessary tools for SEOs which you can&apos;t find anywhere else!
             </p>
-            <div className="pt-4">
+            <div className="pt-4 animate-fade-in-up-delay-2">
               <a
                 href="/contact"
-                className="inline-flex items-center px-8 py-4 text-base sm:text-lg font-semibold text-white bg-black hover:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+                className="group inline-flex items-center px-6 py-3 text-sm font-medium text-gray-300 bg-white/10 hover:bg-white/20 rounded-lg border border-white/20 hover:border-white/30 backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-white/10 animate-gentle-bounce"
               >
-                Suggest a New Tool
-                <svg className="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                <span className="group-hover:animate-wiggle">Suggest a New Tool</span>
+                <svg className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                 </svg>
               </a>
             </div>
@@ -56,164 +62,166 @@ export default function Home() {
       </div>
       
       {/* Tools Section */}
-      <div className="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:px-8">
-
-        <h2 className="text-3xl font-bold text-gray-900 text-center mb-12">
-          Our SEO Tools
-        </h2>
-        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="max-w-7xl mx-auto py-20 px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-16">
+          <h2 className="text-3xl font-bold text-white/90 mb-4">
+            Try Our Tools
+          </h2>
+          <p className="text-gray-400/80 text-lg max-w-2xl mx-auto">
+            Discover powerful SEO tools designed to streamline your workflow
+          </p>
+        </div>
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
           {/* Batch URL Status Checker */}
-          <div className="pt-6">
-            <div className="flow-root bg-[#f9fafb] rounded-lg px-6 pb-8 shadow-md hover:shadow-lg transition-shadow duration-300">
-              <div className="-mt-6">
-                <div>
-                  <span className="inline-flex items-center justify-center p-3 rounded-md shadow-lg bg-[#2dbdad]">
-                    <FontAwesomeIcon icon={faLink} className="h-6 w-6 text-white" />
-                  </span>
+          <div className="group">
+            <div className="bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 rounded-xl p-6 transition-all duration-300 backdrop-blur-sm">
+              <div className="flex items-center space-x-3 mb-4">
+                <div className="p-2 bg-white/10 rounded-lg">
+                  <FontAwesomeIcon icon={faLink} className="h-5 w-5 text-white/80" />
                 </div>
-                <h3 className="mt-8 text-lg font-medium text-gray-900 tracking-tight">
-                  Batch URL Status Checker
+                <h3 className="text-lg font-semibold text-white/90">
+                  Mini Crawler
                 </h3>
-                <p className="mt-5 text-base text-gray-500">
-                  Quickly check the status of multiple URLs at once. Save time and identify issues efficiently.
-                </p>
-                <div className="mt-6">
-                  <a
-                    href="/tools/mini-crawler"
-                    className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-[#2dbdad] hover:bg-[#25a193] transition-colors duration-300"
-                  >
-                    Get Started
-                  </a>
-                </div>
               </div>
+              <p className="text-gray-400/80 text-sm mb-6 leading-relaxed">
+                Check multiple URL statuses at once. Save time and identify issues efficiently.
+              </p>
+              <a
+                href="/tools/mini-crawler"
+                className="inline-flex items-center text-sm font-medium text-gray-300 hover:text-white transition-colors duration-200"
+              >
+                Start crawling
+                <svg className="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </a>
             </div>
           </div>
 
           {/* Bulk URL Opener */}
-          <div className="pt-6">
-            <div className="flow-root bg-[#f9fafb] rounded-lg px-6 pb-8 shadow-md hover:shadow-lg transition-shadow duration-300">
-              <div className="-mt-6">
-                <div>
-                  <span className="inline-flex items-center justify-center p-3 rounded-md shadow-lg bg-[#30a3c5]">
-                    <FontAwesomeIcon icon={faExternalLinkAlt} className="h-6 w-6 text-white" />
-                  </span>
+          <div className="group">
+            <div className="bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 rounded-xl p-6 transition-all duration-300 backdrop-blur-sm">
+              <div className="flex items-center space-x-3 mb-4">
+                <div className="p-2 bg-white/10 rounded-lg">
+                  <FontAwesomeIcon icon={faExternalLinkAlt} className="h-5 w-5 text-white/80" />
                 </div>
-                <h3 className="mt-8 text-lg font-medium text-gray-900 tracking-tight">
+                <h3 className="text-lg font-semibold text-white/90">
                   Bulk URL Opener
                 </h3>
-                <p className="mt-5 text-base text-gray-500">
-                  Open multiple URLs with customizable settings. Perfect for efficient browsing and link checking.
-                </p>
-                <div className="mt-6">
-                  <a
-                    href="/tools/bulk-url-opener"
-                    className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-[#30a3c5] hover:bg-[#2b92b1] transition-colors duration-300"
-                  >
-                    Open URLs
-                  </a>
-                </div>
               </div>
+              <p className="text-gray-400/80 text-sm mb-6 leading-relaxed">
+                Open multiple URLs with customizable settings. Perfect for efficient browsing and link checking.
+              </p>
+              <a
+                href="/tools/bulk-url-opener"
+                className="inline-flex items-center text-sm font-medium text-gray-300 hover:text-white transition-colors duration-200"
+              >
+                Open URLs
+                <svg className="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </a>
             </div>
           </div>
 
           {/* Site Structure Analyzer */}
-          <div className="pt-6">
-            <div className="flow-root bg-[#f9fafb] rounded-lg px-6 pb-8 shadow-md hover:shadow-lg transition-shadow duration-300">
-              <div className="-mt-6">
-                <div>
-                  <span className="inline-flex items-center justify-center p-3 rounded-md shadow-lg bg-[#4a5568]">
-                    <FontAwesomeIcon icon={faProjectDiagram} className="h-6 w-6 text-white" />
-                  </span>
+          <div className="group">
+            <div className="bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 rounded-xl p-6 transition-all duration-300 backdrop-blur-sm">
+              <div className="flex items-center space-x-3 mb-4">
+                <div className="p-2 bg-white/10 rounded-lg">
+                  <FontAwesomeIcon icon={faProjectDiagram} className="h-5 w-5 text-white/80" />
                 </div>
-                <h3 className="mt-8 text-lg font-medium text-gray-900 tracking-tight">
+                <h3 className="text-lg font-semibold text-white/90">
                   Site Structure Analyzer
                 </h3>
-                <p className="mt-5 text-base text-gray-500">
-                  Analyze your website&apos;s structure and gain insights into your URL patterns and folder hierarchy.
-                </p>
-                <div className="mt-6">
-                  <a
-                    href="/tools/site-structure-analyzer"
-                    className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-[#4a5568] hover:bg-[#2d3748] transition-colors duration-300"
-                  >
-                    Analyze Structure
-                  </a>
-                </div>
               </div>
+              <p className="text-gray-400/80 text-sm mb-6 leading-relaxed">
+                Analyze your website&apos;s structure and gain insights into your URL patterns and folder hierarchy.
+              </p>
+              <a
+                href="/tools/site-structure-analyzer"
+                className="inline-flex items-center text-sm font-medium text-gray-300 hover:text-white transition-colors duration-200"
+              >
+                Analyze structure
+                <svg className="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </a>
             </div>
           </div>
 
           {/* Robots.txt Analyzer */}
-          <div className="pt-6">
-            <div className="flow-root bg-[#f9fafb] rounded-lg px-6 pb-8 shadow-md hover:shadow-lg transition-shadow duration-300">
-              <div className="-mt-6">
-                <div>
-                  <span className="inline-flex items-center justify-center p-3 rounded-md shadow-lg bg-[#6366f1]">
-                    <FontAwesomeIcon icon={faRobot} className="h-6 w-6 text-white" />
-                  </span>
+          <div className="group">
+            <div className="bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 rounded-xl p-6 transition-all duration-300 backdrop-blur-sm">
+              <div className="flex items-center space-x-3 mb-4">
+                <div className="p-2 bg-white/10 rounded-lg">
+                  <FontAwesomeIcon icon={faRobot} className="h-5 w-5 text-white/80" />
                 </div>
-                <h3 className="mt-8 text-lg font-medium text-gray-900 tracking-tight">
+                <h3 className="text-lg font-semibold text-white/90">
                   Robots.txt Analyzer
                 </h3>
-                <p className="mt-5 text-base text-gray-500">
-                  Analyze and optimize your robots.txt file for better SEO and crawl efficiency.
-                </p>
-                <div className="mt-6">
-                  <a
-                    href="/tools/robots-txt-analyzer"
-                    className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-[#6366f1] hover:bg-[#4f46e5] transition-colors duration-300"
-                  >
-                    Analyze Robots.txt
-                  </a>
-                </div>
               </div>
+              <p className="text-gray-400/80 text-sm mb-6 leading-relaxed">
+                Analyze and optimize your robots.txt file for better SEO and crawl efficiency.
+              </p>
+              <a
+                href="/tools/robots-txt-analyzer"
+                className="inline-flex items-center text-sm font-medium text-gray-300 hover:text-white transition-colors duration-200"
+              >
+                Check robots.txt
+                <svg className="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </a>
             </div>
           </div>
 
           {/* More Tools Coming Soon */}
-          <div className="pt-6">
-            <div className="flow-root bg-[#f9fafb] rounded-lg px-6 pb-8 shadow-md hover:shadow-lg transition-shadow duration-300">
-              <div className="-mt-6">
-                <div>
-                  <span className="inline-flex items-center justify-center p-3 rounded-md shadow-lg bg-[#804cbd]">
-                    <FontAwesomeIcon icon={faToolbox} className="h-6 w-6 text-white" />
-                  </span>
+          <div className="group">
+            <div className="bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 rounded-xl p-6 transition-all duration-300 backdrop-blur-sm">
+              <div className="flex items-center space-x-3 mb-4">
+                <div className="p-2 bg-white/10 rounded-lg">
+                  <FontAwesomeIcon icon={faToolbox} className="h-5 w-5 text-white/80" />
                 </div>
-                <h3 className="mt-8 text-lg font-medium text-gray-900 tracking-tight">
+                <h3 className="text-lg font-semibold text-white/90">
                   More Tools Coming Soon
                 </h3>
-                <p className="mt-5 text-base text-gray-500">
-                  We&apos;re working on exciting new SEO tools to help you optimize your website even further. Stay tuned!
-                </p>
-                <div className="mt-6">
-                  <span className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-[#804cbd] bg-white">
-                    Coming Soon
-                  </span>
-                </div>
               </div>
+              <p className="text-gray-400/80 text-sm mb-6 leading-relaxed">
+                We&apos;re working on exciting new SEO tools to help you optimize your website even further. Stay tuned!
+              </p>
+              <span className="inline-flex items-center text-sm font-medium text-gray-400 cursor-default">
+                Coming Soon
+                <svg className="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 6v6l4 2" />
+                </svg>
+              </span>
             </div>
           </div>
         </div>
       </div>
 
       {/* Contact Section */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
-        <div className="bg-[#f9fafb] rounded-lg p-8 shadow-md">
-        <div className="flex items-center justify-center mb-6">
-          <FontAwesomeIcon icon={faLightbulb} className="h-10 w-10 text-[#30a3c5] mr-4" />
-          <h2 className="text-2xl font-bold text-gray-900">Have an Idea for a New Tool?</h2>
-        </div>
-        <p className="text-center text-gray-600 mb-6">
-          We&apos;re always looking for new ways to help our users. If you have an idea for a tool that would make your SEO work easier, we&apos;d love to hear about it!
-        </p>
-        <div className="text-center">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
+        <div className="bg-white/5 border border-white/10 rounded-xl p-8 backdrop-blur-sm text-center">
+          <div className="flex items-center justify-center mb-6">
+            <div className="p-3 bg-white/10 rounded-lg mr-4">
+              <FontAwesomeIcon icon={faLightbulb} className="h-6 w-6 text-white/80" />
+            </div>
+            <h2 className="text-2xl font-bold text-white/90">Have an Idea for a New Tool?</h2>
+          </div>
+          <p className="text-center text-gray-400/80 mb-8 leading-relaxed">
+            We&apos;re always looking for new ways to help our users. If you have an idea for a tool that would make your SEO work easier, we&apos;d love to hear about it!
+          </p>
           <a
             href="mailto:contact@seotoolshub.com"
-            className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-[#30a3c5] hover:bg-[#2b92b1] transition-colors duration-300"
+            className="inline-flex items-center px-6 py-3 text-sm font-medium text-gray-300 bg-white/10 hover:bg-white/20 rounded-lg border border-white/20 hover:border-white/30 backdrop-blur-sm transition-all duration-300"
           >
             Share Your Idea
+            <svg className="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
           </a>
-        </div>
         </div>
       </div>
     </div>

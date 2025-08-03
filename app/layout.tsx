@@ -31,8 +31,11 @@ export const metadata: Metadata = {
     canonical: `${domain}/tool`,
   },
   icons: {
-    icon: '/favicon.ico', // This adds the favicon
-    apple: '/apple-touch-icon.png', // Optional: Add Apple touch icon
+    icon: [
+      { url: '/favicon.png', sizes: '32x32', type: 'image/png' },
+      { url: '/prismiqo-logo.png', sizes: '192x192', type: 'image/png' }
+    ],
+    apple: '/apple-touch-icon.png',
   },
 };
 
@@ -44,7 +47,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="icon" href="/favicon.png" type="image/png" sizes="32x32" />
+        <link rel="icon" href="/prismiqo-logo.png" type="image/png" sizes="192x192" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         <script
           dangerouslySetInnerHTML={{
             __html: `
@@ -79,10 +84,10 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={`flex flex-col min-h-screen ${nunito.className} ${outfit.variable}`}>
+      <body className={`flex flex-col min-h-screen bg-black ${nunito.className} ${outfit.variable}`}>
         <Nav />
         <main className="flex-grow">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto">
             {children}
           </div>
         </main>

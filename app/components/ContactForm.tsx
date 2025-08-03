@@ -51,8 +51,8 @@ export default function ContactForm() {
   };  
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white rounded-lg p-8 shadow-md">
-      <h2 className="text-2xl font-bold text-gray-900 mb-6">Send Us a Message</h2>
+    <form onSubmit={handleSubmit} className="bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl p-8 backdrop-blur-sm transition-all duration-300">
+      <h2 className="text-2xl font-bold text-white/90 mb-6">Send Us a Message</h2>
       <div className="space-y-4">
         <input
           type="text"
@@ -61,7 +61,7 @@ export default function ContactForm() {
           value={formData.name}
           onChange={handleChange}
           required
-          className="w-full border border-gray-300 p-2 rounded"
+          className="w-full bg-white/10 border border-white/20 focus:border-white/40 p-3 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white/20 transition-all duration-200"
         />
         <input
           type="email"
@@ -70,7 +70,7 @@ export default function ContactForm() {
           value={formData.email}
           onChange={handleChange}
           required
-          className="w-full border border-gray-300 p-2 rounded"
+          className="w-full bg-white/10 border border-white/20 focus:border-white/40 p-3 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white/20 transition-all duration-200"
         />
         <input
           type="text"
@@ -79,7 +79,7 @@ export default function ContactForm() {
           value={formData.subject}
           onChange={handleChange}
           required
-          className="w-full border border-gray-300 p-2 rounded"
+          className="w-full bg-white/10 border border-white/20 focus:border-white/40 p-3 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white/20 transition-all duration-200"
         />
         <textarea
           name="message"
@@ -87,17 +87,17 @@ export default function ContactForm() {
           value={formData.message}
           onChange={handleChange}
           required
-          className="w-full border border-gray-300 p-2 rounded"
+          className="w-full bg-white/10 border border-white/20 focus:border-white/40 p-3 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white/20 transition-all duration-200 resize-vertical"
           rows={5}
         />
       </div>
       <button
         type="submit"
-        className="mt-6 w-full bg-[#30a3c5] text-white py-2 px-4 rounded hover:bg-[#2692af]"
+        className="mt-6 w-full bg-white/10 hover:bg-white/20 text-white py-3 px-6 rounded-lg border border-white/20 hover:border-white/30 backdrop-blur-sm transition-all duration-300 font-medium"
       >
         Send Message
       </button>
-      {status && <p className="mt-4 text-center text-gray-600">{status}</p>}
+      {status && <p className="mt-4 text-center text-gray-300">{status}</p>}
     </form> 
     
   );

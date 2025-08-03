@@ -12,12 +12,12 @@ import Tooltip from './Tooltip';
 
 export default function Footer() {
   return (
-    <footer className="mt-8 mb-8 border-t border-gray-200 pt-8">
+    <footer className="mt-8 mb-8 border-t border-white/10 pt-8 bg-black">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div className="text-center md:text-left">
-          <h3 className="font-bold mb-2">About</h3>
-          <p className="mb-2">
+          <h3 className="font-bold mb-2 text-white/90">About</h3>
+          <p className="mb-2 text-gray-400/80">
             Made with <span className="gradientHeart">❤</span> by Amin Foroutan
           </p>
           <div className="flex justify-center md:justify-start space-x-4 mb-4">
@@ -25,7 +25,7 @@ export default function Footer() {
               href="https://linkedin.com/in/ma-foroutan/"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-gray-600 hover:text-blue-600"
+              className="text-gray-400 hover:text-blue-400 transition-colors duration-200"
             >
               <FontAwesomeIcon icon={faLinkedinIn} size="lg" />
             </a>
@@ -33,7 +33,7 @@ export default function Footer() {
               href="https://aminforoutan.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-gray-600 hover:text-blue-600"
+              className="text-gray-400 hover:text-white transition-colors duration-200"
             >
               <FontAwesomeIcon icon={faGlobe} size="lg" />
             </a>
@@ -41,14 +41,14 @@ export default function Footer() {
               href="https://youtube.com/@aminforout8560"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-gray-600 hover:text-red-600"
+              className="text-gray-400 hover:text-red-400 transition-colors duration-200"
             >
               <FontAwesomeIcon icon={faYoutube} size="lg" />
             </a>
           </div>
         </div>
         <div className="text-center md:text-left">
-          <h3 className="font-bold mb-2">My Chrome Extensions</h3>
+          <h3 className="font-bold mb-2 text-white/90">My Chrome Extensions</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <Tooltip
@@ -68,7 +68,7 @@ export default function Footer() {
                   href="https://chromewebstore.google.com/detail/google-ai-overview-impact/bfaijiabgmdblmhbnangkgiboefomdfj"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-gray-600 hover:text-blue-600 block mb-2"
+                  className="text-gray-400/80 hover:text-white block mb-2 transition-colors duration-200"
                 >
                   Google AI Overview Impact Analysis
                 </a>
@@ -90,7 +90,7 @@ export default function Footer() {
                   href="https://chromewebstore.google.com/detail/google-ai-overview-citati/doobkkcnlfiglhoafllloikhabjgblae"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-gray-600 hover:text-blue-600 block"
+                  className="text-gray-400/80 hover:text-white block transition-colors duration-200"
                 >
                   Google AI Overview Citation Analysis
                 </a>
@@ -113,7 +113,7 @@ export default function Footer() {
                   href="https://chromewebstore.google.com/detail/seo-render-insight-tool/ignachbibbeengfepmkeogegpfkigljc"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-gray-600 hover:text-blue-600 block mb-2"
+                  className="text-gray-400/80 hover:text-white block mb-2 transition-colors duration-200"
                 >
                   SEO Render Insight Tool
                 </a>
@@ -136,7 +136,7 @@ export default function Footer() {
                   href="https://chromewebstore.google.com/detail/semrush-enhancer/kkkmbfjcaeipemegmikiplnfblaonfnl"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-gray-600 hover:text-blue-600 block"
+                  className="text-gray-400/80 hover:text-white block transition-colors duration-200"
                 >
                   SEMrush Enhancer
                 </a>

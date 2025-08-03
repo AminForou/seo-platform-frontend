@@ -64,7 +64,7 @@ function Tooltip({ children, content }: TooltipProps) {
       {isVisible && (
         <div
           ref={tooltipRef}
-          className="fixed z-50 p-2 text-sm text-white bg-gray-800 rounded-lg shadow-lg"
+          className="fixed z-[999] p-3 text-sm text-white/90 bg-black/95 backdrop-blur-sm border border-white/20 rounded-lg"
           style={{
             left: position ? `${position.x}px` : 'auto',
             top: position ? `${position.y}px` : 'auto',
