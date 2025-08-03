@@ -181,7 +181,7 @@ export default function Tool() {
   };
 
   return (
-    <div className="bg-white">
+    <div>
       <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
         <div className="px-4 py-6 sm:px-0">
           <div className="bg-gray-50 shadow rounded-lg p-6">
