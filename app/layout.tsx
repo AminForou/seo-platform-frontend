@@ -2,8 +2,7 @@
 
 import './globals.css';
 import type { Metadata } from 'next';
-import Nav from './components/Nav';
-import Footer from './components/Footer';
+import BodyWrapper from './components/BodyWrapper';
 import { Nunito, Outfit } from 'next/font/google';
 
 const nunito = Nunito({ 
@@ -84,14 +83,10 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={`flex flex-col min-h-screen bg-black ${nunito.className} ${outfit.variable}`}>
-        <Nav />
-        <main className="flex-grow">
-          <div className="mx-auto">
-            {children}
-          </div>
-        </main>
-        <Footer />
+      <body className={`${nunito.className} ${outfit.variable}`}>
+        <BodyWrapper fontClasses={`${nunito.className} ${outfit.variable}`}>
+          {children}
+        </BodyWrapper>
       </body>
     </html>
   );
