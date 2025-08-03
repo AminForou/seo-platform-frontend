@@ -41,18 +41,22 @@ function Scene() {
     e.stopPropagation()
     hitPrism(true)
     // Set the intensity really high on first contact.
-    (rainbow.current as any).material.speed = 1
-    (rainbow.current as any).material.emissiveIntensity = 20
+    if (rainbow.current) {
+      (rainbow.current as any).material.speed = 1
+      ;(rainbow.current as any).material.emissiveIntensity = 20
+    }
   }, [])
 
   const vec = new THREE.Vector3()
   const rayMove = useCallback(({ api, position, direction, normal }: any) => {
     if (!normal) return
     // Extend the line to the prisms center.
-    vec.toArray(api.positions, api.number++ * 3)
+    vec.copy(position).toArray(api.positions, api.number++ * 3)
     // Set flare.
-    (flare.current as any).position.set(position.x, position.y, -0.5)
-    ;(flare.current as any).rotation.set(0, 0, -Math.atan2(direction.x, direction.y))
+    if (flare.current) {
+      (flare.current as any).position.set(position.x, position.y, -0.5)
+      ;(flare.current as any).rotation.set(0, 0, -Math.atan2(direction.x, direction.y))
+    }
 
     // Calculate refraction angles.
     let angleScreenCenter = Math.atan2(-position.y, -position.x)
@@ -66,23 +70,33 @@ function Scene() {
 
     // Apply the refraction.
     angleScreenCenter += refractionAngle
-    ;(rainbow.current as any).rotation.z = angleScreenCenter
+    if (rainbow.current) {
+      (rainbow.current as any).rotation.z = angleScreenCenter
+    }
 
     // Set spot light.
-    lerpV3((spot.current as any).target.position, [Math.cos(angleScreenCenter), Math.sin(angleScreenCenter), 0], 0.05)
-    ;(spot.current as any).target.updateMatrixWorld()
+    if (spot.current) {
+      lerpV3((spot.current as any).target.position, [Math.cos(angleScreenCenter), Math.sin(angleScreenCenter), 0], 0.05)
+      ;(spot.current as any).target.updateMatrixWorld()
+    }
   }, [])
 
   useFrame((state) => {
     // Tie beam to the mouse.
-    ;(boxreflect.current as any).setRay([(state.pointer.x * state.viewport.width) / 2, (state.pointer.y * state.viewport.height) / 2, 0], [0, 0, 0])
+    if (boxreflect.current) {
+      (boxreflect.current as any).setRay([(state.pointer.x * state.viewport.width) / 2, (state.pointer.y * state.viewport.height) / 2, 0], [0, 0, 0])
+    }
 
     // Animate rainbow intensity.
-    lerp((rainbow.current as any).material, 'emissiveIntensity', isPrismHit ? 2.5 : 0, 0.1)
-    ;(spot.current as any).intensity = (rainbow.current as any).material.emissiveIntensity
+    if (rainbow.current && spot.current) {
+      lerp((rainbow.current as any).material, 'emissiveIntensity', isPrismHit ? 2.5 : 0, 0.1)
+      ;(spot.current as any).intensity = (rainbow.current as any).material.emissiveIntensity
+    }
 
     // Animate ambience.
-    lerp(ambient.current as any, 'intensity', 0, 0.025)
+    if (ambient.current) {
+      lerp(ambient.current as any, 'intensity', 0, 0.025)
+    }
   })
 
   return (
@@ -113,9 +127,9 @@ export default function PrismScene() {
     <Canvas orthographic gl={{ antialias: false }} camera={{ position: [0, 0, 100], zoom: 70 }}>
       <color attach="background" args={['black']} />
       <Scene />
-      <EffectComposer disableNormalPass>
+      <EffectComposer enableNormalPass={false}>
         <Bloom mipmapBlur levels={9} intensity={1.5} luminanceThreshold={1} luminanceSmoothing={1} />
-        <LUT lut={texture} />
+        <LUT lut={texture as any} />
       </EffectComposer>
     </Canvas>
   )
