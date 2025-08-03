@@ -51,8 +51,8 @@ function Scene() {
     // Extend the line to the prisms center.
     vec.toArray(api.positions, api.number++ * 3)
     // Set flare.
-    flare.current!.position.set(position.x, position.y, -0.5)
-    flare.current!.rotation.set(0, 0, -Math.atan2(direction.x, direction.y))
+    (flare.current as any).position.set(position.x, position.y, -0.5)
+    ;(flare.current as any).rotation.set(0, 0, -Math.atan2(direction.x, direction.y))
 
     // Calculate refraction angles.
     let angleScreenCenter = Math.atan2(-position.y, -position.x)
@@ -66,23 +66,23 @@ function Scene() {
 
     // Apply the refraction.
     angleScreenCenter += refractionAngle
-    rainbow.current!.rotation.z = angleScreenCenter
+    ;(rainbow.current as any).rotation.z = angleScreenCenter
 
     // Set spot light.
-    lerpV3(spot.current!.target.position, [Math.cos(angleScreenCenter), Math.sin(angleScreenCenter), 0], 0.05)
-    spot.current!.target.updateMatrixWorld()
+    lerpV3((spot.current as any).target.position, [Math.cos(angleScreenCenter), Math.sin(angleScreenCenter), 0], 0.05)
+    ;(spot.current as any).target.updateMatrixWorld()
   }, [])
 
   useFrame((state) => {
     // Tie beam to the mouse.
-    boxreflect.current!.setRay([(state.pointer.x * state.viewport.width) / 2, (state.pointer.y * state.viewport.height) / 2, 0], [0, 0, 0])
+    ;(boxreflect.current as any).setRay([(state.pointer.x * state.viewport.width) / 2, (state.pointer.y * state.viewport.height) / 2, 0], [0, 0, 0])
 
     // Animate rainbow intensity.
-    lerp(rainbow.current!.material, 'emissiveIntensity', isPrismHit ? 2.5 : 0, 0.1)
-    spot.current!.intensity = rainbow.current!.material.emissiveIntensity
+    lerp((rainbow.current as any).material, 'emissiveIntensity', isPrismHit ? 2.5 : 0, 0.1)
+    ;(spot.current as any).intensity = (rainbow.current as any).material.emissiveIntensity
 
     // Animate ambience.
-    lerp(ambient.current, 'intensity', 0, 0.025)
+    lerp(ambient.current as any, 'intensity', 0, 0.025)
   })
 
   return (
