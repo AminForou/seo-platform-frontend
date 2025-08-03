@@ -36,23 +36,23 @@ function Scene() {
   const rainbow = useRef(null)
 
   const rayOut = useCallback(() => hitPrism(false), [])
-  const rayOver = useCallback((e) => {
+  const rayOver = useCallback((e: any) => {
     // Break raycast so the ray stops when it touches the prism.
     e.stopPropagation()
     hitPrism(true)
     // Set the intensity really high on first contact.
-    rainbow.current.material.speed = 1
-    rainbow.current.material.emissiveIntensity = 20
+    (rainbow.current as any).material.speed = 1
+    (rainbow.current as any).material.emissiveIntensity = 20
   }, [])
 
   const vec = new THREE.Vector3()
-  const rayMove = useCallback(({ api, position, direction, normal }) => {
+  const rayMove = useCallback(({ api, position, direction, normal }: any) => {
     if (!normal) return
     // Extend the line to the prisms center.
     vec.toArray(api.positions, api.number++ * 3)
     // Set flare.
-    flare.current.position.set(position.x, position.y, -0.5)
-    flare.current.rotation.set(0, 0, -Math.atan2(direction.x, direction.y))
+    flare.current!.position.set(position.x, position.y, -0.5)
+    flare.current!.rotation.set(0, 0, -Math.atan2(direction.x, direction.y))
 
     // Calculate refraction angles.
     let angleScreenCenter = Math.atan2(-position.y, -position.x)
@@ -66,20 +66,20 @@ function Scene() {
 
     // Apply the refraction.
     angleScreenCenter += refractionAngle
-    rainbow.current.rotation.z = angleScreenCenter
+    rainbow.current!.rotation.z = angleScreenCenter
 
     // Set spot light.
-    lerpV3(spot.current.target.position, [Math.cos(angleScreenCenter), Math.sin(angleScreenCenter), 0], 0.05)
-    spot.current.target.updateMatrixWorld()
+    lerpV3(spot.current!.target.position, [Math.cos(angleScreenCenter), Math.sin(angleScreenCenter), 0], 0.05)
+    spot.current!.target.updateMatrixWorld()
   }, [])
 
   useFrame((state) => {
     // Tie beam to the mouse.
-    boxreflect.current.setRay([(state.pointer.x * state.viewport.width) / 2, (state.pointer.y * state.viewport.height) / 2, 0], [0, 0, 0])
+    boxreflect.current!.setRay([(state.pointer.x * state.viewport.width) / 2, (state.pointer.y * state.viewport.height) / 2, 0], [0, 0, 0])
 
     // Animate rainbow intensity.
-    lerp(rainbow.current.material, 'emissiveIntensity', isPrismHit ? 2.5 : 0, 0.1)
-    spot.current.intensity = rainbow.current.material.emissiveIntensity
+    lerp(rainbow.current!.material, 'emissiveIntensity', isPrismHit ? 2.5 : 0, 0.1)
+    spot.current!.intensity = rainbow.current!.material.emissiveIntensity
 
     // Animate ambience.
     lerp(ambient.current, 'intensity', 0, 0.025)
