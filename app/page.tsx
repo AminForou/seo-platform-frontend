@@ -2,7 +2,7 @@
 
 import { Metadata } from 'next';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faLink, faToolbox, faLightbulb, faExternalLinkAlt, faProjectDiagram, faRobot } from '@fortawesome/free-solid-svg-icons';
+import { faLink, faToolbox, faLightbulb, faExternalLinkAlt, faProjectDiagram, faRobot, faImage } from '@fortawesome/free-solid-svg-icons';
 import '@fortawesome/fontawesome-svg-core/styles.css'; // Import the CSS
 import './fontawesome'; // Import FontAwesome configuration
 import dynamic from 'next/dynamic';
@@ -169,6 +169,32 @@ export default function Home() {
                 className="inline-flex items-center text-sm font-medium text-gray-300 hover:text-white transition-colors duration-200"
               >
                 Check robots.txt
+                <svg className="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </a>
+            </div>
+          </div>
+
+          {/* Image Optimizer */}
+          <div className="group">
+            <div className="bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 rounded-xl p-6 transition-all duration-300 backdrop-blur-sm">
+              <div className="flex items-center space-x-3 mb-4">
+                <div className="p-2 bg-white/10 rounded-lg">
+                  <FontAwesomeIcon icon={faImage} className="h-5 w-5 text-white/80" />
+                </div>
+                <h3 className="text-lg font-semibold text-white/90">
+                  Image Optimizer
+                </h3>
+              </div>
+              <p className="text-gray-400/80 text-sm mb-6 leading-relaxed">
+                Compress, crop, and convert images to optimize file sizes while maintaining quality. All processing happens locally.
+              </p>
+              <a
+                href="/free-tools/image-optimizer"
+                className="inline-flex items-center text-sm font-medium text-gray-300 hover:text-white transition-colors duration-200"
+              >
+                Optimize images
                 <svg className="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                 </svg>

@@ -158,6 +158,13 @@ export default function Nav() {
                       <span className="font-medium text-sm">Robots.txt Analyzer</span>
                       <span className={dropdownSubtextStyles}>Optimize crawl directives</span>
                     </a>
+                    <a
+                      href="/free-tools/image-optimizer"
+                      className={dropdownLinkStyles}
+                    >
+                      <span className="font-medium text-sm">Image Optimizer</span>
+                      <span className={dropdownSubtextStyles}>Compress & optimize images</span>
+                    </a>
                   </div>
                 )}
               </li>
@@ -225,6 +232,13 @@ export default function Nav() {
                   >
                       <span className="font-medium text-sm">Robots.txt Analyzer</span>
                       <span className={`text-xs mt-1 ${theme === 'light' ? 'text-gray-500' : 'text-gray-500'}`}>Optimize crawl directives</span>
+                  </a>
+                  <a
+                    href="/free-tools/image-optimizer"
+                      className={mobileDropdownLinkStyles}
+                  >
+                      <span className="font-medium text-sm">Image Optimizer</span>
+                      <span className={`text-xs mt-1 ${theme === 'light' ? 'text-gray-500' : 'text-gray-500'}`}>Compress & optimize images</span>
                   </a>
                 </div>
               )}

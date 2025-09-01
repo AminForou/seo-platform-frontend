@@ -18,7 +18,7 @@ interface ThemeProviderProps {
 
 export function ThemeProvider({ children }: ThemeProviderProps) {
   const pathname = usePathname();
-  const isToolsPage = pathname?.startsWith('/tools/') || false;
+  const isToolsPage = pathname?.startsWith('/tools/') || pathname?.startsWith('/free-tools/') || false;
   const theme: Theme = isToolsPage ? 'light' : 'dark';
 
   return (
